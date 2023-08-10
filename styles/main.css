@@ -1,0 +1,24 @@
+html {
+    padding: 0;
+}
+
+/* For element with "header" class */
+h1.header {
+    text-align: center;
+}
+
+/* Shadow Animation class */
+.shadow-animate {
+    animation: shadowAnimKey 5s infinite ease-in-out;
+}
+
+
+/****************
+ *  ANIMATIONS  *
+ ****************/
+
+@keyframes shadowAnimKey {
+    40% {
+        text-shadow: 3px 3px 8px red, 3px 3px 20px gray;
+    }
+}
