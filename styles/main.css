@@ -1,24 +1,57 @@
+/***
+ ** Copyright (c) 2023 CV. DR2E
+ **
+ ** Version: 0.12-prototype, 11 Aug 2023
+ ** Authors: Ryuu Mitsuki, Nuryadani
+ ***/
+
+/* Root HTML element */
 html {
     padding: 0;
+
+    /* -----  VARIABLES ----- */
+    --header-size: 85%;  /* 85% from width-device (lebar device) */
 }
 
-/* For element with "header" class */
-h1.header {
+/* "header" class */
+.header {
     text-align: center;
+    font-family: serif, sans-serif;
+    font-size: var(--header-size);
+}
+
+/* Element `hr` with "sep" class */
+hr#sep {
+    width: 80%;
+    margin-top: 20px;
 }
 
 /* Shadow Animation class */
 .shadow-animate {
-    animation: shadowAnimKey 5s infinite ease-in-out;
+    animation: shadowAnimKey 4.4s infinite ease-in-out;
+}
+
+#school-name {
+    color: white;
 }
 
 
-/****************
- *  ANIMATIONS  *
- ****************/
+/******************************
+ *   ANIMATIONS / KEYFRAMES   *
+ ******************************/
 
+/* Keyframe for animation on text shadow (`shadow-animate`) */
 @keyframes shadowAnimKey {
-    40% {
-        text-shadow: 3px 3px 8px red, 3px 3px 20px gray;
+    75% {
+        /**
+         * | Property | Layer 1 | Layer 2 |
+         * --------------------------------
+         *   X-shadow    4.8px     4.8px
+         *   Y-shadow    3px       3px
+         *   Blur rad    6.5px     20px
+         *   Color       red       gray
+         */
+        text-shadow: 4.8px 3px 6.5px red,  /* first layer */
+                     4.8px 3px 20px gray;  /* second layer */
     }
 }
