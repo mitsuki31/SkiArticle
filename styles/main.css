@@ -1,9 +1,10 @@
-/***
- ** Copyright (c) 2023 CV. DR2E
- **
- ** Version: 0.15-prototype, 24 September 2023
- ** Authors: Ryuu Mitsuki, Nuryadani
- ***/
+/**
+ * Copyright (c) 2023 CV. DR2E
+ *
+ * Version: 0.15-prototype, 24 September 2023
+ * Authors: Ryuu Mitsuki, Nuryadani
+ */
+
 
 /* Root HTML element */
 html {
@@ -56,10 +57,6 @@ hr#sep {
 /* Shadow Animation class */
 .shadow-animate {
     animation: shadowAnimKey 4.4s infinite ease-in-out;
-}
-
-#school-name {
-    color: white;
 }
 
 
