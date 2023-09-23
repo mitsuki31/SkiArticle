@@ -1,26 +1,53 @@
 /***
  ** Copyright (c) 2023 CV. DR2E
  **
- ** Version: 0.12-prototype, 11 Aug 2023
+ ** Version: 0.15-prototype, 24 September 2023
  ** Authors: Ryuu Mitsuki, Nuryadani
  ***/
 
 /* Root HTML element */
 html {
+    --header-bg-color: #424A56;
+    --header-color: #fff;
+
     padding: 0;
-
-    /* -----  VARIABLES ----- */
-    --header-size: 85%;  /* 85% from width-device (lebar device) */
+    margin: 0;
 }
 
-/* "header" class */
-.header {
+.header-section {
+    background-color: var(--header-bg-color);
+    color: var(--header-color);
     text-align: center;
-    font-family: serif, sans-serif;
-    font-size: var(--header-size);
+    font-size: 0.8em;
+    font-family: sans-serif;
+    padding: 0.8em;
+    margin: -1.0em;
 }
 
-/* Element `hr` with "sep" class */
+h2.header-title {
+    margin-bottom: 0.0em;
+}
+
+.header-description {
+    font-size: 0.8em;
+}
+
+.header-contents {
+    margin-bottom: 1.0em;
+}
+
+.logo {
+    width: 1.6em;
+    height: 1.6em;
+    object-fit: cover;
+}
+
+/* This will make links completely hidden */
+a.wrap-link {
+    text-decoration: none;
+    color: var(--header-color);
+}
+
 hr#sep {
     width: 80%;
     margin-top: 20px;
