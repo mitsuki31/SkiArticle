@@ -1,52 +1,58 @@
 <!--
     Copyright (c) 2023 CV. DR2E
 
-    Version: 0.12-prototype, 11 Aug 2023
+    Version: 0.15-prototype, 24 September 2023
     Authors: Ryuu Mitsuki, Nuryadani
 -->
 
 <!DOCTYPE html>
-<html lang="id">  <!-- id = Indonesia ; en = English -->
-
-    <!-- HEAD :: START -->
+<html lang="id">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport"
+              content="width=device-width, height=device-height, initial-scale=1.0"
+        />
 
-        <!-- WEBSITE TITLE -->
+        <!-- WEBPAGE TITLE -->
         <title>Artikel Tentang SMK Sukamandi</title>
 
-        <!-- Style Sheets (dapat berupa link menuju file) -->
         <link rel="stylesheet" href="styles/main.css">  <!-- MAIN STYLE -->
     </head>
-    <!-- HEAD :: END -->
 
-    <!-- BODY :: START -->
     <body>
-        <!-- HEADER :: START -->
-        <header>
-            <div class="header shadow-animate">
-                <h1>Selamat Datang di Profil</h1>
-                <h1 id="school-name">
-                    <a href="https://smksukamandi.com">SMK Sukamandi</a>
-                </h1>
+        <div class="header-section">
+            <div class="header-contents">
+                <h2 class="header-title">
+                   <a class="wrap-link" href="https://smksukamandi.com" title="SMKSukamandi">
+                       SMK Sukamandi
+                   </a>
+                </h2>
+                <p class="header-description">
+                    Artikel Berisikan Semua Hal Tentang Sekolah <b>SMK Sukamandi</b>
+                </p>
             </div>
-        </header>
-        <!-- HEADER :: END -->
-        
-        <!-- Line Separator -->
-        <hr id="sep">
-        <br/>
-        
-        <h1 id="section-title">Profil Sekolah</h1>
 
-        <!-- FOOTER :: START -->
-        <footer>
+            <div class="logo-section">
+                <!-- Facebook -->
+                <!-- FIXME: add the Facebook link -->
+                <a class="wrap-link" href="#">
+                    <img id="logo-fb"
+                         class="logo"
+                         src="assets/facebook-logo.png"
+                         alt="Facebook Logo"
+                    >
+                </a>
 
-        </footer>
-        <!-- FOOTER :: END -->
+                <!-- Instagram -->
+                <a class="wrap-link" href="https://instagram.com/elvn_tkj72">
+                    <img id="logo-ig"
+                         class="logo"
+                         src="assets/instagram-logo.png"
+                         alt="Instagram Logo"
+                    >
+                </a>
+            </div>
+        </div>  <!-- header-section -->
     </body>
-    <!-- BODY :: END -->
-
 </html>
 
