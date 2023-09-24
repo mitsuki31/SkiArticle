@@ -107,15 +107,17 @@ p.header-description {
 }
 
 
+/*==--- Logo Section ---==*/
 .logo-section {
+    align-items: center;
     margin-bottom: 0.28rem;
 }
 
-img.logo {
-    width: 1.6em;
-    height: 1.6em;
-    object-fit: cover;
+.logo-section .logo > i {
+    font-size: 1.3rem;
+    margin: 0.2em;
 }
+
 
 /* This will make links completely hidden */
 a.wrap-link {
