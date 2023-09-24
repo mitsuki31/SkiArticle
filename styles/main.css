@@ -6,38 +6,112 @@
  */
 
 
-/* Root HTML element */
-html {
-    --header-bg-color: #424A56;
-    --header-color: #fff;
+/*==================================*
+ *    VARIABLES & CONFIGURATIONS    *
+ *==================================*/
 
-    padding: 0;
+/*==--- Google Fonts ---==*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+
+/*==--- Variables ---==*/
+:root {
+    /*--- Fonts and Typography ---*/
+    --default-font: Poppins, sans-serif;
+    --normal-font-size: 0.938rem;
+    --small-font-size: 0.75rem;
+
+    /*--- Colors ---*/
+    --container-color: #fff;
+    --title-color: #19181b;
+    --text-color: #58555e;
+    --text-color-light: #a5a1aa;
+    --body-color: #f6f6fd;
+
+    /*--- Z-index ---*/
+    --fixed-z: 100;
+}
+
+/* Resize the font for devices with screen widths
+ * greater than 1024 pixels
+ */
+@media screen and (min-width: 1024px) {
+    :root {
+        --normal-font-size: 1.0rem;
+        --small-font-size: 0.875rem;
+    }
+}
+
+
+/*==--- Default Configurations ---==*/
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--default-font);
+    font-size: var(--normal-font-size);
+    background-color: var(--body-color);
+    color: var(--text-color);
+}
+
+h3 {
     margin: 0;
 }
 
+a {
+    /* Make an underline within links completely hidden */
+    text-decoration: none;
+}
+
+/* Change the color of links when hovered with mouse */
+a:hover {
+    color: red;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/*======================*
+ *    HEADER SECTION    *
+ *======================*/
+
 .header-section {
-    background-color: var(--header-bg-color);
-    color: var(--header-color);
+    background-color: var(--container-color);
+    box-shadow: 0 1px 0 rgba(22, 8, 43, 0.15);
+    color: var(--title-color);
     text-align: center;
-    font-size: 0.8em;
-    font-family: sans-serif;
-    padding: 0.8em;
-    margin: -1.0em;
-}
-
-h2.header-title {
-    margin-bottom: 0.0em;
-}
-
-.header-description {
-    font-size: 0.8em;
+    font-size: calc(var(--normal-font-size) - 0.08rem);
+    padding: 0 1.0em;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    z-index: var(--fixed-z);
+    justify-content: space-between;
 }
 
 .header-contents {
     margin-bottom: 1.0em;
 }
 
-.logo {
+h2.header-title {
+    margin-bottom: -0.1rem;
+}
+
+p.header-description {
+    font-size: var(--small-font-size);
+}
+
+
+.logo-section {
+    margin-bottom: 0.28rem;
+}
+
+img.logo {
     width: 1.6em;
     height: 1.6em;
     object-fit: cover;
@@ -47,6 +121,10 @@ h2.header-title {
 a.wrap-link {
     text-decoration: none;
     color: var(--header-color);
+}
+
+a.wrap-link:hover {
+    color: red;
 }
 
 hr#sep {
