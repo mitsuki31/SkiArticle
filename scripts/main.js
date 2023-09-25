@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 1.15, 25 September 2023
+ * Version: 0.15-prototype, 25 September 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
  
@@ -50,7 +50,7 @@ if (document.readyState === "loading") {
                     // Check if the element with the constructed ID exists
                     if (element && element.nodeName.toLowerCase() === "a") {
                         // Replace the URL
-                        element.href = jsonData[key];
+                        element.href = jsonData[key] || "#";
                     }
                 }
 
