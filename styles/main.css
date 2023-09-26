@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.15-prototype, 24 September 2023
+ * Version: 0.16.25-prototype, 26 September 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -20,6 +20,7 @@
     --default-font: Poppins, sans-serif;
     --normal-font-size: 0.938rem;
     --small-font-size: 0.75rem;
+    --font-medium: 500;  /* Font weight */
 
     /*--- Colors ---*/
     --container-color: #fff;
@@ -27,6 +28,7 @@
     --text-color: #58555e;
     --text-color-light: #a5a1aa;
     --body-color: #f6f6fd;
+    --hovered-color: #fe2021;
 
     /*--- Z-index ---*/
     --fixed-z: 100;
@@ -53,14 +55,18 @@ body {
     font-size: var(--normal-font-size);
     background-color: var(--body-color);
     color: var(--text-color);
+    
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
 h3 {
     margin: 0;
 }
 
+/* This will make the underline on links completely hidden */
 a {
-    /* Make an underline within links completely hidden */
     text-decoration: none;
 }
 
@@ -81,7 +87,7 @@ img {
 
 .header-section {
     background-color: var(--container-color);
-    box-shadow: 0 1px 0 rgba(22, 8, 43, 0.15);
+    box-shadow: 0 1px 0.4rem rgba(22, 8, 43, 0.15);
     color: var(--title-color);
     text-align: center;
     font-size: calc(var(--normal-font-size) - 0.08rem);
@@ -98,8 +104,10 @@ img {
     margin-bottom: 1.0em;
 }
 
-h2.header-title {
+.header-title,
+.header-title a {
     margin-bottom: -0.1rem;
+    color: var(--title-color);
 }
 
 p.header-description {
@@ -116,13 +124,82 @@ p.header-description {
 .logo-section .logo > i {
     font-size: 1.3rem;
     margin: 0.2em;
+    color: var(--title-color);
 }
+
+
+
+/*===================*
+ *    NAVBAR MENU    *
+ *===================*/
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 0.6em;
+}
+
+.nav-container .title-nav {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-size: 1.2em;
+    color: #0e2431;
+}
+
+
+
+#navbar-button {
+    position: absolute;
+    left: 0.7em;
+    top: 0.5em;
+}
+
+#navbar-button i {
+    font-size: 2.3em;
+}
+
+/* Sidebar styles */
+.sidebar {
+    height: 100%;
+    width: 150px;  /* Initial width (hidden) */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(30, 30, 30, 0.8);
+    padding-top: 20px;
+    z-index: 1;  /* Keep on top */
+    display: flex;
+    transition: transform 0.4s;
+}
+
+.sidebar .menu-contents {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar .menu-contents li {
+    padding: 10px;
+    text-align: center;
+}
+
+.sidebar .menu-contents li a {
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar .menu-contents li a:hover {
+    background-color: var(--hovered-color);
+}
+
+
 
 
 /* This will make links completely hidden */
 a.wrap-link {
     text-decoration: none;
-    color: var(--header-color);
+    color: var(--text-color);
 }
 
 a.wrap-link:hover {
