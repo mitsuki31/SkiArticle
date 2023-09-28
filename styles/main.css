@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.16.25-prototype, 26 September 2023
+ * Version: 0.16.5-prototype, 28 September 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -20,7 +20,10 @@
     --default-font: Poppins, sans-serif;
     --normal-font-size: 0.938rem;
     --small-font-size: 0.75rem;
-    --font-medium: 500;  /* Font weight */
+
+    --font-small: 400;
+    --font-medium: 500;
+    --font-bold: 600;
 
     /*--- Colors ---*/
     --container-color: #fff;
@@ -29,6 +32,10 @@
     --text-color-light: #a5a1aa;
     --body-color: #f6f6fd;
     --hovered-color: #fe2021;
+
+    /*--- Transitions ---*/
+    --navbar-btn-transition: 0.2s ease-in-out;
+    --navbar-transition: 0.4s ease-in-out;
 
     /*--- Z-index ---*/
     --fixed-z: 100;
@@ -71,8 +78,8 @@ a {
 }
 
 /* Change the color of links when hovered with mouse */
-a:hover {
-    color: red;
+a:hover, a:focus {
+    color: var(--hovered-color);
 }
 
 img {
@@ -104,10 +111,10 @@ img {
     margin-bottom: 1.0em;
 }
 
-.header-title,
-.header-title a {
+.header-contents .header-title * {
     margin-bottom: -0.1rem;
     color: var(--title-color);
+    font-weight: var(--font-bold);
 }
 
 p.header-description {
@@ -121,7 +128,7 @@ p.header-description {
     margin-bottom: 0.28rem;
 }
 
-.logo-section .logo > i {
+.logo-section .logo i {
     font-size: 1.3rem;
     margin: 0.2em;
     color: var(--title-color);
@@ -133,63 +140,104 @@ p.header-description {
  *    NAVBAR MENU    *
  *===================*/
 
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 0.6em;
-}
-
-.nav-container .title-nav {
-    position: absolute;
-    top: 5px;
-    right: 15px;
-    font-size: 1.2em;
-    color: #0e2431;
-}
-
-
+/*==--- Toggle Button ---==*/
 
 #navbar-button {
-    position: absolute;
-    left: 0.7em;
-    top: 0.5em;
+    position: fixed;
+    top: 0.75em;
+    right: 1.2em;
+    display: block;
+    width: 1.35em;
+    cursor: pointer;
+
+    appearance: none;
+    background: none;
+    outline: none;
+    border: none;
 }
 
-#navbar-button i {
-    font-size: 2.3em;
+/* Increase the width of navbar button on devices with
+ * minimum widths 270 pixels
+ */
+@media screen and (min-width: 270px) {
+    #navbar-button {
+        width: 1.85em;
+    }
 }
 
-/* Sidebar styles */
-.sidebar {
+/* Deactivate the click event on 'bar' class, to prevent
+ * being clicked and cause the navigation menu not working
+ */
+#navbar-button .bar {
+    pointer-events: none;
+}
+
+#navbar-button .bar,
+#navbar-button::before, #navbar-button::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: #000;
+    margin: 4px 0px;
+    transition: var(--navbar-btn-transition);
+    font-weight: normal;
+}
+
+/* Rotate when navigation bar is active (opened), and hide the bar class */
+#navbar-button.active::before {
+    transform: translateY(8px) rotate(-45deg);
+}
+
+#navbar-button.active::after {
+    transform: translateY(-7.5px) rotate(45deg);
+}
+
+#navbar-button.active .bar {
+    opacity: 0;
+}
+
+
+/*==--- Navigation Menu ---==*/
+
+#navbar-menu, #navbar-menu::before, #navbar-menu::after {
     height: 100%;
-    width: 150px;  /* Initial width (hidden) */
+    width: 0px;  /* Initial width (hidden) */
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(30, 30, 30, 0.8);
+    background-color: #001a25;
     padding-top: 20px;
+    overflow-x: hidden;  /* Disable horizontal scroll */
     z-index: 1;  /* Keep on top */
-    display: flex;
-    transition: transform 0.4s;
+    visibility: hidden;
+    transition: all var(--navbar-transition);
+    -webkit-transition: all var(--navbar-transition);
+    -ms-transition: all var(--navbar-transition);
 }
 
-.sidebar .menu-contents {
-    list-style-type: none;
+/* Trigger when the 'navbar-menu' has 'active' class */
+#navbar-menu.active {
+    width: 45%;
+    visibility: visible;
+}
+
+#navbar-menu .menu-contents {
+    position: absolute;
+    list-style: none;
     padding: 0;
 }
 
-.sidebar .menu-contents li {
-    padding: 10px;
-    text-align: center;
+#navbar-menu .menu-contents li,
+#navbar-menu .menu-contents li a {
+    padding: 12px;
+    font-weight: var(--font-bold);
+    color: #fff;
+    width: max-content;
 }
 
-.sidebar .menu-contents li a {
-    text-decoration: none;
-    display: block;
-}
-
-.sidebar .menu-contents li a:hover {
+#navbar-menu .menu-contents li a:hover,
+#navbar-menu .menu-contents li a:focus {
     background-color: var(--hovered-color);
 }
 
@@ -203,7 +251,7 @@ a.wrap-link {
 }
 
 a.wrap-link:hover {
-    color: red;
+    color: var(--hovered-color);
 }
 
 hr#sep {
