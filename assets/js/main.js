@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.15.5-prototype, 28 September 2023
+ * Version: 0.15.7-prototype, 29 September 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -65,20 +65,24 @@ if (document.readyState === "loading") {
             .then((jsonData) => {
                 // Extract keys from JSON data
                 const jsonKeys = Object.keys(jsonData);
-                const prefix = "url-";  // Prefix for ID name
+                const prefix = "dr2e--";  // Prefix for classes' name
+                let totalElements = 0;
 
-                // Using loop to replace URLs within ID with prefix "url-"
+                // Using 'for' loop to replace all URLs
                 for (const key of jsonKeys) {
-                    const element = document.getElementById(prefix.concat(key));
+                    // This variable will be a list, not a single HTML object
+                    const elements = document.getElementsByClassName(prefix.concat(key));
+                    totalElements += elements.length;
 
-                    // Check if the element with the constructed ID exists
-                    if (element && element.nodeName.toLowerCase() === "a") {
-                        // Replace the URL
-                        element.href = jsonData[key] || "#";
+                    for (const element of elements) {
+                        if (element &&
+                                element.nodeName.toLowerCase() === 'a') {
+                            element.href = jsonData[key] || "#";
+                        }
                     }
                 }
 
-                console.info("SUCCESS - All URLs has been replaced.");
+                console.info(`SUCCESS - ${totalElements} URL(s) has been replaced.`);
             })
             .catch((error) => {
                 console.error(`ERROR - ${error}`);
