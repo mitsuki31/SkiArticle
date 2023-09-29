@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.16.5-prototype, 28 September 2023
+ * Version: 0.16.8-prototype, 29 September 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -39,6 +39,9 @@
 
     /*--- Z-index ---*/
     --fixed-z: 100;
+
+    /*--- Dimensions ---*/
+    --navbar-width: 45%;
 }
 
 /* Resize the font for devices with screen widths
@@ -147,22 +150,13 @@ p.header-description {
     top: 0.75em;
     right: 1.2em;
     display: block;
-    width: 1.35em;
+    width: 1.75em;
     cursor: pointer;
 
     appearance: none;
     background: none;
     outline: none;
     border: none;
-}
-
-/* Increase the width of navbar button on devices with
- * minimum widths 270 pixels
- */
-@media screen and (min-width: 270px) {
-    #navbar-button {
-        width: 1.85em;
-    }
 }
 
 /* Deactivate the click event on 'bar' class, to prevent
@@ -201,7 +195,7 @@ p.header-description {
 /*==--- Navigation Menu ---==*/
 
 #navbar-menu, #navbar-menu::before, #navbar-menu::after {
-    height: 100%;
+    min-height: 100vh;
     width: 0px;  /* Initial width (hidden) */
     position: fixed;
     top: 0;
@@ -210,7 +204,6 @@ p.header-description {
     padding-top: 20px;
     overflow-x: hidden;  /* Disable horizontal scroll */
     z-index: 1;  /* Keep on top */
-    visibility: hidden;
     transition: all var(--navbar-transition);
     -webkit-transition: all var(--navbar-transition);
     -ms-transition: all var(--navbar-transition);
@@ -218,29 +211,44 @@ p.header-description {
 
 /* Trigger when the 'navbar-menu' has 'active' class */
 #navbar-menu.active {
-    width: 45%;
-    visibility: visible;
+    width: var(--navbar-width);
 }
 
 #navbar-menu .menu-contents {
-    position: absolute;
+    position: fixed;
     list-style: none;
     padding: 0;
+    margin-top: 1.8rem;
+    width: var(--navbar-width);
+    display: block;
 }
 
-#navbar-menu .menu-contents li,
+#navbar-menu .menu-contents li {
+    text-align: left;
+    letter-spacing: 3px;
+}
+
 #navbar-menu .menu-contents li a {
-    padding: 12px;
+    display: flex;
+    text-decoration: none;
     font-weight: var(--font-bold);
     color: #fff;
-    width: max-content;
+    font-size: 1.25em;
+    padding: 0.85em;
+    transition: font-size 0.25s ease-in-out;
 }
 
-#navbar-menu .menu-contents li a:hover,
-#navbar-menu .menu-contents li a:focus {
-    background-color: var(--hovered-color);
+/* Reduce the font size for smaller window */
+@media screen and (max-width: 275px) {
+    #navbar-menu .menu-contents li a {
+        font-size: 1.0em;
+    }
 }
 
+#navbar-menu .menu-contents li:hover,
+#navbar-menu .menu-contents li:focus {
+    background-color: #112a3f;
+}
 
 
 
