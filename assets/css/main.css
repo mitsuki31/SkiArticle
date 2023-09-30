@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.17-prototype, 30 September 2023
+ * Version: 0.17.2-prototype, 30 September 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -18,8 +18,9 @@
 :root {
     /*--- Fonts and Typography ---*/
     --default-font: Poppins, sans-serif;
-    --normal-font-size: 0.938rem;
-    --small-font-size: 0.75rem;
+    --big-font-size: 1.15em;
+    --normal-font-size: 0.82em;
+    --small-font-size: 0.7em;
 
     --font-small: 400;
     --font-medium: 500;
@@ -49,8 +50,9 @@
  */
 @media screen and (min-width: 1024px) {
     :root {
-        --normal-font-size: 1.0rem;
-        --small-font-size: 0.875rem;
+        --big-font-size: 1.3em;
+        --normal-font-size: 1.0em;
+        --small-font-size: 0.875em;
     }
 }
 
@@ -100,7 +102,7 @@ img {
     box-shadow: 0 1px 0.4rem rgba(22, 8, 43, 0.15);
     color: var(--title-color);
     text-align: center;
-    font-size: calc(var(--normal-font-size) - 0.08rem);
+    font-size: var(--big-font-size);
     padding: 0 1.0em;
     top: 0;
     left: 0;
@@ -118,10 +120,11 @@ img {
     margin-bottom: -0.1rem;
     color: var(--title-color);
     font-weight: var(--font-bold);
+    font-size: calc(var(--big-font-size) - 0.2em);
 }
 
 p.header-description {
-    font-size: var(--small-font-size);
+    font-size: var(--normal-font-size);
 }
 
 
@@ -147,10 +150,10 @@ p.header-description {
 
 #navbar-button {
     position: fixed;
-    top: 0.75em;
+    top: 0.72em;
     right: 1.2em;
     display: block;
-    width: 1.75em;
+    width: 1.55em;
     cursor: pointer;
 
     appearance: none;
@@ -172,7 +175,7 @@ p.header-description {
     display: block;
     width: 100%;
     height: 4px;
-    background-color: #000;
+    background-color: var(--title-color);
     margin: 4px 0px;
     transition: var(--navbar-btn-transition);
     font-weight: normal;
@@ -197,6 +200,7 @@ p.header-description {
 #navbar-menu, #navbar-menu::before, #navbar-menu::after {
     min-height: 100vh;
     width: 0px;  /* Initial width (hidden) */
+    max-width: 350px;
     position: fixed;
     top: 0;
     left: 0;
@@ -239,7 +243,7 @@ p.header-description {
     text-decoration: none;
     font-weight: var(--font-bold);
     color: #fff;
-    font-size: 1.25em;
+    font-size: var(--big-font-size);
     padding: 0.85em;
     transition: font-size 0.25s ease-in-out;
 }
@@ -247,7 +251,7 @@ p.header-description {
 /* Reduce the font size for smaller window */
 @media screen and (max-width: 275px) {
     #navbar-menu .menu-contents li a {
-        font-size: 1.0em;
+        font-size: var(--normal-font-size);
     }
 }
 
