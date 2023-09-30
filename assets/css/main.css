@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.17.2-prototype, 30 September 2023
+ * Version: 0.17.5-prototype, 30 September 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -18,11 +18,11 @@
 :root {
     /*--- Fonts and Typography ---*/
     --default-font: Poppins, sans-serif;
-    --big-font-size: 1.15em;
-    --normal-font-size: 0.82em;
-    --small-font-size: 0.7em;
+    --big-font-size: 1.5rem;
+    --normal-font-size: calc(var(--big-font-size) - 0.45rem);
+    --small-font-size: calc(var(--normal-font-size) - 0.45rem);
 
-    --font-small: 400;
+    --font-thin: 400;
     --font-medium: 500;
     --font-bold: 600;
 
@@ -37,24 +37,48 @@
     /*--- Transitions ---*/
     --navbar-btn-transition: 0.2s ease-in-out;
     --navbar-transition: 0.4s ease-in-out;
+    --fontsize-transition: font-size 0.25s ease-in-out;
 
     /*--- Z-index ---*/
-    --fixed-z: 100;
+    --fixed-z: 10;
+    --navbar-fixed-z: calc(var(--fixed-z) + 100);
 
-    /*--- Dimensions ---*/
+    /*--- Navigation Menu ---*/
+    --button-top: 10px;
+    --button-right: 17px;
+    --button-n-height: 4.5px;
+    --button-height: calc(var(--button-n-height) * 3);
+    --button-width: 27px;
+    --button-margin: 4px;
+    --button-transform-a: translateY(8px) rotate(45deg);
+    --button-transform-b: translateY(-8.95px) rotate(-45deg);
+
     --navbar-width: 45%;
+    --navbar-offset: calc(var(--button-top) * 2);
+    --navbar-height: calc((var(--button-top) + var(--button-margin)) +
+        (var(--button-height) + var(--button-n-height) + var(--button-margin)) + var(--navbar-offset));
+
+    --navbar-menu-color: #0b1d2e;
+    --navbar-btn-color: #d3dfeb;
+    --navbar-menu-hover-bgcolor: #112a3f;
 }
 
 /* Resize the font for devices with screen widths
  * greater than 1024 pixels
  */
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 720px) {
     :root {
         --big-font-size: 1.3em;
         --normal-font-size: 1.0em;
         --small-font-size: 0.875em;
+
+        --button-width: 31px;
+        --button-n-height: 5.3px;
+
+        --button-transform-b: translateY(-10.5px) rotate(-45deg);
     }
 }
+
 
 
 /*==--- Default Configurations ---==*/
