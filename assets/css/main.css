@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.17.5-prototype, 30 September 2023
+ * Version: 0.20-prototype, 1 October 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -21,6 +21,7 @@
     --big-font-size: 1.5rem;
     --normal-font-size: calc(var(--big-font-size) - 0.45rem);
     --small-font-size: calc(var(--normal-font-size) - 0.45rem);
+    --navbar-items-font-size: calc(var(--normal-font-size) + 2.5px);
 
     --font-thin: 400;
     --font-medium: 500;
@@ -35,8 +36,9 @@
     --hovered-color: #fe2021;
 
     /*--- Transitions ---*/
-    --navbar-btn-transition: 0.2s ease-in-out;
+    --navbar-btn-transition: 0.2s 0.12s ease-in-out;
     --navbar-transition: 0.4s ease-in-out;
+    --navbar-items-transition: transform 0.5s 0s ease-in-out;
     --fontsize-transition: font-size 0.25s ease-in-out;
 
     /*--- Z-index ---*/
@@ -58,8 +60,8 @@
     --navbar-height: calc((var(--button-top) + var(--button-margin)) +
         (var(--button-height) + var(--button-n-height) + var(--button-margin)) + var(--navbar-offset));
 
-    --navbar-menu-color: #0b1d2e;
-    --navbar-btn-color: #d3dfeb;
+    --navbar-bgcolor: #0b1d2e;
+    --navbar-color: #d3dfeb;
     --navbar-menu-hover-bgcolor: #112a3f;
 }
 
@@ -71,6 +73,9 @@
         --big-font-size: 1.3em;
         --normal-font-size: 1.0em;
         --small-font-size: 0.875em;
+        --navbar-items-font-size: calc(var(--normal-font-size) + 10px);
+
+        --navbar-items-transition: transform 0.3s 0.15s ease-in-out;
 
         --button-width: 31px;
         --button-n-height: 5.3px;
@@ -126,7 +131,6 @@ img {
     box-shadow: 0 1px 0.4rem rgba(22, 8, 43, 0.15);
     color: var(--title-color);
     text-align: center;
-    font-size: var(--big-font-size);
     padding: 0 1.0em;
     top: 0;
     left: 0;
@@ -134,21 +138,23 @@ img {
     position: fixed;
     z-index: var(--fixed-z);
     justify-content: space-between;
+
+    /* Give some spaces between navigation bar and header */
+    margin-top: var(--navbar-height);
+
+    
 }
 
-.header-contents {
-    margin-bottom: 1.0em;
-}
-
-.header-contents .header-title * {
-    margin-bottom: -0.1rem;
+.header-section .header-title * {
     color: var(--title-color);
     font-weight: var(--font-bold);
-    font-size: calc(var(--big-font-size) - 0.2em);
+    font-size: var(--big-font-size);
+    transition: var(--fontsize-transition);
 }
 
 p.header-description {
     font-size: var(--normal-font-size);
+    transition: var(--fontsize-transition);
 }
 
 
@@ -159,9 +165,11 @@ p.header-description {
 }
 
 .logo-section .logo i {
-    font-size: 1.3rem;
-    margin: 0.2em;
+    font-size: calc(var(--big-font-size) + 10px);
+    margin: 0 0.3em;
     color: var(--title-color);
+    padding: auto;
+    transition: var(--fontsize-transition);
 }
 
 
@@ -170,15 +178,31 @@ p.header-description {
  *    NAVBAR MENU    *
  *===================*/
 
+/*==--- Navigation Section ---==*/
+
+.navbar-section {
+    padding-bottom: var(--navbar-height);
+    background-color: var(--navbar-bgcolor);
+}
+
+
 /*==--- Toggle Button ---==*/
 
 #navbar-button {
+    --navbar-btn-transition-ext: width 0.3s ease-in-out
+                                 top 0.3s ease-in-out;
+
     position: fixed;
-    top: 0.72em;
-    right: 1.2em;
+    top: var(--button-top);
+    left: var(--button-right);
     display: block;
-    width: 1.55em;
+    width: var(--button-width);
     cursor: pointer;
+    transition: width 0.3s ease-in-out top 0.3s ease-in-out;
+    -webkit-transition: var(--navbar-btn-transition-ext);
+    -moz-transition: var(--navbar-btn-transition-ext);
+    -o-transition: var(--navbar-btn-transition-ext);
+    z-index: calc(var(--navbar-fixed-z) + 2);
 
     appearance: none;
     background: none;
@@ -186,36 +210,40 @@ p.header-description {
     border: none;
 }
 
-/* Deactivate the click event on 'bar' class, to prevent
- * being clicked and cause the navigation menu not working
- */
-#navbar-button .bar {
-    pointer-events: none;
-}
-
 #navbar-button .bar,
 #navbar-button::before, #navbar-button::after {
     content: '';
     display: block;
     width: 100%;
-    height: 4px;
-    background-color: var(--title-color);
-    margin: 4px 0px;
+    height: var(--button-n-height);
+    background-color: var(--navbar-color);
+    margin: var(--button-margin);
     transition: var(--navbar-btn-transition);
-    font-weight: normal;
 }
 
-/* Rotate when navigation bar is active (opened), and hide the bar class */
-#navbar-button.active::before {
-    transform: translateY(8px) rotate(-45deg);
-}
-
-#navbar-button.active::after {
-    transform: translateY(-7.5px) rotate(45deg);
+#navbar-button .bar {
+    /* Deactivate the click event on 'bar' class, to prevent
+     * being clicked and cause the button unable to be clicked
+     */
+    pointer-events: none;
+    transition-delay: 0.2s;
 }
 
 #navbar-button.active .bar {
-    opacity: 0;
+    transition-delay: 0s;
+}
+
+/* Rotate when navigation button is active (opened), and hide the bar class */
+#navbar-button.active::before {
+    transform: var(--button-transform-a);
+}
+
+#navbar-button.active::after {
+    transform: var(--button-transform-b);
+}
+
+#navbar-button.active .bar {
+    width: 0;
 }
 
 
@@ -228,13 +256,14 @@ p.header-description {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #001a25;
+    background-color: var(--navbar-bgcolor);
     padding-top: 20px;
     overflow-x: hidden;  /* Disable horizontal scroll */
-    z-index: 1;  /* Keep on top */
+    z-index: var(--navbar-fixed-z);  /* Keep on top */
     transition: all var(--navbar-transition);
     -webkit-transition: all var(--navbar-transition);
-    -ms-transition: all var(--navbar-transition);
+    -moz-transition: all var(--navbar-transition);
+    -o-transition: all var(--navbar-transition);
 }
 
 /* Trigger when the 'navbar-menu' has 'active' class */
@@ -249,7 +278,10 @@ p.header-description {
     display: block;
     margin-top: 1.8rem;
     transform: translateX(-300px);
-    transition: transform 0.55s ease-in-out;
+    transition: transform 0.55s 0.2s ease-in-out;
+    -webkit-transition: var(--navbar-items-transition);
+    -moz-transition: var(--navbar-items-transition);
+    -o-transition: var(--navbar-items-transition);
 }
 
 #navbar-menu.active .menu-contents {
@@ -258,18 +290,34 @@ p.header-description {
 }
 
 #navbar-menu .menu-contents li {
-    text-align: left;
+    --icon-offset: 15px;
+    --icon-spaces: 10px;
+
+    text-align: center;
     letter-spacing: 3px;
 }
 
-#navbar-menu .menu-contents li a {
+#navbar-menu .menu-contents li a:not(i) {
     display: flex;
     text-decoration: none;
     font-weight: var(--font-bold);
-    color: #fff;
-    font-size: var(--big-font-size);
-    padding: 0.85em;
-    transition: font-size 0.25s ease-in-out;
+    color: var(--navbar-color);
+    font-size: var(--navbar-items-font-size);
+    padding: 20px 0;
+    padding-right: calc(var(--navbar-width) -
+        (var(--icon-spaces) + var(--navbar-items-font-size) + var(--icon-offset)));
+    transition: var(--fontsize-transition);
+    cursor: pointer;
+}
+
+#navbar-menu .menu-contents li a {
+    vertical-align: middle;
+}
+
+#navbar-menu .menu-contents li a > i {
+    font-size: 1.5em;
+    margin-left: var(--icon-offset);
+    margin-right: var(--icon-spaces);
 }
 
 /* Reduce the font size for smaller window */
@@ -281,7 +329,7 @@ p.header-description {
 
 #navbar-menu .menu-contents li:hover,
 #navbar-menu .menu-contents li:focus {
-    background-color: #112a3f;
+    background-color: var(--navbar-menu-hover-bgcolor);
 }
 
 
