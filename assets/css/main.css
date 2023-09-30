@@ -47,7 +47,7 @@
 
     /*--- Navigation Menu ---*/
     --button-top: 10px;
-    --button-right: 17px;
+    --button-left: 17px;
     --button-n-height: 4.5px;
     --button-height: calc(var(--button-n-height) * 3);
     --button-width: 27px;
@@ -63,6 +63,10 @@
     --navbar-bgcolor: #0b1d2e;
     --navbar-color: #d3dfeb;
     --navbar-menu-hover-bgcolor: #112a3f;
+
+    --nav-logo-size: calc(var(--navbar-height) - 17px);
+    --nav-logo-top: 7.45px;
+    --nav-logo-right: var(--button-left);
 }
 
 /* Resize the font for devices with screen widths
@@ -191,6 +195,18 @@ p.header-description {
     background-color: var(--navbar-bgcolor);
 }
 
+.nav-logo {
+    position: fixed;
+    width: var(--nav-logo-size);
+    height: var(--nav-logo-size);
+    top: var(--nav-logo-top);
+    right: var(--nav-logo-right);
+    background-image: url("./../images/logo_ski.png");
+    background-size: cover;
+    background-position: center;
+    z-index: calc(var(--navbar-fixed-z) + 1);
+}
+
 
 /*==--- Toggle Button ---==*/
 
@@ -200,13 +216,13 @@ p.header-description {
 
     position: fixed;
     top: var(--button-top);
-    left: var(--button-right);
+    left: var(--button-left);
     display: block;
     width: var(--button-width);
     cursor: pointer;
     z-index: calc(var(--navbar-fixed-z) + 2);
 
-    transition: width 0.3s ease-in-out top 0.3s ease-in-out;
+    transition: var(--navbar-btn-transition-ext);
     -webkit-transition: var(--navbar-btn-transition-ext);
     -moz-transition: var(--navbar-btn-transition-ext);
     -o-transition: var(--navbar-btn-transition-ext);
