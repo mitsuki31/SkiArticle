@@ -1,32 +1,42 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.15.7-prototype, 29 September 2023
+ * Version: 0.16-prototype, 30 September 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
 const navbarMenu = document.getElementById("navbar-menu");
 const navbarButton = document.getElementById("navbar-button");
+const overlay = document.querySelector('.overlay');
+
+// For checking the user's connection status
+const isOnline = navigator.onLine;
+
+console.log(`INFO - Connection status: ${isOnline ? 'ONLINE' : 'OFFLINE'}`);
 
 // Wait for click event on entire elements
 window.addEventListener("click", (event) => {
     /* These code below will close the navigation bar when users
-     * click outside the navigation bar
+     * click or touch the overlay layer
      */
-    if (event.target.id !== "navbar-button" &&
-            event.target.id !== "navbar-menu" &&
-            navbarMenu.classList.contains("active")) {
-        // Toggle the 'active' class
+    if (navbarMenu.classList.contains("active") && event.target.isEqualNode(overlay)) {
+        // Toggle the 'active' class in 'navbar-menu'
         navbarMenu.classList.toggle("active");
         navbarButton.classList.toggle("active");
+
+        // Toggle the 'active' class in 'overlay'
+        overlay.classList.toggle("active");
     }
 });
 
 // Toggle navigation menu on click event of navigation button
 navbarButton.addEventListener("click", () => {
-    // Toggle the 'active' class
+    // Toggle the 'active' class in 'navbar-menu'
     navbarMenu.classList.toggle("active");
     navbarButton.classList.toggle("active");
+
+    // Toggle the 'active' class in 'overlay'
+    overlay.classList.toggle("active");
 });
 
 
@@ -39,27 +49,21 @@ navbarButton.addEventListener("click", () => {
  * trigger URL requests before all resources (e.g., images) have loaded.
  */
 if (document.readyState === "loading") {
-    console.info(`INFO - Document status: ${document.readyState}`);
-
     // Define the JSON file containing global URLs
     const jsonFile = "./assets/json/global-urls.json";
 
     // Listen for the "DOMContentLoaded" event to safely replace URLs
     document.addEventListener("DOMContentLoaded", () => {
-        console.info(`INFO - Document status: ${document.readyState}`);
-
         /* Get and parse the JSON file that contains the URLs
          * required for the web page.
          */
         fetch(jsonFile)
             .then((response) => {
                 // Throw an error if there is a response issue.
-                console.info(`INFO - Response OK: ${response.ok}`);
                 if (!response.ok) {
-                    throw new Error("ERROR - Network response was not OK!");
+                    throw new Error("Network response was not OK!");
                 }
 
-                console.info("SUCCESS - Retrieved data from the JSON file.");
                 return response.json();
             })
             .then((jsonData) => {
@@ -82,7 +86,7 @@ if (document.readyState === "loading") {
                     }
                 }
 
-                console.info(`SUCCESS - ${totalElements} URL(s) has been replaced.`);
+                console.info(`SUCCESS - ${totalElements} ${totalElements === 1 ? 'URL' : 'URLs'} has been replaced.`);
             })
             .catch((error) => {
                 console.error(`ERROR - ${error}`);

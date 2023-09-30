@@ -40,6 +40,7 @@
     --navbar-transition: 0.4s ease-in-out;
     --navbar-items-transition: transform 0.5s 0s ease-in-out;
     --fontsize-transition: font-size 0.25s ease-in-out;
+    --overlay-transition: width 0.25s ease-out;
 
     /*--- Z-index ---*/
     --fixed-z: 10;
@@ -56,6 +57,7 @@
     --button-transform-b: translateY(-8.95px) rotate(-45deg);
 
     --navbar-width: 45%;
+    --navbar-max-width: 350px;
     --navbar-offset: calc(var(--button-top) * 2);
     --navbar-height: calc((var(--button-top) + var(--button-margin)) +
         (var(--button-height) + var(--button-n-height) + var(--button-margin)) + var(--navbar-offset));
@@ -124,6 +126,32 @@ img {
     max-width: 100%;
     height: auto;
 }
+
+
+/*=================*
+ *     OVERLAY     *
+ *=================*/
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);  /* Semi-transparent */
+    /* On above all elements, but below the navigation menu */
+    z-index: calc(var(--navbar-fixed-z) - 1);
+
+    transition: var(--overlay-transition);
+    -webkit-transition: var(--overlay-transition);
+    -moz-transition: var(--overlay-transition);
+    -o-transition: var(--overlay-transition);
+}
+
+.overlay.active {
+    width: 100%;
+}
+
 
 
 /*======================*
@@ -204,7 +232,6 @@ p.header-description {
     background-image: url("./../images/logo_ski.png");
     background-size: cover;
     background-position: center;
-    z-index: calc(var(--navbar-fixed-z) + 1);
 }
 
 
@@ -286,7 +313,7 @@ p.header-description {
 #navbar-menu, #navbar-menu::before, #navbar-menu::after {
     min-height: 100vh;
     width: 0px;  /* Initial width (hidden) */
-    max-width: 350px;
+    max-width: var(--navbar-max-width);
     position: fixed;
     top: 0;
     left: 0;
@@ -330,9 +357,10 @@ p.header-description {
 #navbar-menu .menu-contents li {
     --icon-offset: 15px;
     --icon-spaces: 10px;
+    --letter-space: 3px;
 
     text-align: center;
-    letter-spacing: 3px;
+    letter-spacing: var(--letter-space)
 }
 
 #navbar-menu .menu-contents li a:not(i) {
