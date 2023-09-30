@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.16.8-prototype, 29 September 2023
+ * Version: 0.17-prototype, 30 September 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -218,9 +218,15 @@ p.header-description {
     position: fixed;
     list-style: none;
     padding: 0;
-    margin-top: 1.8rem;
-    width: var(--navbar-width);
     display: block;
+    margin-top: 1.8rem;
+    transform: translateX(-300px);
+    transition: transform 0.55s ease-in-out;
+}
+
+#navbar-menu.active .menu-contents {
+    width: var(--navbar-width);
+    transform: translateX(0px);
 }
 
 #navbar-menu .menu-contents li {
