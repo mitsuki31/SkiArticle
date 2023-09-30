@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.20-prototype, 1 October 2023
+ * Version: 0.21-prototype, 1 October 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -19,8 +19,8 @@
     /*--- Fonts and Typography ---*/
     --default-font: Poppins, sans-serif;
     --big-font-size: 1.5rem;
-    --normal-font-size: calc(var(--big-font-size) - 0.45rem);
-    --small-font-size: calc(var(--normal-font-size) - 0.45rem);
+    --normal-font-size: calc(var(--big-font-size) - 0.65rem);
+    --small-font-size: calc(var(--normal-font-size) - 0.65rem);
     --navbar-items-font-size: calc(var(--normal-font-size) + 2.5px);
 
     --font-thin: 400;
@@ -141,15 +141,17 @@ img {
 
     /* Give some spaces between navigation bar and header */
     margin-top: var(--navbar-height);
-
-    
 }
 
 .header-section .header-title * {
     color: var(--title-color);
     font-weight: var(--font-bold);
     font-size: var(--big-font-size);
+
     transition: var(--fontsize-transition);
+    -webkit-transition: var(--fontsize-transition);
+    -moz-transition: var(--fontsize-transition);
+    -o-transition: var(--fontsize-transition);
 }
 
 p.header-description {
@@ -169,7 +171,11 @@ p.header-description {
     margin: 0 0.3em;
     color: var(--title-color);
     padding: auto;
+
     transition: var(--fontsize-transition);
+    -webkit-transition: var(--fontsize-transition);
+    -moz-transition: var(--fontsize-transition);
+    -o-transition: var(--fontsize-transition);
 }
 
 
@@ -198,11 +204,12 @@ p.header-description {
     display: block;
     width: var(--button-width);
     cursor: pointer;
+    z-index: calc(var(--navbar-fixed-z) + 2);
+
     transition: width 0.3s ease-in-out top 0.3s ease-in-out;
     -webkit-transition: var(--navbar-btn-transition-ext);
     -moz-transition: var(--navbar-btn-transition-ext);
     -o-transition: var(--navbar-btn-transition-ext);
-    z-index: calc(var(--navbar-fixed-z) + 2);
 
     appearance: none;
     background: none;
@@ -218,7 +225,11 @@ p.header-description {
     height: var(--button-n-height);
     background-color: var(--navbar-color);
     margin: var(--button-margin);
+
     transition: var(--navbar-btn-transition);
+    -webkit-transition: var(--navbar-btn-transition);
+    -moz-transition: var(--navbar-btn-transition);
+    -o-transition: var(--navbar-btn-transition);
 }
 
 #navbar-button .bar {
@@ -226,11 +237,18 @@ p.header-description {
      * being clicked and cause the button unable to be clicked
      */
     pointer-events: none;
+
     transition-delay: 0.2s;
+    -webkit-transition-delay: 0.2s;
+    -moz-transition-delay: 0.2s;
+    -o-transition-delay: 0.2s;
 }
 
 #navbar-button.active .bar {
     transition-delay: 0s;
+    -webkit-transition-delay: 0s;
+    -moz-transition-delay: 0s;
+    -o-transition-delay: 0s;
 }
 
 /* Rotate when navigation button is active (opened), and hide the bar class */
@@ -260,6 +278,8 @@ p.header-description {
     padding-top: 20px;
     overflow-x: hidden;  /* Disable horizontal scroll */
     z-index: var(--navbar-fixed-z);  /* Keep on top */
+    visibility: hidden;
+
     transition: all var(--navbar-transition);
     -webkit-transition: all var(--navbar-transition);
     -moz-transition: all var(--navbar-transition);
@@ -268,6 +288,7 @@ p.header-description {
 
 /* Trigger when the 'navbar-menu' has 'active' class */
 #navbar-menu.active {
+    visibility: visible;
     width: var(--navbar-width);
 }
 
@@ -277,15 +298,16 @@ p.header-description {
     padding: 0;
     display: block;
     margin-top: 1.8rem;
+    width: var(--navbar-width);
     transform: translateX(-300px);
-    transition: transform 0.55s 0.2s ease-in-out;
+
+    transition: var(--navbar-items-transition);
     -webkit-transition: var(--navbar-items-transition);
     -moz-transition: var(--navbar-items-transition);
     -o-transition: var(--navbar-items-transition);
 }
 
 #navbar-menu.active .menu-contents {
-    width: var(--navbar-width);
     transform: translateX(0px);
 }
 
@@ -302,12 +324,17 @@ p.header-description {
     text-decoration: none;
     font-weight: var(--font-bold);
     color: var(--navbar-color);
+    cursor: pointer;
+    width: 100%;
     font-size: var(--navbar-items-font-size);
     padding: 20px 0;
     padding-right: calc(var(--navbar-width) -
         (var(--icon-spaces) + var(--navbar-items-font-size) + var(--icon-offset)));
+
     transition: var(--fontsize-transition);
-    cursor: pointer;
+    -webkit-transition: var(--fontsize-transition);
+    -moz-transition: var(--fontsize-transition);
+    -o-transition: var(--fontsize-transition);
 }
 
 #navbar-menu .menu-contents li a {
