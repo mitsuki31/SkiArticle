@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.17-prototype, 1 October 2023
+ * Version: 0.17.0-prototype, 1 October 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 

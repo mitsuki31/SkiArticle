@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 1.0-prototype, 1 October 2023
+ * Version: 0.1.1-prototype, 1 October 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -53,6 +53,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         })
         .catch((error) => {
             console.error(`ERROR - ${error}`);
-        })
+        });
 });
 
