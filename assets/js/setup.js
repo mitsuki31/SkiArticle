@@ -1,13 +1,14 @@
 /**
+ * This JavaScript file will setting up all things to make
+ * web page ready to use and users can interact with.
+ * 
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.1.1-prototype, 1 October 2023
+ * Version: 0.1.2-prototype, 2 October 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
-// Path to the JSON file that contains all URLs required by webpage
-// The path relative from 'index.html' (project's root directory)
-const jsonFile = "./assets/json/global-urls.json";
+'use strict';
 
 /* Execute when the DOM tree is already loaded (external assets still in loading state).
  * We avoid using `window.onload` to prevent potential issues.
@@ -18,6 +19,10 @@ const jsonFile = "./assets/json/global-urls.json";
  * trigger URL requests before all resources (e.g., images) have loaded.
  */
 document.addEventListener("DOMContentLoaded", async () => {
+    // Path to the JSON file that contains all URLs required by webpage
+    // The path relative from 'index.html' (project's root directory)
+    const jsonFile = "./assets/json/global-urls.json";
+
     /* Get and parse the JSON file that contains the URLs
      * required for the web page.
      */
@@ -25,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         .then((response) => {
             // Throw an error if there is a response issue.
             if (!response.ok) {
-                throw new Error("Network response was not OK!");
+                throw new Error(`HTTP fetch bad response: ${response.status}`);
             }
 
             return response.json();
@@ -49,10 +54,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             }
 
-            console.info(`SUCCESS - ${totalElements} ${totalElements === 1 ? 'URL' : 'URLs'} has been replaced.`);
+            console.info(`SUCCESS - ${totalElements} ${totalElements <= 1 ? 'URL' : 'URLs'} has been replaced.`);
         })
         .catch((error) => {
-            console.error(`ERROR - ${error}`);
+            console.error(`ERROR - Failed to fetch URLs: ${error.message}`);
         });
 });
-
