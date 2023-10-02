@@ -4,13 +4,9 @@
  *
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.1.1-prototype, 1 October 2023
+ * Version: 0.1.3-prototype, 2 October 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
-
-/*==--- Google Fonts ---==*/
-@import url('/static/css/poppins.css');
-
 
 /* All defined global variables goes here */
 
@@ -54,6 +50,9 @@
     /* --- Overlay */
     --overlay-transition: width 0.25s ease-out;
 
+    /* --- Navigation Logo */
+    --nav-logo-transition: transform 0.35s 0.1s;
+
 
     /*====  SIZES & DIMENSIONS  ====*/
     --fixed-z: 10;
@@ -80,7 +79,7 @@
         var(--button-margin)) + var(--navbar-offset));
 
     --nav-logo-size: calc(var(--navbar-height) - 17px);
-    --nav-logo-top: 7.45px;
+    --nav-logo-top: -30px;
     --nav-logo-right: var(--button-left);
 }
 

@@ -3,12 +3,9 @@
  *
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.22.3-prototype, 1 October 2023
+ * Version: 0.23-prototype, 2 October 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
-
-/*==--- Imports ---==*/
-@import url('./root.css');
 
 
 /*=================*
@@ -115,9 +112,13 @@ p.header-description {
     height: var(--nav-logo-size);
     top: var(--nav-logo-top);
     right: var(--nav-logo-right);
-    background-image: url("./../images/logo_ski.png");
-    background-size: cover;
-    background-position: center;
+    pointer-events: none;  /* Prevent from being clicked */
+    transform: translateY(37px);
+
+    transition: var(--nav-logo-transition);
+    -webkit-transition: var(--nav-logo-transition);
+    -moz-transition: var(--nav-logo-transition);
+    -o-transition: var(--nav-logo-transition);
 }
 
 
@@ -229,6 +230,7 @@ p.header-description {
     margin-top: 1.8rem;
     width: var(--navbar-width);
     transform: translateX(-300px);
+    visibility: hidden;
 
     transition: var(--navbar-items-transition);
     -webkit-transition: var(--navbar-items-transition);
@@ -237,6 +239,7 @@ p.header-description {
 }
 
 #navbar-menu.active .menu-contents {
+    visibility: visible;
     transform: translateX(0px);
 }
 
