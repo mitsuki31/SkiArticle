@@ -6,7 +6,7 @@
  * 
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.18-prototype, 2 October 2023
+ * Version: 0.18.2-prototype, 3 October 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -23,9 +23,11 @@ const navbar = {
     menu: document.getElementById("navbar-menu"),
     // -> Navigation button
     button: document.getElementById("navbar-button"),
-    // -> Is navigation bar active?
-    isActive: document.getElementById("navbar-menu")
-        .classList.contains('active')
+    // -> Is navigation bar are currently active?
+    isActive: () => {
+        return document.getElementById("navbar-menu")
+            .classList.contains("active");
+    }
 };
 
 // Overlay element
@@ -56,7 +58,8 @@ window.addEventListener("click", (event) => {
      * click or touch the overlay layer with navigation menu
      * on its active mode (opened).
      */
-    if (navbar.isActive && event.target.isEqualNode(overlay)) {
+    if (navbar.isActive() &&
+            event.target.isEqualNode(overlay)) {
         toggleNavBar();
     }
 });
@@ -65,7 +68,8 @@ window.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
     // Close the navigation bar (if active) when users
     // press Escape key
-    if (navbar.isActive && event.key.startsWith("Esc")) { toggleNavBar();
+    if (navbar.isActive() && event.key.startsWith("Esc")) {
+        toggleNavBar();
     }
 });
 
