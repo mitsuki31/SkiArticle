@@ -199,7 +199,7 @@ p.header-description {
 
 #navbar-menu, #navbar-menu::before, #navbar-menu::after {
     min-height: 100vh;
-    width: 0px;  /* Initial width (hidden) */
+    width: 0;  /* Initial width (hidden) */
     max-width: var(--navbar-max-width);
     position: fixed;
     top: 0;
@@ -258,7 +258,6 @@ p.header-description {
     font-weight: var(--font-bold);
     color: var(--navbar-color);
     cursor: pointer;
-    width: 100%;
     font-size: var(--navbar-items-font-size);
     padding: 20px 0;
     padding-right: calc(var(--navbar-width) -

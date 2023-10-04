@@ -25,8 +25,7 @@ const navbar = {
     button: document.getElementById("navbar-button"),
     // -> Is navigation bar are currently active?
     isActive: () => {
-        return document.getElementById("navbar-menu")
-            .classList.contains("active");
+        return navbar.menu.classList.contains("active");
     }
 };
 
