@@ -44,3 +44,23 @@ $vendor-prefixes: [-webkit -moz -o];
     $ft-medium-size: $ft-big-size - 0.65rem;
     $ft-small-size: $ft-medium-size - 0.65rem;
 }
+
+
+// ==|==  MIXINS  ==|== //
+
+@mixin cust-transition($property: all, $durations,
+                       $timing: linear, $vendors: $vendor-prefixes) {
+    // Check whether the caller is have parent rules,
+    // i.e., not being called from the outside.
+    @if & {
+        transition: $property $durations $timing;
+        
+        // Use vendor prefixes from global to define transition style
+        // for old browsers
+        @each $pre in $vendors {
+            #{$pre}-transition: $property $durations $timing;
+        }
+        
+        @content;
+    }
+}
