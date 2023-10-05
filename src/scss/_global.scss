@@ -1,37 +1,110 @@
+// This file containing all global variables, configuration and
+// other APIs to support other SCSS files to build the web page.
+//
+// Written and converted by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E
+// Licensed under MIT License.
+//
+
 // ==|==  GLOBAL FONTS  ==|== //
 
+/// The default font family used throughout the web page.
+/// @type  String
+/// @group glob-fonts
 $default-font: Poppins, sans-serif;
+
+/// The base font size for larger text elements.
+/// @type  String
+/// @group glob-fonts
 $ft-big-size: 1.5rem;
+
+/// The font size for medium-sized text elements, derived from `$ft-big-size`.
+/// @type  String
+/// @group glob-fonts
 $ft-medium-size: $ft-big-size - 0.65rem;
+
+/// The font size for smaller text elements, derived from `$ft-medium-size`.
+/// @type  String
+/// @group glob-fonts
 $ft-small-size: $ft-medium-size - 0.65rem;
+
+/// The font weight for thin text elements.
+/// @type  Number
+/// @group glob-fonts
 $ft-thin-weight: 400;
+
+/// The font weight for normal text elements.
+/// @type  Number
+/// @group glob-fonts
 $ft-normal-weight: 500;
+
+/// The font weight for bold text elements.
+/// @type  Number
+/// @group glob-fonts
 $ft-bold-weight: 600;
 
 
 // ==|==  GLOBAL COLORS  ==|== //
+
+/// Background color for the main content container.
+/// @type  Color
+/// @group glob-colors
 $clr-container: #fff;
+
+/// Color for titles and headings.
+/// @type  Color
+/// @group glob-colors
 $clr-title: #19181b;
+
+/// Color for regular text.
+/// @type  Color
+/// @group glob-colors
 $clr-text: #58555e;
+
+/// Lighter text color for subtle elements.
+/// @type  Color
+/// @group glob-colors
 $clr-lt-text: #a5a1aa;
+
+/// Background color for the body or main content area.
+/// @type  Color
+/// @group glob-colors
 $clr-body: #f6f6fd;
-$clr-hovered: #fe2021;
+
+/// Color used when an element is hovered.
+/// @type  Color
+/// @group glob-colors
+$clr-hover: #fe2021;
+
 
 // ==|==  GLOBAL TRANSITIONS  ==|== //
+
+/// Transition duration and easing for font size changes.
+/// @type  String
+/// @group glob-transitions
 $trans-fontsize: font-size 0.25s ease-in-out;
 
-// --- Overlay --- //
+/// Transition duration and easing for overlay width changes.
+/// @type  String
+/// @group glob-transitions
 $trans-overlay: width 0.25s ease-out;
 
 
 // ==|==  GLOBAL SIZES & DIMENSIONS  ==|== //
 
+/// Fixed Z-index value used globally.
+/// @type  Number
+/// @group glob-dimensions
 $fixed-z: 10;
 
 
 // ==|==  OTHER VARIABLES  ==|== //
 
-$vendor-prefixes: [-webkit -moz -o];
+/// List of vendor prefixes used for compatibility.
+/// @type  List
+/// @group glob-vars
+$vendor-prefixes: [-webkit, -moz, -o];
 
 
 // Change some variables to compatible with larger devices.
