@@ -1,0 +1,46 @@
+// ==|==  GLOBAL FONTS  ==|== //
+
+$default-font: Poppins, sans-serif;
+$ft-big-size: 1.5rem;
+$ft-medium-size: $ft-big-size - 0.65rem;
+$ft-small-size: $ft-medium-size - 0.65rem;
+$ft-thin-weight: 400;
+$ft-normal-weight: 500;
+$ft-bold-weight: 600;
+
+
+// ==|==  GLOBAL COLORS  ==|== //
+$clr-container: #fff;
+$clr-title: #19181b;
+$clr-text: #58555e;
+$clr-lt-text: #a5a1aa;
+$clr-body: #f6f6fd;
+$clr-hovered: #fe2021;
+
+// ==|==  GLOBAL TRANSITIONS  ==|== //
+$trans-fontsize: font-size 0.25s ease-in-out;
+
+// --- Overlay --- //
+$trans-overlay: width 0.25s ease-out;
+
+
+// ==|==  GLOBAL SIZES & DIMENSIONS  ==|== //
+
+$fixed-z: 10;
+
+
+// ==|==  OTHER VARIABLES  ==|== //
+
+$vendor-prefixes: [-webkit -moz -o];
+
+
+// Change some variables to compatible with larger devices.
+// We preferred 720px over 1020px, so that tablet devices, such as
+// the iPad Mini (min. 600px), have the same experience as laptop
+// devices (min. 1020px).
+@media screen and (min-width: 720px) {
+    // -> Fonts
+    $ft-big-size: $ft-big-size + 0.3rem;
+    $ft-medium-size: $ft-big-size - 0.65rem;
+    $ft-small-size: $ft-medium-size - 0.65rem;
+}
