@@ -1,0 +1,33 @@
+{
+    "name": "web-article",
+    "version": "0.1.0-alpha",
+    "description": "Private module for handling server-side logic and client-side scripts.",
+    "scripts": {
+        "setup": "npm install http-server",
+        "start": "node src/server.js"
+    },
+    "author": {
+        "name": "Ryuu Mitsuki",
+        "url": "https://github.com/mitsuki31"
+    },
+    "contributors": [
+        {
+            "name": "Nuryadani"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mitsuki31/web-article"
+    },
+    "bugs": {
+        "url": "https://github.com/mitsuki31/web-article/issues"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "http-server": "^14.1.1"
+    },
+    "engines": {
+        "node": ">=20.2.0"
+    },
+    "private": true
+}
