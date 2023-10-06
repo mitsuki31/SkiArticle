@@ -1,0 +1,78 @@
+// This file contains reusable mixins for consistent styling across the application.
+//
+// Written and converted by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under the MIT License.
+//
+
+@import 'global';
+
+/// Defines transitions with support for old browsers using vendor prefixes.
+///
+/// This helper mixin sets the `transition` properties and supports older browsers by
+/// adding necessary vendor prefixes. It allows customization of `transition`
+/// properties such as **property**, **duration**, and **timing** function.
+/// Additional styles specific to the caller can be included using `@content`.
+///
+/// @param {String} $property [all]
+///     The CSS property to transition (e.g., `transform`). If not specified,
+///     use the default value `all` instead.
+/// @param {Number (with unit) | List[Number (with unit)]} $durations
+///     The duration of the transition (e.g., `0.3s 0.15s`).
+/// @param {String} $timing [linear]
+///     The timing function for the transition (e.g., `ease-in`).
+/// @param {String | List[String]} $vendors [$vendor-prefixes]
+///     A list of vendor prefixes for old browsers.
+///
+/// @example - scss Without Keyword Arguments
+///   .my-element {
+///       @include dr2e--transition(background, 0.3s 0.1s, ease) {
+///           // Additional styles specific to `.my-element`
+///       }
+///   }
+///
+/// @example - scss With Keyword Arguments
+///   .my-element {
+///       @include dr2e--transition(
+///           $property: background,
+///           $durations: 0.3s 0.1s,
+///           $timing: ease
+///       ) {
+///           // Additional styles specific to `.my-element`
+///       }
+///   }
+///
+/// @output Sets the transition properties with vendor prefixes.
+/// ```css
+/// .my-element {
+///     transition: background 0.3s 0.1s ease;
+///     -webkit-transition: background 0.3s 0.1s ease;
+///     -moz-transition: background 0.3s 0.1s ease;
+///     -o-transition: background 0.3s 0.1s ease;
+/// }
+/// ```
+///
+/// @content Additional styles specific to the caller.
+///
+/// @group   helpers
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+/// @see     $vendor-prefixes
+///
+@mixin transition($property: all, $durations,
+                  $timing: linear, $vendors: $dr2e--glob-vendor-prefixes) {
+    // Check whether the caller is have parent rules,
+    // i.e., not being called from the outside.
+    @if & {
+        transition: $property $durations $timing;
+        
+        // Use vendor prefixes from global to define transition style
+        // for old browsers
+        @each $pre in $vendors {
+            #{$pre}-transition: $property $durations $timing;
+        }
+        
+        @content;
+    }
+}
