@@ -1,10 +1,9 @@
 {
-    "name": "web-article",
+    "name": "SkiArticle",
     "version": "0.1.0-alpha",
     "description": "Private module for handling server-side logic and client-side scripts.",
     "scripts": {
-        "setup": "npm install http-server",
-        "start": "node src/server.js"
+        "start": "nodemon server/server.js"
     },
     "author": {
         "name": "Ryuu Mitsuki",
@@ -17,14 +16,15 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/mitsuki31/web-article"
+        "url": "https://github.com/mitsuki31/SkiArticle.git"
     },
     "bugs": {
-        "url": "https://github.com/mitsuki31/web-article/issues"
+        "url": "https://github.com/mitsuki31/SkiArticle/issues"
     },
     "license": "MIT",
     "dependencies": {
-        "http-server": "^14.1.1"
+        "express": "^4.18.2",
+        "nodemon": "^3.0.1"
     },
     "engines": {
         "node": ">=20.2.0"
