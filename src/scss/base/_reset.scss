@@ -1,0 +1,94 @@
+// This file containing several defined mixins to reset specific properties
+// within the element by changing their values to `none`, 0 (zero), etc.
+//
+// Written by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under the MIT License.
+//
+
+/// This mixin resets the `padding` and `margin` for the element to 0,
+/// ensuring a consistent spacing across different elements.
+///
+/// @output Resets the `margin` and `padding` for the element to 0.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin margin-padding {
+    margin: 0;
+    padding: 0;
+}
+
+/// This mixin removes default list styles (bullets or numbers) for `<ul>`,
+/// `<ol>`, and `<li>` elements, providing a clean starting point for lists.
+/// This can be useful for navigation menus.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki32>`
+/// @since  0.1.0
+///
+@mixin list {
+    list-style: none;
+}
+
+/// This mixin resets margins and font styles for heading elements (`<h1>` to `<h6>`),
+/// ensuring consistent spacing and font weight for headings.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin heading {
+    margin: 0;
+    font-weight: normal;
+}
+
+/// This mixin removes underline and sets the link color to `inherit`,
+/// providing a cleaner and more customizable style for anchor (`<a>`) elements.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin link {
+    text-decoration: none;
+    color: inherit;  // Use color from its parent
+}
+
+/// This mixin resets `border`, `margin`, and `padding` for form elements
+/// like `<input>`, `<button>`, `<select>`, and `<textarea>`, ensuring consistent styles.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin form {
+    border: none;
+    @include margin-padding;
+}
+
+/// This placeholder sets `border-collapse` property to `collapse` and `border-spacing` to 0
+/// for `<table>`, `<tr>`, `<th>`, and `<td>` elements, ensuring consistent table styles.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/// This placeholder removes border and outline styles for `<img>` elements,
+/// ensuring a cleaner appearance for images.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin image {
+    border: none;
+    outline: none;
+}
