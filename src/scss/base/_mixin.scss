@@ -43,7 +43,7 @@
 ///       }
 ///   }
 ///
-/// @output Sets the transition properties with vendor prefixes.
+/// @output Sets the `transition` properties with vendor prefixes.
 /// ```css
 /// .my-element {
 ///     transition: background 0.3s 0.1s ease;
@@ -74,5 +74,43 @@
         }
         
         @content;
+    }
+}
+
+/// Applies `transform` property and its vendor-prefixed versions.
+///
+/// This mixin applies the `transform` property and its vendor-prefixed versions
+/// for compatibility across different browsers. It allows developers to define
+/// custom transformation functions or values.
+///
+/// @param {List[String] | String} $args [none]
+///     The transformation properties value or function to apply. Default is 'none'.
+/// @param {List[String]} $vendors [$vendor-prefixes]
+///     A list of vendor prefixes for compatibility.
+///
+/// @example - scss
+///   div {
+///       @include dr2e--transform(rotateX(35deg) rotateY(35deg));
+///   }
+///
+/// @output Sets the `transform` properties with vendor prefixes.
+/// ```css
+/// div {
+///     transform: rotateX(35deg) rotateY(35deg);
+///     -webkit-transform: rotateX(35deg) rotateY(35deg);
+///     -moz-transform: rotateX(35deg) rotateY(35deg);
+///     -o-transform: rotateX(35deg) rotateY(35deg);
+/// }
+/// ```
+///
+@mixin transform($args: none, $vendors: $dr2e--glob-vendor-prefixes) {
+    // Check whether the caller is have parent rules
+    if & {
+        transform: $args;
+        
+        // Define transform properties for old browsers
+        @each $pre in $vendors {
+            #{$pre}-transform: $args;
+        }
     }
 }
