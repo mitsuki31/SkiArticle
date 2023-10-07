@@ -1,0 +1,10 @@
+dest: './doc/sassdoc'
+groups:
+  helpers: API Helpers
+  resetters: API Resetters
+  settings: API Settings
+  glob-fonts: Global Fonts
+  glob-colors: Global Colors
+  glob-transitions: Global Transitions
+  glob-dimensions: Global Dimensions
+  glob-vars: Other Global Variables
