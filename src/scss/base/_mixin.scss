@@ -6,7 +6,7 @@
 // Licensed under the MIT License.
 //
 
-@import 'global';
+@use 'global';
 
 /// Defines transitions with support for old browsers using vendor prefixes.
 ///
@@ -27,14 +27,14 @@
 ///
 /// @example - scss Without Keyword Arguments
 ///   .my-element {
-///       @include dr2e--transition(background, 0.3s 0.1s, ease) {
+///       @include mtransition(background, 0.3s 0.1s, ease) {
 ///           // Additional styles specific to `.my-element`
 ///       }
 ///   }
 ///
 /// @example - scss With Keyword Arguments
 ///   .my-element {
-///       @include dr2e--transition(
+///       @include mtransition(
 ///           $property: background,
 ///           $durations: 0.3s 0.1s,
 ///           $timing: ease
@@ -43,7 +43,8 @@
 ///       }
 ///   }
 ///
-/// @output Sets the `transition` properties with vendor prefixes.
+/// @require {variable} vendor-prefixes
+/// @output  Sets the `transition` properties with vendor prefixes.
 /// ```css
 /// .my-element {
 ///     transition: background 0.3s 0.1s ease;
@@ -58,10 +59,9 @@
 /// @group   helpers
 /// @author  Ryuu Mitsuki `<github@mitsuki31>`
 /// @since   0.1.0
-/// @see     $vendor-prefixes
 ///
-@mixin transition($property: all, $durations,
-                  $timing: linear, $vendors: $dr2e--glob-vendor-prefixes) {
+@mixin mtransition($property: all, $durations,
+                  $timing: linear, $vendors: global.$vendor-prefixes) {
     // Check whether the caller is have parent rules,
     // i.e., not being called from the outside.
     @if & {
@@ -77,6 +77,36 @@
     }
 }
 
+/// This mixin provides a convenient way to apply transitions to all specified properties.  
+/// For more detailed about the arguments, consider refer to `mtransition` mixin.
+///
+/// @param {List[*]} $args
+///     List containing transition properties.
+///
+/// @example - scss
+///   $foo-transition: width 0.5s 0.15s ease-in-out;
+///   .foo {
+///       @include mtransition-all($foo-transition);
+///   }
+///
+/// @require {variable} vendor-prefixes
+/// @require {mixin} mtransition
+/// @output  Sets the `transition` properties with vendor prefixes.
+///
+/// @group   helpers
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin mtransition-all($args) {
+    @include mtransition(
+        $property: nth($args, 1),
+        $durations: nth($args, 2),
+        $timing: nth($args, 3),
+        $vendors: if(length($args) == 4,
+            nth($args, 4), global.$vendor-prefixes)
+    );
+}
+
 /// Applies `transform` property and its vendor-prefixed versions.
 ///
 /// This mixin applies the `transform` property and its vendor-prefixed versions
@@ -84,16 +114,17 @@
 /// custom transformation functions or values.
 ///
 /// @param {List[String] | String} $args [none]
-///     The transformation properties value or function to apply. Default is 'none'.
+///     The transformation properties value or function to apply. Default is `none`.
 /// @param {List[String]} $vendors [$vendor-prefixes]
 ///     A list of vendor prefixes for compatibility.
 ///
 /// @example - scss
 ///   div {
-///       @include dr2e--transform(rotateX(35deg) rotateY(35deg));
+///       @include mtransform(rotateX(35deg) rotateY(35deg));
 ///   }
 ///
-/// @output Sets the `transform` properties with vendor prefixes.
+/// @require {variable} vendor-prefixes
+/// @output  Sets the `transform` properties with vendor prefixes.
 /// ```css
 /// div {
 ///     transform: rotateX(35deg) rotateY(35deg);
@@ -103,7 +134,11 @@
 /// }
 /// ```
 ///
-@mixin transform($args: none, $vendors: $dr2e--glob-vendor-prefixes) {
+/// @group   helpers
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin mtransform($args: none, $vendors: global.$vendor-prefixes) {
     // Check whether the caller is have parent rules
     if & {
         transform: $args;

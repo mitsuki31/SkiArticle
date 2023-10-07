@@ -110,15 +110,3 @@ $fixed-z: 10;
 /// @type  List[String]
 /// @group glob-vars
 $vendor-prefixes: [-webkit, -moz, -o];
-
-
-// Change some variables to compatible with larger devices.
-// We preferred 720px over 1020px, so that tablet devices, such as
-// the iPad Mini (min. 600px), have the same experience as laptop
-// devices (min. 1020px).
-@media screen and (min-width: 720px) {
-    // -> Fonts
-    $ft-big-size: $ft-big-size + 0.3rem;
-    $ft-medium-size: $ft-big-size - 0.65rem;
-    $ft-small-size: $ft-medium-size - 0.65rem;
-}
