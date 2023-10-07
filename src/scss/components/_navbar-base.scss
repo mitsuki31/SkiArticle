@@ -1,0 +1,170 @@
+// This file contains all the base variables for styling the navigation bar.
+// These variables control various aspects such as sizes, positions, colors,
+// and transitions for the navigation bar.
+//
+// Written by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under the MIT License.
+//
+
+@use '../base/global';
+
+// ==|==  FONTS  ==|== //
+
+/// Font size for navigation bar items.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navitems-size: global.$ft-medium-size + 0.25rem;
+
+// ==|==  COLORS  ==|== //
+
+/// Background color of the navigation bar.
+///
+/// @type  Color (hex)
+/// @group navbar
+$navbgcolor: #0b1d2e;
+
+/// Text color for the navigation bar items.
+///
+/// @type  Color (hex)
+/// @group navbar
+$navcolor: #d3dfeb;
+
+/// Background color of the navigation bar items on hover.
+///
+/// @type  Color (hex)
+/// @group navbar
+$navbgcolor-hover: #112a3f;
+
+// ==|==  TRANSITIONS  ==|== //
+
+/// Transition duration and delay for navigation bar buttons.
+///
+/// @type  List
+/// @group navbar
+$navtrans-button: 0.2s 0.12s ease-in-out;
+
+/// General transition duration and timing function for navigation bar elements.
+///
+/// @type  List
+/// @group navbar
+$navtrans: 0.4s ease-in-out;
+
+/// Transition property, duration, delay, and timing function for navigation bar items.
+///
+/// @type  List
+/// @group navbar
+$navtrans-items: transform 0.5s 0s ease-in-out;
+
+/// Transition property, duration, and delay for the navigation bar logo.
+///
+/// @type  List
+/// @group navbar
+$navlogo-trans: transform 0.35s 0.1s;
+
+// ==|==  SIZES & DIMENSIONS  ==|== //
+
+/// Top position of the navigation bar button.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navbtn-top: 10px;
+
+/// Left position of the navigation bar button.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navbtn-left: 17px;
+
+/// Normal height of a navigation bar button line.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navbtn-n-height: 4.5px;
+
+/// Total height of the navigation bar button (including lines and margins).
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navbtn-height: $navbtn-n-height * 3;
+
+/// Width of the navigation bar button.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navbtn-width: 27px;
+
+/// Margin around the navigation bar button.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navbtn-margin: 4px;
+
+/// Transformation for the navigation bar button lines (part A).
+///
+/// @type  List[String]
+/// @group navbar
+$navbtn-transform-a: translateY(8px) rotate(45deg);
+
+/// Transformation for the navigation bar button lines (part B).
+///
+/// @type  List[String]
+/// @group navbar
+$navbtn-transform-b: translateY(-8.95px) rotate(-45deg);
+
+/// Fixed Z-index for the navigation bar.
+///
+/// @type  Number (unitless)
+/// @group navbar
+$navfixed-z: global.$fixed-z + 100;
+
+/// Spaces around the navigation bar logo.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navlogo-spaces: 12px;
+
+/// Width of the navigation bar (percentage of the viewport width).
+///
+/// @type  Percentage
+/// @group navbar
+$navwidth: 45%;
+
+/// Maximum width of the navigation bar.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navmax-width: 350px;
+
+/// Offset value used for positioning elements in the navigation bar.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navoffset: $navbtn-top * 2;
+
+/// Total height of the navigation bar.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navheight: $navbtn-top + $navbtn-margin + $navbtn-height +
+            $navbtn-n-height + $navbtn-margin + $navoffset;
+
+/// Size of the navigation bar logo.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navlogo-size: $navheight - 17px;
+
+/// Top position of the navigation bar logo.
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navlogo-top: -30px;
+
+/// Right position of the navigation bar logo (derived from `$navbtn-left`).
+///
+/// @type  Number (with unit)
+/// @group navbar
+$navlogo-right: $navbtn-left;
