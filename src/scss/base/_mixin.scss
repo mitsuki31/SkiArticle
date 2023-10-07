@@ -22,7 +22,7 @@
 ///     The duration of the transition (e.g., `0.3s 0.15s`).
 /// @param {String} $timing [linear]
 ///     The timing function for the transition (e.g., `ease-in`).
-/// @param {String | List[String]} $vendors [$vendor-prefixes]
+/// @param {String | List[String]} $vendors [global.$vendor-prefixes]
 ///     A list of vendor prefixes for old browsers.
 ///
 /// @example - scss Without Keyword Arguments
