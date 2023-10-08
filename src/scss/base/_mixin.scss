@@ -1,6 +1,8 @@
-// This file contains reusable mixins for consistent styling across the application.
+// This file contains reusable mixins for consistent styling across the web application.
+// These mixins are helper APIs that can help in some aspects, one of which is that it can
+// help defining some properties with vendor prefixes versions to an element or rule easily.
 //
-// Written and converted by Ryuu Mitsuki.
+// Written by Ryuu Mitsuki.
 //
 // Copyright (c) 2023 CV. DR2E.
 // Licensed under the MIT License.
@@ -23,7 +25,7 @@
 /// @param {String} $timing [linear]
 ///     The timing function for the transition (e.g., `ease-in`).
 /// @param {String | List[String]} $vendors [global.$vendor-prefixes]
-///     A list of vendor prefixes for old browsers.
+///     A list of vendor prefixes for compatibility on old browsers.
 ///
 /// @example - scss Without Keyword Arguments
 ///   .my-element {
@@ -61,7 +63,7 @@
 /// @since   0.1.0
 ///
 @mixin mtransition($property: all, $durations,
-                  $timing: linear, $vendors: global.$vendor-prefixes) {
+                   $timing: linear, $vendors: global.$vendor-prefixes) {
     // Check whether the caller is have parent rules,
     // i.e., not being called from the outside.
     @if & {
@@ -78,7 +80,8 @@
 }
 
 /// This mixin provides a convenient way to apply transitions to all specified properties.  
-/// For more detailed about the arguments, consider refer to `mtransition` mixin.
+/// For more detailed about the arguments, consider refer to
+/// [`mtransition`](#helpers-mixin-mtransition) mixin.
 ///
 /// @param {List[*]} $args
 ///     List containing transition properties.
@@ -140,12 +143,61 @@
 ///
 @mixin mtransform($args: none, $vendors: global.$vendor-prefixes) {
     // Check whether the caller is have parent rules
-    if & {
+    @if & {
         transform: $args;
         
         // Define transform properties for old browsers
         @each $pre in $vendors {
             #{$pre}-transform: $args;
+        }
+    }
+}
+
+/// Applies a box shadow property for the element with optional vendor prefixes.
+///
+/// This mixin generates a box shadow effect for the element it is applied to.
+/// It includes the standard box shadow property and its vendor-prefixed versions
+/// for compatibility with various old browsers.
+///
+/// @param {String} $args
+///     The box shadow value including **horizontal** and **vertical offsets**,
+///     **blur radius**, **spread radius**, and **color**.
+/// @param {List} $vendors [global.$vendor-prefixes]
+///     Optional list of vendor prefixes for browser compatibility.
+///
+/// @example - scss
+///   .bar {
+///       @include mbox-shadow(2px 2px 4px 2px rgba(0, 0, 0, 0.2));
+///   }
+///
+/// @example - scss
+///   $shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
+///   // It also accepts arguments from a variable
+///   .bar {
+///       @include mbox-shadow($shadow);
+///   }
+///
+/// @require {variable} vendor-prefixes
+/// @output  Sets the `box-shadow` properties with vendor prefixes.
+/// ```css
+/// .bar {
+///     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
+///     -webkit-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
+///     -moz-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
+///     -o-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
+/// }
+/// ```
+///
+/// @group   helpers
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin mbox-shadow($args, $vendors: global.$vendor-prefixes) {
+    @if & {
+        box-shadow: $args;
+        
+        @each $pre in $vendors {
+            #{$pre}-box-shadow: $args;
         }
     }
 }
