@@ -5,3 +5,4 @@ groups:
   resetters: API Resetters
   settings: API Settings
   globals: Globals
+  navbar: Navigation Bar
