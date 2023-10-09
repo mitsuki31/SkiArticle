@@ -264,3 +264,79 @@
         -o-transition-delay: 0s;
     }
 }
+
+
+@mixin navbar-menu-layout {
+    &, &::before, &::after {
+        top: 0;
+        left: 0;
+        position: fixed;
+        width: 0;  // Initial width (hidden)
+        min-height: 100vh;
+        background-color: navbar-base.$navbgcolor;
+        padding-top: 20px;
+        overflow-x: hidden;                // Disable horizontal scroll
+        z-index: navbar-base.$navfixed-z;  // Keep on top
+        visibility: hidden;
+        
+        @include mixin.mtransition(
+            $durations: nth(navbar-base.$navtrans, 1),
+            $timing: nth(navbar-base.$navtrans, 2)
+        );
+    }
+}
+
+@mixin navbar-menu-contents-layout {
+    @include reset.re-list;  // Reset list styles
+    
+    position: fixed;
+    padding: 0;
+    display: block;
+    margin-top: 1.8rem;
+    width: navbar-base.$navwidth;
+    visibility: hidden;
+    
+    @include mixin.mtransform(translateX(-300px));
+    
+    @include mixin.mtransition(
+        $property: nth(navbar-base.$navtrans-items, 1),
+        $durations: nth(navbar-base.$navtrans-items, 2)
+                    nth(navbar-base.$navtrans-items, 3),
+        $timing: nth(navbar-base.$navtrans-items, 4)
+    );
+    
+    li {
+        $-icon-offset: 15px;
+        $-icon-spaces: 10px;
+        $-letter-space: 2.55px;
+        
+        text-align: center;
+        letter-spacing: $-letter-space;
+        
+        a {
+            vertical-align: middle;
+            
+            & > i {
+                font-size: 1.5em;
+                margin-left: $-icon-offset;
+                margin-right: $-icon-spaces;
+            }
+        }
+        
+        a:not(i) {
+            display: flex;
+            text-decoration: none;
+            font-weight: global.$ft-bold-weight;
+            color: navbar-base.$navcolor;
+            cursor: pointer;
+            font-size: navbar-base.$navitems-size;
+            padding: 20px 0;
+            padding-right: 20px;
+        }
+        
+        &:hover, &:focus {
+            background-color: navbar-base.$navbgcolor-hover;
+        }
+    }
+}
+    }
