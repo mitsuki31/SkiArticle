@@ -170,3 +170,97 @@
     @include mixin.mtransform(translateY(37px));
     @include mixin.mtransition-all(navbar-base.$navlogo-trans);
 }
+
+/// Configures the layout and animations for the navigation bar button.
+///
+/// This mixin defines the appearance and behavior of the navigation bar button,
+/// including its position, dimensions, transformations, and transition effects.
+/// It handles both the default state and the active state when the button is clicked.
+///
+/// When active, the button's width decreases, and its individual bars transform to create
+/// a visually appealing menu icon effect. The transition delays are carefully managed
+/// to create smooth animations during interaction.
+///
+/// @require {variable} navbtn-top
+/// @require {variable} navbtn-left
+/// @require {variable} navbtn-width
+/// @require {variable} navbtn-margin
+/// @require {variable} navbtn-n-height
+/// @require {variable} navcolor
+/// @require {variable} navbtn-transform-a
+/// @require {variable} navbtn-transform-b
+/// @require {variable} navtrans-button
+/// @require {mixin} mtransition-all
+/// @require {mixin} re-image
+///
+/// @output  Configures the layout and animations for the navigation bar button.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin navbar-button-layout {
+    position: fixed;
+    top: navbar-base.$navbtn-top;
+    left: navbar-base.$navbtn-left;
+    display: block;
+    width: navbar-base.$navbtn-width;
+    margin-top: 2.5px;
+    cursor: pointer;
+    z-index: navbar-base.$navfixed-z + 2;
+    
+    appearance: none;
+    background: none;
+    @include reset.re-image;  // For reset border and outline to none
+    
+    @include mixin.mtransition-all(width 0.3s ease-in-out);
+    
+    @media screen and (min-width: 720px) {
+       // top: navbar-base.$navbtn-top + 0.5px;
+        left: navbar-base.$navbtn-left + 5px;
+    }
+    
+    &.active {
+        &::before {
+            transform: navbar-base.$navbtn-transform-a;
+        }
+        
+        &::after {
+            transform: navbar-base.$navbtn-transform-b;
+        }
+        
+        width: navbar-base.$navbtn-width - 2.75px;
+    }
+    
+    .bar, &::before, &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: navbar-base.$navbtn-n-height;
+        background-color: navbar-base.$navcolor;
+        margin: navbar-base.$navbtn-margin;
+        
+        @include mixin.mtransition-all(navbar-base.$navtrans-button);
+    }
+    
+    .bar {
+        // Deactivate the click event on 'bar' class, to prevent
+        // being clicked and cause the button unable to be clicked.
+        pointer-events: none;
+        
+        transition-delay: 0.2s;
+        -webkit-transition-delay: 0.2s;
+        -moz-transition-delay: 0.2s;
+        -o-transition-delay: 0.2s;
+    }
+    
+    // Reset all the transition delay when active
+    &.active .bar {
+        width: 0;
+        
+        transition-delay: 0s;
+        -webkit-transition-delay: 0s;
+        -moz-transition-delay: 0s;
+        -o-transition-delay: 0s;
+    }
+}
