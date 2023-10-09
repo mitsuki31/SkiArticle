@@ -1,0 +1,52 @@
+// All the layouts for the necessary elements of the web application
+// are all in this file. These include elements such as overlays,
+// navigation bars, and others.
+//
+// Written by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under MIT License.
+//
+
+@use '../base/global';
+@use '../base/mixin';
+@use '../base/reset';
+@use '../components/navbar-base';
+
+/// Configures the overlay element for use in the navigation bar.
+///
+/// This mixin sets up the overlay element with basic styles and transition effects.
+/// It provides configurations for both the default state and the 'active' state
+/// when the overlay is visible. The overlay is used to create a semi-transparent
+/// background covering the entire viewport.
+///
+/// @require {variable} trans-overlay
+/// @require {variable} bg-overlay
+/// @require {variable} navfixed-z
+/// @require {mixin} mtransition-all
+///
+/// @output  Configures the layout for the overlay element.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin overlay-layout {
+    top: 0;
+    left: 0;
+    width: 0;      // Initial width (hidden)
+    height: 100%;  // Fullscreen height
+    position: fixed;
+    background: global.$bg-overlay;
+    // Above all elements but below the navigation menu
+    z-index: navbar-base.$navfixed-z - 1;
+    
+    // Configure the transition, this will also include the vendor-prefixed versions
+    @include mixin.mtransition-all(global.$trans-overlay);
+    
+    // Settings for the overlay element when it has 'active' class, i.e. opened.
+    &.active {
+        width: 100%;
+        @include mixin.mtransition(width, 0.20, ease-out);
+    }
+}
