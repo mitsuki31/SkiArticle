@@ -50,3 +50,73 @@
         @include mixin.mtransition(width, 0.20, ease-out);
     }
 }
+
+/// Configures the header layout for the website, providing styles for the title,
+/// description, and overall appearance.
+///
+/// This mixin defines the layout and styles for the header section of the website.
+/// It includes settings for positioning, colors, font sizes, transitions, and box shadow.
+/// The header layout is designed to be responsive, adjusting several aspects for larger devices.
+///
+/// @require {variable} clr-title
+/// @require {variable} clr-container
+/// @require {variable} fixed-z
+/// @require {variable} navheight
+/// @require {variable} ft-bold-weight
+/// @require {variable} ft-big-size
+/// @require {variable} ft-big-size-720
+/// @require {variable} ft-medium-size
+/// @require {variable} ft-medium-size-720
+/// @require {variable} trans-fontsize
+/// @require {mixin} mbox-shadow
+/// @require {mixin} mtransition-all
+///
+/// @output  Configures the layout for the header element.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin header-layout {
+    top: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    text-align: center;
+    color: global.$clr-title;
+    background-color: global.$clr-container;
+    z-index: global.$fixed-z;
+    justify-content: space-between;
+    
+    // Setting the box shadow using predefined helper mixin
+    @include mixin.mbox-shadow(0 1px 0.4rem rgba(22, 8, 43, 0.15));
+    
+    // Give some spaces between navigation bar and header
+    margin-top: navbar-base.$navheight;
+    
+    // Settings for the header title element
+    .header-title {
+        color: global.$clr-title;
+        font-weight: global.$ft-bold-weight;
+        font-size: global.$ft-big-size;
+        
+        @include mixin.mtransition-all(global.$trans-fontsize);
+    }
+    
+    // Settings for the header description element
+    .header-description {
+        font-size: global.$ft-medium-size;
+        @include mixin.mtransition-all(global.$trans-fontsize);
+    }
+    
+    // Settings for larger devices
+    @media screen and (min-width: 720px) {
+        .header-title {
+            font-size: global.$ft-big-size-720;
+        }
+        
+        .header-description {
+            font-size: global.$ft-medium-size-720;
+        }
+    }
+}
