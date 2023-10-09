@@ -139,3 +139,34 @@
     padding-bottom: navbar-base.$navheight;
     background-color: navbar-base.$navbgcolor
 }
+
+/// Configures the layout for the navigation bar logo.
+///
+/// This mixin sets up the logo's position, dimensions, and transformation effects.
+/// It ensures that the logo remains fixed on the page and provides specific
+/// styling for smooth transitions.
+///
+/// @require {variable} navlogo-size
+/// @require {variable} navlogo-top
+/// @require {variable} navlogo-right
+/// @require {variable} navlogo-trans
+/// @require {mixin} mtransform
+/// @require {mixin} mtransition-all
+///
+/// @output  Configures the layout for the navigation bar logo.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin navbar-logo-layout {
+    position: fixed;
+    width: navbar-base.$navlogo-size;
+    height: navbar-base.$navlogo-size;
+    top: navbar-base.$navlogo-top;
+    right: navbar-base.$navlogo-right;
+    pointer-events: none;  // Prevent from being clicked
+    
+    @include mixin.mtransform(translateY(37px));
+    @include mixin.mtransition-all(navbar-base.$navlogo-trans);
+}
