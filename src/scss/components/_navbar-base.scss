@@ -16,7 +16,7 @@
 ///
 /// @type  Number (with unit)
 /// @group navbar
-$navitems-size: global.$ft-medium-size + 0.25rem;
+$navitems-size: global.$ft-medium-size + 0.08rem;
 
 // ==|==  COLORS  ==|== //
 
@@ -82,7 +82,7 @@ $navbtn-left: 17px;
 ///
 /// @type  Number (with unit)
 /// @group navbar
-$navbtn-n-height: 4.5px;
+$navbtn-n-height: 4.35px;
 
 /// Total height of the navigation bar button (including lines and margins).
 ///
@@ -108,11 +108,25 @@ $navbtn-margin: 4px;
 /// @group navbar
 $navbtn-transform-a: translateY(8px) rotate(45deg);
 
+/// Transformation for the navigation bar button lines (part A2).
+/// This transformation is the alternate version of part A.
+///
+/// @type  List[String]
+/// @group navbar
+$navbtn-transform-a2: translateY(3px) rotate(-25deg);
+
 /// Transformation for the navigation bar button lines (part B).
 ///
 /// @type  List[String]
 /// @group navbar
 $navbtn-transform-b: translateY(-8.95px) rotate(-45deg);
+
+/// Transformation for the navigation bar button lines (part B2).
+/// This transformation is the alternate version of part B.
+///
+/// @type  List[String]
+/// @group navbar
+$navbtn-transform-b2: translateY(-4.8px) rotate(25deg);
 
 /// Fixed Z-index for the navigation bar.
 ///

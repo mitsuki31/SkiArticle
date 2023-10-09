@@ -19,15 +19,35 @@ $default-font: Poppins, sans-serif;
 /// @group globals
 $ft-big-size: 1.5rem;
 
-/// The font size for medium-sized text elements, derived from `$ft-big-size`.
+/// The base font size for larger text elements. It is intended for
+/// devices with a minimum screen width of 720 pixels.
+/// @type  Number (with unit)
+/// @group globals
+$ft-big-size-720: $ft-big-size + 0.3rem;
+
+/// The font size for medium-sized text elements, derived from
+/// [`$ft-big-size`](#globals-global-ft-big-size).
 /// @type  Number (with unit)
 /// @group globals
 $ft-medium-size: $ft-big-size - 0.65rem;
 
-/// The font size for smaller text elements, derived from `$ft-medium-size`.
+/// The font size for medium-sized text elements, derived from
+/// [`$ft-big-size-720`](#globals-global-ft-big-size-720).
+/// It is intended for devices with a minimum screen width of 720 pixels.
+$ft-medium-size-720: $ft-big-size-720 - 0.65rem;
+
+/// The font size for smaller text elements, derived from
+/// [`$ft-medium-size`](#globals-global-ft-medium-size).
 /// @type  Number (with unit)
 /// @group globals
 $ft-small-size: $ft-medium-size - 0.65rem;
+
+/// The font size for smaller text elements, derived from
+/// [`$ft-medium-size-720`](#globals-global-ft-medium-size-720).
+/// It is intended for devices with a minimum screen width of 720 pixels.
+/// @type  Number (with unit)
+/// @group globals
+$ft-small-size-720: $ft-medium-size-720 - 0.65rem;
 
 /// The font weight for thin text elements.
 /// @type  Number (unitless)
@@ -93,7 +113,7 @@ $trans-fontsize: font-size 0.25s ease-in-out;
 /// Transition duration and easing for overlay width changes.
 /// @type  Number (with unit)
 /// @group globals
-$trans-overlay: width 0.25s ease-out;
+$trans-overlay: width 0.25s ease-in;
 
 
 // ==|==  GLOBAL SIZES & DIMENSIONS  ==|== //
