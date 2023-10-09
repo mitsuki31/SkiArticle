@@ -4,7 +4,7 @@
  * 
  * Copyright (c) 2023 CV. DR2E
  *
- * Version: 0.1.2-prototype, 2 October 2023
+ * Version: 0.1.5-prototype, 9 October 2023
  * Authors: Ryuu Mitsuki, Nuryadani
  */
 
@@ -59,4 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         .catch((error) => {
             console.error(`ERROR - Failed to fetch URLs: ${error.message}`);
         });
+}, {
+    // Remove the event listener after executed once
+    once: true
 });
