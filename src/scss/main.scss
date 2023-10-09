@@ -1,0 +1,46 @@
+// Main configuration styles for the web application.
+//
+// Written by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under MIT License.
+//
+
+@import 'allstyles';
+
+// Import the Poppins font (CSS)
+@import '../../public/static/css/poppins';
+
+html, ::before, ::after {
+    // Change the box size to `border-box`
+    box-sizing: border-box;
+}
+
+// Configure the body element
+body {
+    // Reset the margin and padding
+    @include dr2e--re-margin-padding;
+    
+    font-family: $dr2e--glob-default-font;
+    font-size: $dr2e--glob-ft-medium-size;
+    color: $dr2e--glob-clr-text;
+    background-color: $dr2e--glob-clr-body;
+    
+    @include dr2e--mix-mtransition-all($dr2e--glob-trans-fontsize);
+    
+    @media screen and (min-width: 720px) {
+        font-size: $dr2e--glob-ft-medium-size-720;
+    }
+}
+
+// Reset the text decoration on links (anchor elements)
+a {
+    @include dr2e--re-link;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    
+    @include dr2e--re-image;
+}
