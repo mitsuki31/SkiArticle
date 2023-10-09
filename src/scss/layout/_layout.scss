@@ -339,4 +339,21 @@
         }
     }
 }
+
+@mixin logo-layout {
+    .logo {
+        margin: 0 navbar-base.$navlogo-spaces;
     }
+    
+    .logo i {
+        position: relative;
+        font-size: global.$ft-big-size + 0.20rem;
+        color: global.$clr-title;
+        width: fit-content;
+        height: 100%;
+        
+        @media screen and (min-width: 720px) {
+            font-size: global.$ft-big-size-720 + 0.20rem;
+        }
+    }
+}
