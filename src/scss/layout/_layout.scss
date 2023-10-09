@@ -120,3 +120,22 @@
         }
     }
 }
+
+/// Configures the layout for the navigation bar.
+///
+/// This mixin defines the layout properties for the navigation bar, including
+/// padding at the bottom and the background color.
+///
+/// @require {variable} navheight
+/// @require {variable} navbgcolor
+///
+/// @output  Configures the layout for the navigation bar.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin navbar-layout {
+    padding-bottom: navbar-base.$navheight;
+    background-color: navbar-base.$navbgcolor
+}
