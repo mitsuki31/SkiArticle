@@ -1,28 +1,55 @@
 /**
- * This JavaScript file will setting up all things to make
- * web page ready to use and users can interact with.
- * 
- * Copyright (c) 2023 CV. DR2E
+ * This module will settings up everything to make the web page ready to use
+ * and users can interact with.
  *
- * Version: 0.1.5-prototype, 9 October 2023
- * Authors: Ryuu Mitsuki, Nuryadani
+ * <p>Everything here runs automatically by relying on several conditions
+ * in some objects related to the web page (e.g. DOM tree).
+ *
+ * @module    setup
+ * @author    Ryuu Mitsuki
+ * @author    Nuryadani
+ * @since     0.1.0
+ * @version   0.1.7-prototype
+ * @copyright CV. DR2E 2023
+ * @license   MIT
  */
 
 'use strict';
 
-/* Execute when the DOM tree is already loaded (external assets still in loading state).
- * We avoid using `window.onload` to prevent potential issues.
+/**
+ * This method replaces all specific URLs immediately after the DOM tree has
+ * been fully loaded.
  *
- * Additionally, we replace required URLs in the document
- * while it is in the loading state. This is done to ensure
- * that users with slower connections do not inadvertently
- * trigger URL requests before all resources (e.g., images) have loaded.
+ * <p>Automatically execute and perform actions when the DOM tree is already
+ * loaded (external assets still in loading state). We avoid using <code>window.onload</code>
+ * to prevent potential issues. Additionally, we replace required URLs in the document
+ * while it is in the loading state. This is done to ensure that users with slower connections
+ * do not inadvertently trigger URL requests before all resources (e.g., images) have loaded.
+ *
+ * <p><b>Note:</b>
+ * If there is some errors occurred and the method has failed to runs the actions,
+ * the errors trace will be printed to console logs.
+ *
+ * @function
+ * @async
+ * @name     urlReplacer
+ * @author   Ryuu Mitsuki
+ * @author   Nuryadani
+ * @since    0.1.0
+ * @version  0.1.3-prototype
  */
 document.addEventListener("DOMContentLoaded", async () => {
-    // Path to the JSON file that contains all URLs required by webpage
-    // The path relative from 'index.html' (project's root directory)
+    /**
+     * Path to the JSON file that contains all URLs required by the web page.
+     *
+     * @global
+     * @default
+     * @readonly
+     * @type     {String}
+     * @since    0.1.0
+     */
     const jsonFile = "./assets/json/global-urls.json";
-
+    
     /* Get and parse the JSON file that contains the URLs
      * required for the web page.
      */
@@ -32,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!response.ok) {
                 throw new Error(`HTTP fetch bad response: ${response.status}`);
             }
-
+            
             return response.json();
         })
         .then((jsonData) => {
@@ -40,20 +67,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             const jsonKeys = Object.keys(jsonData);
             const prefix = "dr2e--";  // Prefix for classes' name
             let totalElements = 0;
-
+            
             // Using 'for' loop to replace all URLs
             for (const key of jsonKeys) {
                 // This variable will be a list, not a single HTML object
                 const elements = document.getElementsByClassName(prefix.concat(key));
                 totalElements += elements.length;
-
+                
                 for (const element of elements) {
                     if (element && element.nodeName === 'A') {
                         element.href = jsonData[key] || "#";
                     }
                 }
             }
-
+            
             console.info(`SUCCESS - ${totalElements} ${totalElements <= 1 ? 'URL' : 'URLs'} has been replaced.`);
         })
         .catch((error) => {
