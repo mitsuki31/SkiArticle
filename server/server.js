@@ -1,38 +1,73 @@
 /**
- * This file configures and runs the server for the web page.
- * To start the server using `npm`, you can use the following command:
+ * This module handles server configuration and startup.
  *
- *   $ npm start [HOST] [PORT]
+ * <p>This module can configures and runs the server for the web application.
+ * To start the server using <code>npm</code>, users can use the following command:
  *
- * If HOST and PORT are not specified, the server will run with the
- * default address: 'http://localhost:4312'. You can also customize
+ * <pre>
+ *     // HOST and PORT arguments are optional
+ *     $ npm start [HOST] [PORT]
+ * </pre>
+ *
+ * <p>If <code>HOST</code> and <code>PORT</code> are not specified, the server
+ * will run with the default address: 'http://localhost:4312'. Users can also customize
  * the server settings by defining environment variables. For example:
  *
- *   $ HOST="<your-ip-address>" PORT="<port>" npm start
+ * <pre>
+ *     $ HOST="<your-ip-address>" PORT="<port>" npm start
+ * </pre>
  *
- * @module      server
- * @description This module handles server configuration and startup.
+ * <p>Start the server using <code>node</code>:
+ * <pre>
+ *     // HOST and PORT arguments are optional
+ *     $ node server/server.js [HOST] [PORT]
+ * </pre>
+ *
+ * @module      server/server
  * @author      Ryuu Mitsuki
+ * @copyright   CV. DR2E 2023
+ * @since       0.1.0
+ * @version     1.2
  */
+
+/**
+ * Default host and port address for the web application to run.
+ *
+ * @type     {Object}
+ * @property {String} host - A string representing the host address. Default is <code>'localhost'</code>.
+ * @property {Number} port - A number representing the port address. Default is <code>4312</code>.
+ *
+ * @author  Ryuu Mitsuki
+ * @since   0.1.0
+ */
+const defaultAddress = {
+    host: 'localhost',
+    port: 4312
+};
+
+/**
+ * An object containing working directory paths used by both server-side and client-side.
+ *
+ * @type     {Object}
+ * @property {String} _root - Path that refers to project root directory.
+ * @property {String} _public - Path that refers to public directory, used by client-side.
+ * @property {String} _assets - Path that refers to assets directory, used by client-side to search necessary local resources.
+ * @property {String} _static - Path that refers to static directory, used by client-side to search static resources.
+ *
+ * @author  Ryuu Mitsuki
+ * @since   0.1.0
+ */
+const workpath = {
+    _root: path.resolve(__dirname, '..'),
+    _public: path.resolve(__dirname, '..', 'public'),
+    _assets: path.resolve(__dirname, '..', 'public', 'assets'),
+    _static: path.resolve(__dirname, '..', 'public', 'static')
+};
 
 (() => {
     const path = require('path'),
           express = require('express'),
           app = express();
-    
-    // Default setting for server address
-    const defaultAddress = {
-        host: 'localhost',
-        port: 4312
-    };
-    
-    // An object references to all working directories path
-    const workpath = {
-        _root: path.resolve(__dirname, '..'),
-        _assets: path.resolve(__dirname, '..', 'assets'),
-        _public: path.resolve(__dirname, '..', 'public'),
-        _static: path.resolve(__dirname, '..', 'static')
-    };
     
     // Use host or IP address and port from input arguments.
     // If not specified, search for HOST and PORT in environment variables.
