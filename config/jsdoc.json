@@ -1,0 +1,52 @@
+{
+    "plugins": [
+        "plugins/markdown"
+    ],
+    "recurseDepth": 10,
+    "sourceType": "module",
+    "source": {
+        "include": [
+            "server",
+            "public/assets/js"
+        ],
+        "exclude": [
+            "docs"
+        ],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": [
+            "jsdoc",
+            "closure"
+        ]
+    },
+    "opts": {
+        "template": "node_modules/docdash",
+        "encoding": "utf8",
+        "destination": "./docs/jsdoc",
+        "readme": "./README.md",
+        "package": "./package.json",
+        "recurse": true,
+        "verbose": false
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    },
+    "docdash": {
+        "sort": true,
+        "private": false,
+        "search": true,
+        "collapse": true,
+        "menu": {
+            "GitHub Repo": {
+                "href": "https://github.com/mitsuki31/SkiArticle.git",
+                "target": "_blank",
+                "class": "menu-item",
+                "id": "project_repo"
+            }
+        }
+    }
+}
