@@ -90,6 +90,8 @@ navbar.button.addEventListener("click", toggleNavBar);
 
 // Listen for click event on every elements
 window.addEventListener("click", (event) => {
+    const overlay = document.querySelector('.overlay');
+    
     /* These code below will close the navigation bar when users
      * click or touch the overlay layer with navigation menu
      * on its active mode (opened).
