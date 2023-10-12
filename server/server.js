@@ -5,7 +5,7 @@
  * To start the server using <code>npm</code>, users can use the following command:
  *
  * <pre>
- *     // HOST and PORT arguments are optional
+ *     # HOST and PORT arguments are optional
  *     $ npm start [HOST] [PORT]
  * </pre>
  *
@@ -19,7 +19,7 @@
  *
  * <p>Start the server using <code>node</code>:
  * <pre>
- *     // HOST and PORT arguments are optional
+ *     # HOST and PORT arguments are optional
  *     $ node server/server.js [HOST] [PORT]
  * </pre>
  *
@@ -64,6 +64,25 @@ const workpath = {
     _static: path.resolve(__dirname, '..', 'public', 'static')
 };
 
+/**
+ * Runs the server for the web application on specific address.
+ *
+ * <p>Users can customize the address by specifying host and port address
+ * either from command line arguments or environment variables. Here is the syntaces:
+ * <pre>
+ *     # Using arguments
+ *     $ npm start [HOST] [PORT]
+ *
+ *     # Using environment variables
+ *     $ HOST="<host>" PORT="<port>" npm start
+ * </pre>
+ *
+ * @function
+ * @name    run
+ * @author  Ryuu Mitsuki
+ * @since   0.1.0
+ * @version 1.1
+ */
 (() => {
     const path = require('path'),
           express = require('express'),
@@ -87,7 +106,7 @@ const workpath = {
     });
     
     // Serve static files from the 'public' directory
-    // In this case, when users on root URL address, it will directly serves neccessary stuff
+    // In this case, when users on root URL address, it will immediately send neccessary stuff
     app.use('/', express.static(workpath._public, { index: 'index.html' }));
     
     // Run the server
