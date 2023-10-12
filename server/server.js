@@ -30,6 +30,10 @@
  * @version     1.2
  */
 
+const path = require('path'),
+      express = require('express'),
+      app = express();
+
 /**
  * Default host and port address for the web application to run.
  *
@@ -84,10 +88,6 @@ const workpath = {
  * @version 1.1
  */
 (() => {
-    const path = require('path'),
-          express = require('express'),
-          app = express();
-    
     // Use host or IP address and port from input arguments.
     // If not specified, search for HOST and PORT in environment variables.
     // And if none all of above specified, use the default address instead.
