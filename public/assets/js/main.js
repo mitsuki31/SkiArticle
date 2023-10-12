@@ -1,69 +1,105 @@
 /**
- * This file is the main driver or main JavaScript file to
- * optimize and enhance functionality of the web page.
- * Additionally, it makes the web page more robust,
- * well structured, and user-friendly.
- * 
- * Copyright (c) 2023 CV. DR2E
+ * This file is the main driver or main JavaScript file to optimize and
+ * enhance functionality of the web page. Additionally, it makes the web page
+ * more robust, well structured, and interactive.
  *
- * Version: 0.18.2-prototype, 3 October 2023
- * Authors: Ryuu Mitsuki, Nuryadani
+ * @module    main
+ * @author    Ryuu Mitsuki
+ * @author    Nuryadani
+ * @since     0.1.0
+ * @version   0.18.5-prototype
+ * @copyright CV. DR2E 2023
+ * @license   MIT
  */
 
 'use strict';
 
-{
-// Print user's connection status
-console.log(`INFO - Connection status: ${navigator.onLine ? 'ONLINE' : 'OFFLINE'}`);
-
-// Declare an object that references to navigation bar,
-// including the button and its menu contents.
+/**
+ * An object that references to each elements inside the navigation bar,
+ * including the button and the menu contents.
+ *
+ * @namespace
+ * @type     {Object}
+ * @property {Element} menu - The navigation bar menu element.
+ * @property {Element} button - The navigation bar button element.
+ * @property {function} isActive - A function that checks whether the navigation bar is active.
+ *
+ * @author   Ryuu Mitsuki
+ * @author   Nuryadani
+ * @since    0.1.0
+ * @version  0.1.3-prototype
+ */
 const navbar = {
-    // -> Navigation menu
+    /**
+     * An object representing the element of navigation bar menu.
+     * @inner
+     * @type  {Element}
+     */
     menu: document.getElementById("navbar-menu"),
-    // -> Navigation button
+    /**
+     * An object representing the element of navigation bar button.
+     * @inner
+     * @type  {Element}
+     */
     button: document.getElementById("navbar-button"),
-    // -> Is navigation bar are currently active?
+    /**
+     * Checks whether the navigation bar is active (opened).
+     *
+     * <p>The function will checks the class list of navigation bar menu,
+     * if the class list contains 'active' class, it will returns <code>true</code>,
+     * <code>false</code> otherwise.
+     *
+     * @inner
+     * @function
+     * @return {boolean} <code>true</code> if the navigation bar is active, <code>false</code> otherwise.
+     *
+     * @author  Ryuu Mitsuki
+     * @since   0.1.0
+     * @version 1.2
+     */
     isActive: () => {
         return navbar.menu.classList.contains("active");
     }
 };
 
-// Overlay element
-const overlay = document.querySelector('.overlay');
-
 /**
- * This function is responsible for toggling the visibility
- * of the navigation bar and overlay on a web page.
- * It achieves this by toggling the "active" class on
- * specific elements, allowing the navigation bar and overlay
- * to appear or disappear dynamically.
+ * Activates or deactivates the navigation bar by toggling a class on specific elements.
+ *
+ * <p>This function is responsible for toggling the visibility of the navigation bar and
+ * overlay on a web page. It achieves this by toggling the "active" class on specific elements,
+ * allowing the navigation bar and overlay to appear or disappear dynamically.
+ *
+ * @function
+ * @author  Ryuu Mitsuki
+ * @author  Nuryadani
+ * @since   0.1.0
+ * @version 0.1.4
  */
 const toggleNavBar = () => {
-    // Toggle the 'active' class in 'navbar-menu' and 'navbar-button'
+    // Toggle the 'active' class on several elements
     navbar.menu.classList.toggle("active");
     navbar.button.classList.toggle("active");
-
-    // Toggle the 'active' class in 'overlay'
-    overlay.classList.toggle("active");
+    document.querySelector('.overlay').classList.toggle("active");
 };
+
+// Print user's connection status
+console.log(`INFO - Connection status: ${navigator.onLine ? 'ONLINE' : 'OFFLINE'}`);
 
 // Toggle navigation menu on click event of navigation button
 navbar.button.addEventListener("click", toggleNavBar);
 
-// Listen for click event on entire elements
+// Listen for click event on every elements
 window.addEventListener("click", (event) => {
     /* These code below will close the navigation bar when users
      * click or touch the overlay layer with navigation menu
      * on its active mode (opened).
      */
-    if (navbar.isActive() &&
-            event.target.isEqualNode(overlay)) {
+    if (navbar.isActive() && event.target.isEqualNode(overlay)) {
         toggleNavBar();
     }
 });
 
-// Listen to 'Escape' key pressed by users
+// Listen for keys press event (keyboard)
 document.addEventListener("keydown", (event) => {
     // Close the navigation bar (if active) when users
     // press Escape key
@@ -71,5 +107,3 @@ document.addEventListener("keydown", (event) => {
         toggleNavBar();
     }
 });
-
-}  // End of code block
