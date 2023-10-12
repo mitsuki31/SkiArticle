@@ -1,0 +1,359 @@
+// All the layouts for the necessary elements of the web application
+// are all in this file. These include elements such as overlays,
+// navigation bars, and others.
+//
+// Written by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under MIT License.
+//
+
+@use '../base/global';
+@use '../base/mixin';
+@use '../base/reset';
+@use '../components/navbar-base';
+
+/// Configures the overlay element for use in the navigation bar.
+///
+/// This mixin sets up the overlay element with basic styles and transition effects.
+/// It provides configurations for both the default state and the 'active' state
+/// when the overlay is visible. The overlay is used to create a semi-transparent
+/// background covering the entire viewport.
+///
+/// @require {variable} trans-overlay
+/// @require {variable} bg-overlay
+/// @require {variable} navfixed-z
+/// @require {mixin} mtransition-all
+///
+/// @output  Configures the layout for the overlay element.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin overlay-layout {
+    top: 0;
+    left: 0;
+    width: 0;      // Initial width (hidden)
+    height: 100%;  // Fullscreen height
+    position: fixed;
+    background: global.$bg-overlay;
+    // Above all elements but below the navigation menu
+    z-index: navbar-base.$navfixed-z - 1;
+    
+    // Configure the transition, this will also include the vendor-prefixed versions
+    @include mixin.mtransition-all(global.$trans-overlay);
+    
+    // Settings for the overlay element when it has 'active' class, i.e. opened.
+    &.active {
+        width: 100%;
+        @include mixin.mtransition(width, 0.20, ease-out);
+    }
+}
+
+/// Configures the header layout for the website, providing styles for the title,
+/// description, and overall appearance.
+///
+/// This mixin defines the layout and styles for the header section of the website.
+/// It includes settings for positioning, colors, font sizes, transitions, and box shadow.
+/// The header layout is designed to be responsive, adjusting several aspects for larger devices.
+///
+/// @require {variable} clr-title
+/// @require {variable} clr-container
+/// @require {variable} fixed-z
+/// @require {variable} navheight
+/// @require {variable} ft-bold-weight
+/// @require {variable} ft-big-size
+/// @require {variable} ft-big-size-720
+/// @require {variable} ft-medium-size
+/// @require {variable} ft-medium-size-720
+/// @require {variable} trans-fontsize
+/// @require {mixin} mbox-shadow
+/// @require {mixin} mtransition-all
+///
+/// @output  Configures the layout for the header element.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin header-layout {
+    top: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    text-align: center;
+    color: global.$clr-title;
+    background-color: global.$clr-container;
+    z-index: global.$fixed-z;
+    justify-content: space-between;
+    
+    // Setting the box shadow using predefined helper mixin
+    @include mixin.mbox-shadow(0 1px 0.4rem rgba(22, 8, 43, 0.15));
+    
+    // Give some spaces between navigation bar and header
+    margin-top: navbar-base.$navheight;
+    
+    // Settings for the header title element
+    .header-title {
+        color: global.$clr-title;
+        font-weight: global.$ft-bold-weight;
+        font-size: global.$ft-big-size;
+        
+        @include mixin.mtransition-all(global.$trans-fontsize);
+    }
+    
+    // Settings for the header description element
+    .header-description {
+        font-size: global.$ft-medium-size;
+        @include mixin.mtransition-all(global.$trans-fontsize);
+    }
+    
+    // Settings for larger devices
+    @media screen and (min-width: 720px) {
+        .header-title {
+            font-size: global.$ft-big-size-720;
+        }
+        
+        .header-description {
+            font-size: global.$ft-medium-size-720;
+        }
+    }
+}
+
+/// Configures the layout for the navigation bar.
+///
+/// This mixin defines the layout properties for the navigation bar, including
+/// padding at the bottom and the background color.
+///
+/// @require {variable} navheight
+/// @require {variable} navbgcolor
+///
+/// @output  Configures the layout for the navigation bar.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin navbar-layout {
+    padding-bottom: navbar-base.$navheight;
+    background-color: navbar-base.$navbgcolor
+}
+
+/// Configures the layout for the navigation bar logo.
+///
+/// This mixin sets up the logo's position, dimensions, and transformation effects.
+/// It ensures that the logo remains fixed on the page and provides specific
+/// styling for smooth transitions.
+///
+/// @require {variable} navlogo-size
+/// @require {variable} navlogo-top
+/// @require {variable} navlogo-right
+/// @require {variable} navlogo-trans
+/// @require {mixin} mtransform
+/// @require {mixin} mtransition-all
+///
+/// @output  Configures the layout for the navigation bar logo.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin navbar-logo-layout {
+    position: fixed;
+    width: navbar-base.$navlogo-size;
+    height: navbar-base.$navlogo-size;
+    top: navbar-base.$navlogo-top;
+    right: navbar-base.$navlogo-right;
+    pointer-events: none;  // Prevent from being clicked
+    
+    @include mixin.mtransform(translateY(37px));
+    @include mixin.mtransition-all(navbar-base.$navlogo-trans);
+}
+
+/// Configures the layout and animations for the navigation bar button.
+///
+/// This mixin defines the appearance and behavior of the navigation bar button,
+/// including its position, dimensions, transformations, and transition effects.
+/// It handles both the default state and the active state when the button is clicked.
+///
+/// When active, the button's width decreases, and its individual bars transform to create
+/// a visually appealing menu icon effect. The transition delays are carefully managed
+/// to create smooth animations during interaction.
+///
+/// @require {variable} navbtn-top
+/// @require {variable} navbtn-left
+/// @require {variable} navbtn-width
+/// @require {variable} navbtn-margin
+/// @require {variable} navbtn-n-height
+/// @require {variable} navcolor
+/// @require {variable} navbtn-transform-a
+/// @require {variable} navbtn-transform-b
+/// @require {variable} navtrans-button
+/// @require {mixin} mtransition-all
+/// @require {mixin} re-image
+///
+/// @output  Configures the layout and animations for the navigation bar button.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin navbar-button-layout {
+    position: fixed;
+    top: navbar-base.$navbtn-top;
+    left: navbar-base.$navbtn-left;
+    display: block;
+    width: navbar-base.$navbtn-width;
+    margin-top: 2.5px;
+    cursor: pointer;
+    z-index: navbar-base.$navfixed-z + 2;
+    
+    appearance: none;
+    background: none;
+    @include reset.re-image;  // For reset border and outline to none
+    
+    @include mixin.mtransition-all(width 0.3s ease-in-out);
+    
+    @media screen and (min-width: 720px) {
+       // top: navbar-base.$navbtn-top + 0.5px;
+        left: navbar-base.$navbtn-left + 5px;
+    }
+    
+    &.active {
+        &::before {
+            transform: navbar-base.$navbtn-transform-a;
+        }
+        
+        &::after {
+            transform: navbar-base.$navbtn-transform-b;
+        }
+        
+        width: navbar-base.$navbtn-width - 2.75px;
+    }
+    
+    .bar, &::before, &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: navbar-base.$navbtn-n-height;
+        background-color: navbar-base.$navcolor;
+        margin: navbar-base.$navbtn-margin;
+        
+        @include mixin.mtransition-all(navbar-base.$navtrans-button);
+    }
+    
+    .bar {
+        // Deactivate the click event on 'bar' class, to prevent
+        // being clicked and cause the button unable to be clicked.
+        pointer-events: none;
+        
+        transition-delay: 0.2s;
+        -webkit-transition-delay: 0.2s;
+        -moz-transition-delay: 0.2s;
+        -o-transition-delay: 0.2s;
+    }
+    
+    // Reset all the transition delay when active
+    &.active .bar {
+        width: 0;
+        
+        transition-delay: 0s;
+        -webkit-transition-delay: 0s;
+        -moz-transition-delay: 0s;
+        -o-transition-delay: 0s;
+    }
+}
+
+
+@mixin navbar-menu-layout {
+    &, &::before, &::after {
+        top: 0;
+        left: 0;
+        position: fixed;
+        width: 0;  // Initial width (hidden)
+        min-height: 100vh;
+        background-color: navbar-base.$navbgcolor;
+        padding-top: 20px;
+        overflow-x: hidden;                // Disable horizontal scroll
+        z-index: navbar-base.$navfixed-z;  // Keep on top
+        visibility: hidden;
+        
+        @include mixin.mtransition(
+            $durations: nth(navbar-base.$navtrans, 1),
+            $timing: nth(navbar-base.$navtrans, 2)
+        );
+    }
+}
+
+@mixin navbar-menu-contents-layout {
+    @include reset.re-list;  // Reset list styles
+    
+    position: fixed;
+    padding: 0;
+    display: block;
+    margin-top: 1.8rem;
+    width: navbar-base.$navwidth;
+    visibility: hidden;
+    
+    @include mixin.mtransform(translateX(-300px));
+    
+    @include mixin.mtransition(
+        $property: nth(navbar-base.$navtrans-items, 1),
+        $durations: nth(navbar-base.$navtrans-items, 2)
+                    nth(navbar-base.$navtrans-items, 3),
+        $timing: nth(navbar-base.$navtrans-items, 4)
+    );
+    
+    li {
+        $-icon-offset: 15px;
+        $-icon-spaces: 10px;
+        $-letter-space: 2.55px;
+        
+        text-align: center;
+        letter-spacing: $-letter-space;
+        
+        a {
+            vertical-align: middle;
+            
+            & > i {
+                font-size: 1.5em;
+                margin-left: $-icon-offset;
+                margin-right: $-icon-spaces;
+            }
+        }
+        
+        a:not(i) {
+            display: flex;
+            text-decoration: none;
+            font-weight: global.$ft-bold-weight;
+            color: navbar-base.$navcolor;
+            cursor: pointer;
+            font-size: navbar-base.$navitems-size;
+            padding: 20px 0;
+            padding-right: 20px;
+        }
+        
+        &:hover, &:focus {
+            background-color: navbar-base.$navbgcolor-hover;
+        }
+    }
+}
+
+@mixin logo-layout {
+    .logo {
+        margin: 0 navbar-base.$navlogo-spaces;
+    }
+    
+    .logo i {
+        position: relative;
+        font-size: global.$ft-big-size + 0.20rem;
+        color: global.$clr-title;
+        width: fit-content;
+        height: 100%;
+        
+        @media screen and (min-width: 720px) {
+            font-size: global.$ft-big-size-720 + 0.20rem;
+        }
+    }
+}

@@ -5,6 +5,7 @@
     "private": true,
     "scripts": {
         "start": "nodemon server/server.js",
+        "build": "sass src/scss:public/assets/css --style 'expanded' --no-source-map",
         "build-docs": "jsdoc -c config/jsdoc.json"
     },
     "author": {
@@ -29,7 +30,8 @@
     },
     "dependencies": {
         "express": "^4.18.2",
-        "nodemon": "^3.0.1"
+        "nodemon": "^3.0.1",
+        "sass": "^1.69.3"
     },
     "devDependencies": {
         "docdash": "^2.0.2",

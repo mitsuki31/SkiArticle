@@ -1,0 +1,8 @@
+dest: './doc/sassdoc'
+descriptionPath: ./README.md
+groups:
+  helpers: API Helpers
+  resetters: API Resetters
+  settings: API Settings
+  globals: Globals
+  navbar: Navigation Bar

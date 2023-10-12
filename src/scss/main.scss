@@ -1,0 +1,97 @@
+// Main configuration styles for the web application.
+//
+// Written by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under MIT License.
+//
+
+// Using wildcard imports to the `allstyles` module won't makes anything bad.
+// This line never imports all variables, mixins, etc and ended up all here,
+// instead it will only imports `@forward` statements from the file,
+// i.e. only import the alias names of each modules, prefixed with `dr2e--`.
+@use 'allstyles' as *;
+
+// Import the Poppins font (CSS)
+@use '../../public/static/css/poppins';
+
+html, ::before, ::after {
+    // Change the box size to `border-box`
+    box-sizing: border-box;
+}
+
+// Configure the body element
+body {
+    // Reset the margin and padding
+    @include dr2e--re-margin-padding;
+    
+    font-family: $dr2e--glob-default-font;
+    font-size: $dr2e--glob-ft-medium-size;
+    color: $dr2e--glob-clr-text;
+    background-color: $dr2e--glob-clr-body;
+    
+    @include dr2e--mix-mtransition-all($dr2e--glob-trans-fontsize);
+    
+    @media screen and (min-width: 720px) {
+        font-size: $dr2e--glob-ft-medium-size-720;
+    }
+}
+
+// Reset the text decoration on links (anchor elements)
+a {
+    @include dr2e--re-link;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    
+    @include dr2e--re-image;
+}
+
+// ==>  Overlay
+.overlay {
+    @include dr2e--overlay-layout;
+}
+
+// ==>  Header
+.header-section {
+    @include dr2e--header-layout;
+}
+
+// ==>  Logo
+.logo-section {
+    @include dr2e--logo-layout;
+}
+
+// ==> Navigation Bar
+.navbar-section {
+    @include dr2e--navbar-layout;
+    
+    .nav-logo {
+        @include dr2e--navbar-logo-layout;
+    }
+    
+    #navbar-button {
+        @include dr2e--navbar-button-layout;
+    }
+}
+
+// ==> Navigation Bar Menu
+#navbar-menu {
+    @include dr2e--navbar-menu-layout;
+    
+    .menu-contents {
+        @include dr2e--navbar-menu-contents-layout;
+    }
+    
+    &.active {
+        visibility: visible;
+        width: $dr2e--navbase-navwidth;
+        
+        .menu-contents {
+            visibility: visible;
+            @include dr2e--mix-mtransform(translateX(0px));
+        }
+    }
+}

@@ -1,0 +1,109 @@
+// This file containing several defined mixins to reset specific properties
+// within the element by changing their values to `none`, 0 (zero), etc.
+// These mixins prefixed with `re-` that stands for 'reset', this to prevent
+// naming conflicts and confusion.
+//
+// Written by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under the MIT License.
+//
+
+/// This mixin resets the `padding` and `margin` for the element to 0,
+/// ensuring a consistent spacing across different elements.
+///
+/// @output Resets the `margin` and `padding` for the element to 0.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin re-margin-padding {
+    margin: 0;
+    padding: 0;
+}
+
+/// This mixin removes default list styles (bullets or numbers) for `<ul>`,
+/// `<ol>`, and `<li>` elements, providing a clean starting point for lists.
+/// This can be useful for navigation menus.
+///
+/// @output Resets the list style for the element to `none`.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin re-list {
+    list-style: none;
+}
+
+/// This mixin resets margins and font styles for heading elements (`<h1>` to `<h6>`),
+/// ensuring consistent spacing and font weight for headings.
+///
+/// @output Resets the margins to 0 and font weight to `normal` for heading element.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin re-heading {
+    margin: 0;
+    font-weight: normal;
+}
+
+/// This mixin removes underline and sets the link color to `inherit`,
+/// providing a cleaner and more customizable style for anchor (`<a>`) elements.
+///
+/// @output Resets the text decoration to `none` and color to `inherit` for anchor element.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin re-link {
+    text-decoration: none;
+    color: inherit;  // Use color from its parent
+}
+
+/// This mixin resets `border`, `margin`, and `padding` for form elements
+/// like `<input>`, `<button>`, `<select>`, and `<textarea>`, ensuring consistent styles.
+///
+/// @require {mixin} re-margin-padding
+/// @output  Resets the `border` to `none`, `margin` and `padding` to 0 for form element.
+///
+/// @group   resetters
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
+@mixin re-form {
+    border: none;
+    @include re-margin-padding;
+}
+
+/// This placeholder sets `border-collapse` property to `collapse` and `border-spacing` to 0
+/// for `<table>`, `<tr>`, `<th>`, and `<td>` elements, ensuring consistent table styles.
+///
+/// @output Resets the `border-collapse` to `collapse` and `border-spacing` to 0 for table element.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin re-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/// This placeholder removes border and outline styles for `<img>` elements,
+/// ensuring a cleaner appearance for images.
+///
+/// @output Resets the `border` and `outline` to `none` for image element.
+///
+/// @group  resetters
+/// @author Ryuu Mitsuki `<github@mitsuki31>`
+/// @since  0.1.0
+///
+@mixin re-image {
+    border: none;
+    outline: none;
+}

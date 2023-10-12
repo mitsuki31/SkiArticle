@@ -1,0 +1,132 @@
+// This file contains global variables used throughout the application
+// for consistent styling and theming.
+//
+// Written and converted by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under the MIT License.
+//
+
+// ==|==  GLOBAL FONTS  ==|== //
+
+/// The default font family used throughout the web page.
+/// @type  Number (with unit)
+/// @group globals
+$default-font: Poppins, sans-serif;
+
+/// The base font size for larger text elements.
+/// @type  Number (with unit)
+/// @group globals
+$ft-big-size: 1.5rem;
+
+/// The base font size for larger text elements. It is intended for
+/// devices with a minimum screen width of 720 pixels.
+/// @type  Number (with unit)
+/// @group globals
+$ft-big-size-720: $ft-big-size + 0.3rem;
+
+/// The font size for medium-sized text elements, derived from
+/// [`$ft-big-size`](#globals-global-ft-big-size).
+/// @type  Number (with unit)
+/// @group globals
+$ft-medium-size: $ft-big-size - 0.65rem;
+
+/// The font size for medium-sized text elements, derived from
+/// [`$ft-big-size-720`](#globals-global-ft-big-size-720).
+/// It is intended for devices with a minimum screen width of 720 pixels.
+$ft-medium-size-720: $ft-big-size-720 - 0.65rem;
+
+/// The font size for smaller text elements, derived from
+/// [`$ft-medium-size`](#globals-global-ft-medium-size).
+/// @type  Number (with unit)
+/// @group globals
+$ft-small-size: $ft-medium-size - 0.65rem;
+
+/// The font size for smaller text elements, derived from
+/// [`$ft-medium-size-720`](#globals-global-ft-medium-size-720).
+/// It is intended for devices with a minimum screen width of 720 pixels.
+/// @type  Number (with unit)
+/// @group globals
+$ft-small-size-720: $ft-medium-size-720 - 0.65rem;
+
+/// The font weight for thin text elements.
+/// @type  Number (unitless)
+/// @group globals
+$ft-thin-weight: 400;
+
+/// The font weight for normal text elements.
+/// @type  Number (unitless)
+/// @group globals
+$ft-normal-weight: 500;
+
+/// The font weight for bold text elements.
+/// @type  Number (unitless)
+/// @group globals
+$ft-bold-weight: 600;
+
+
+// ==|==  GLOBAL COLORS  ==|== //
+
+/// Background color for the main content container.
+/// @type  Color (hex)
+/// @group globals
+$clr-container: #fff;
+
+/// Color for titles and headings.
+/// @type  Color (hex)
+/// @group globals
+$clr-title: #19181b;
+
+/// Color for regular text.
+/// @type  Color (hex)
+/// @group globals
+$clr-text: #58555e;
+
+/// Lighter text color for subtle elements.
+/// @type  Color (hex)
+/// @group globals
+$clr-lt-text: #a5a1aa;
+
+/// Background color for the body or main content area.
+/// @type  Color (hex)
+/// @group globals
+$clr-body: #f6f6fd;
+
+/// Color used when an element is hovered.
+/// @type  Color (hex)
+/// @group globals
+$clr-hover: #fe2021;
+
+/// Background color for the overlay element.
+/// @type  Color (rgba)
+/// @group globals
+$bg-overlay: rgba(0, 0, 0, 0.4);  // Semi-transparent
+
+
+// ==|==  GLOBAL TRANSITIONS  ==|== //
+
+/// Transition duration and easing for font size changes.
+/// @type  Number (with unit)
+/// @group globals
+$trans-fontsize: font-size 0.25s ease-in-out;
+
+/// Transition duration and easing for overlay width changes.
+/// @type  Number (with unit)
+/// @group globals
+$trans-overlay: width 0.25s ease-in;
+
+
+// ==|==  GLOBAL SIZES & DIMENSIONS  ==|== //
+
+/// Fixed Z-index value used globally.
+/// @type  Number (unitless)
+/// @group globals
+$fixed-z: 10;
+
+
+// ==|==  OTHER VARIABLES  ==|== //
+
+/// List of vendor prefixes used for compatibility.
+/// @type  List[String]
+/// @group globals
+$vendor-prefixes: [-webkit, -moz, -o];
