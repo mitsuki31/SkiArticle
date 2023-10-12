@@ -4,7 +4,8 @@
     "description": "Private module for handling server-side logic and client-side scripts.",
     "private": true,
     "scripts": {
-        "start": "nodemon server/server.js"
+        "start": "nodemon server/server.js",
+        "build-docs": "jsdoc -c config/jsdoc.json"
     },
     "author": {
         "name": "Ryuu Mitsuki",
@@ -32,6 +33,6 @@
     },
     "devDependencies": {
         "docdash": "^2.0.2",
-        "jsdoc": "^4.0.2"
+        "jsdoc": "~4.0.2"
     }
 }
