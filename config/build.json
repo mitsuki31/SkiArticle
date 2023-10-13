@@ -1,0 +1,12 @@
+{
+    "sass": {
+        "dest": "public/assets/css",
+        "charset": true,
+        "style": "expanded",
+        "sourceMap": {
+            "generateFile": false,
+            "includeSources": false
+        },
+        "verbose": false
+    }
+}
