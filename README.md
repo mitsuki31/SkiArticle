@@ -29,6 +29,11 @@ The making of this project was also assisted by Indra Baskara ([@indrabaskara10]
   npm install
   ```
 
+- Build and compile the SCSS files
+  ```bash
+  npm run build
+  ```
+
 - Run the server
   ```bash
   npm start
@@ -58,7 +63,7 @@ You can also change the host address and port as needed.
 
 ## License
 
-For more details about the license, see the [LICENSE](./LICENSE) file.
+Licensed under the [MIT License][mit-license]. For more details about the license, see the [LICENSE](./LICENSE) file.
 
 
 <!-- Links -->
