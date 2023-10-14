@@ -1,33 +1,27 @@
 /**
  * This module handles server configuration and startup.
  *
- * <p>This module can configures and runs the server for the web application.
- * To start the server using <code>npm</code>, users can use the following command:
+ * <p>This module automatic configures and runs the server for the web application.
+ * Users can customize the server configurations, see the example.
  *
- * <pre>
- *     # HOST and PORT arguments are optional
- *     $ npm start [HOST] [PORT]
- * </pre>
+ * @example <caption>Example usage to run the server</caption>
+ * # HOST and PORT arguments are optional
+ * $ npm start [HOST] [PORT]
  *
- * <p>If <code>HOST</code> and <code>PORT</code> are not specified, the server
- * will run with the default address: 'http://localhost:4312'. Users can also customize
- * the server settings by defining environment variables. For example:
+ * # If `HOST` and `PORT` are not specified, the server will run with
+ * # the default address: 'http://localhost:4312'. Users can also customize
+ * # the server settings by defining environment variables. For example:
  *
- * <pre>
- *     $ HOST="<your-ip-address>" PORT="<port>" npm start
- * </pre>
- *
- * <p>Start the server using <code>node</code>:
- * <pre>
- *     # HOST and PORT arguments are optional
- *     $ node server/server.js [HOST] [PORT]
- * </pre>
+ * $ HOST="<your-ip-address>" PORT="<port>" npm start
  *
  * @module      server/server
+ * @requires    module:utils/coreutils.clientPaths
+ * @requires    module:path
+ * @requires    module:express
  * @author      Ryuu Mitsuki
- * @copyright   CV. DR2E 2023
+ * @copyright   2023 CV. DR2E
  * @since       0.1.0
- * @version     1.2
+ * @version     1.4
  */
 
 const path = require("path"),
@@ -87,20 +81,13 @@ const workpath = {
  * Runs the server for the web application on specific address.
  *
  * <p>Users can customize the address by specifying host and port address
- * either from command line arguments or environment variables. Here is the syntaces:
- * <pre>
- *     # Using arguments
- *     $ npm start [HOST] [PORT]
- *
- *     # Using environment variables
- *     $ HOST="<host>" PORT="<port>" npm start
- * </pre>
+ * either from command line arguments or environment variables.
  *
  * @function
  * @name    run
  * @author  Ryuu Mitsuki
  * @since   0.1.0
- * @version 1.1
+ * @version 1.3
  */
 (() => {
     // Use host or IP address and port from input arguments.
