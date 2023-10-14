@@ -4,8 +4,8 @@
  * @module    utils/config
  * @author    Ryuu Mitsuki
  * @since     0.1.0
- * @version   0.1.0
- * @copyright CV. DR2E 2023
+ * @version   0.1
+ * @copyright 2023 CV. DR2E
  * @license   MIT
  */
 
@@ -38,7 +38,7 @@
  * @public
  * @author    Ryuu Mitsuki
  * @since     0.1.0
- * @version   1.0
+ * @version   0.1
  */
 const defaultConfig = {
     /**
@@ -60,7 +60,8 @@ const defaultConfig = {
      *
      * @public
      * @inner
-     * @since  0.1.0
+     * @since   0.1.0
+     * @version 0.1
      */
     sass: {
         /**
@@ -132,7 +133,7 @@ const defaultConfig = {
  * @public
  * @author  Ryuu Mitsuki
  * @since   0.1.0
- * @version 1.2
+ * @version 0.1
  */
 function resolve(type, data, useDefault = false) {
     // => Sass

@@ -16,7 +16,7 @@ const { rootDir, serverPaths, clientPaths } = require('./utils/coreutils');
  * @function
  * @param {!string} infile - Path to the input Sass file to be compiled.
  * @param {!string} outfile - Path to save the compiled CSS output.
- * @param {Object} [sassConfig] - Configuration options for Sass compilation.
+ * @param {SassConfig} [sassConfig] - Configuration options for Sass compilation.
  * @param {Function} [callback] - A callback function to handle errors, if any.
  *
  * @throws {Error} Throws an error if the input Sass file does not exist
@@ -24,7 +24,7 @@ const { rootDir, serverPaths, clientPaths } = require('./utils/coreutils');
  *
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  1.2
+ * @version  0.1
  */
 function buildSass(infile, outfile, sassConfig, callback) {
     // Resolve and fix the configuration, the configuration will be passed
@@ -87,7 +87,7 @@ function buildSass(infile, outfile, sassConfig, callback) {
  *
  * @author  Ryuu Mitsuki
  * @since   0.1.0
- * @version 1.2
+ * @version 0.1
  */
 function _run_as_main() {
     // All command line arguments, excluding node command and the script path
