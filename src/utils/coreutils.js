@@ -73,7 +73,7 @@ const clientPaths = {
         _this: path.join(__publicDir, 'static'),
         css: path.join(__publicDir, 'static', 'css')
     }
-}
+};
 
 /**
  * A namespace containing working directories used by server-side.
@@ -102,7 +102,7 @@ const serverPaths = {
     scss: path.join(rootDir, 'src', 'scss'),
     utils: path.join(rootDir, 'src', 'utils'),
     config: path.join(rootDir, 'config')
-}
+};
 
 // Export necessary objects
 Object.defineProperty(module, 'exports', {

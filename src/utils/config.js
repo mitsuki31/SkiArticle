@@ -99,7 +99,7 @@ const defaultConfig = {
     // SassDoc
     // TODO: implement the default configuration of SassDoc
     sassdoc: {}
-}
+};
 
 /**
  * Resolves configuration options for Sass and SassDoc based on the provided type and data.
@@ -153,7 +153,7 @@ function resolve(type, data, useDefault = false) {
             ),
             style: data.style || defaultConfig.sass.style,
             verbose: data.verbose || defaultConfig.sass.verbose
-        }
+        };
     }
     
     // TODO: implement the code to resolve the SassDoc configuration
