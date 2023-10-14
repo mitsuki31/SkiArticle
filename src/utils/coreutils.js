@@ -43,7 +43,8 @@ const serverPaths = {
     root: path.join(rootDir, 'src'),
     server: path.join(rootDir, 'src', 'server'),
     scss: path.join(rootDir, 'src', 'scss'),
-    utils: path.join(rootDir, 'src', 'utils')
+    utils: path.join(rootDir, 'src', 'utils'),
+    config: path.join(rootDir, 'config')
 }
 
 // Export necessary objects
