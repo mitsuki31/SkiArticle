@@ -6,7 +6,7 @@
     "sourceType": "module",
     "source": {
         "include": [
-            "server",
+            "src",
             "public/assets/js"
         ],
         "exclude": [
