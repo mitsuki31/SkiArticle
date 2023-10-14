@@ -26,9 +26,10 @@
 /**
  * A namespace that provides default configurations for Sass and SassDoc.
  *
- * @type     {Object}
- * @property {Object} sass - Default configuration of Sass.
- * @property {Object} sassdoc - Default configuration of SassDoc.
+ * @namespace
+ * @memberof module:utils/config
+ * @property {!SassConfig} sass - Default configuration of Sass.
+ * @property {!SassConfig} sassdoc - Default configuration of SassDoc.
  *
  * @constant
  * @namespace
@@ -41,22 +42,48 @@ const defaultConfig = {
     /**
      * Default configuration of Sass.
      *
-     * @type     {SassConfig}
-     * @property {boolean} charset - Indicates whether to include charset in the compiled CSS. Default is <code>true</code>.
-     * @property {boolean} sourceMap - Enables source maps for the compiled CSS. Default is <code>true</code>
-     * @property {boolean} sourceMapIncludeSources - Indicates whether to include sources in the source map. Default is <code>false</code>.
-     * @property {string}  style - Style of the compiled CSS (e.g., 'expanded', 'compressed'). Default is <code>'expanded'</code>.
-     * @property {boolean} verbose - Enables verbose output during compilation. Default is <code>false</code>.
+     * @namespace
+     * @inner
+     * @property {!boolean} charset - Indicates whether to include charset in the compiled CSS. Default is <code>true</code>.
+     * @property {!boolean} sourceMap - Enables source maps for the compiled CSS. Default is <code>true</code>
+     * @property {!boolean} sourceMapIncludeSources - Indicates whether to include sources in the source map. Default is <code>false</code>.
+     * @property {!string}  style - Style of the compiled CSS (e.g., 'expanded', 'compressed'). Default is <code>'expanded'</code>.
+     * @property {!boolean} verbose - Enables verbose output during compilation. Default is <code>false</code>.
      *
      * @public
      * @inner
      * @since  0.1.0
      */
     sass: {
+        /**
+         * @inner
+         * @default
+         * @type {!boolean}
+         */
         charset: true,
+        /**
+         * @inner
+         * @default
+         * @type {!boolean}
+         */
         sourceMap: true,
+        /**
+         * @inner
+         * @default
+         * @type {!boolean}
+         */
         sourceMapIncludeSources: false,
+        /**
+         * @inner
+         * @default
+         * @type {!string}
+         */
         style: 'expanded',
+        /**
+         * @inner
+         * @default
+         * @type {!boolean}
+         */
         verbose: false
     },
     
@@ -73,13 +100,6 @@ const defaultConfig = {
  * of Sass or SassDoc and ignoring all unknown options, and then returns an object that can be used directly
  * to <code>sass</code> module.
  *
- * <p><b>Example:</b>
- * <pre>
- *     // Assume that 'sassConfig' is from JSON file
- *     sass.compile('foo.scss',
- *         config.resolve(sassConfig));
- * </pre>
- *
  * <p><b>Note:</b>
  * Currently this function supports to resolve the configuration data for Sass only.
  *
@@ -89,15 +109,25 @@ const defaultConfig = {
  *
  * @return {ResolvedSassConfig} Resolved configuration object for Sass or SassDoc.
  *
+ * @example
+ * const sass = require('sass');
+ * const config = require('./utils/config');
+ *
+ * // Retrieve configurations from JSON file
+ * const sassConfig = require('./path/to/sass.json');
+ *
+ * // Resolve and fix the configurations
+ * sassConfig = config.resolve(sassConfig);
+ *
  * @function
  * @public
  * @author  Ryuu Mitsuki
  * @since   0.1.0
- * @version 1.0
+ * @version 1.1
  */
 const resolve = (type, data, useDefault = false) => {
     // => Sass
-    if (type === 'sass') {
+    if (/^s[a|c]ss$/.test(type.toLowerCase())) {
         // Return the default configuration when useDefault is `true`
         if (useDefault) return defaultConfig.sass;
         
