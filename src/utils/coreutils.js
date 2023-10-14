@@ -1,9 +1,27 @@
-const path = require('path');
 
-// Reference to project root directory
-const __rootDir = path.resolve(__dirname, '..', '..');
-// Reference to public directory used by client-side relative to project root directory
-const __publicDir = path.join(__rootDir, 'public');
+const path = require('path');  // Path module
+
+/**
+ * Path that references to the project's root directory.
+ *
+ * @constant
+ * @public
+ * @type     {!string}
+ * @since    0.1.0
+ */
+const rootDir = path.resolve(__dirname, '..', '..');
+
+/**
+ * Path that references to the public directory used by the client-side,
+ * relative to the project's root directory.
+ *
+ * @constant
+ * @private
+ * @type     {!string}
+ * @since    0.1.0
+ * @see      {@link rootDir}
+ */
+const __publicDir = path.join(rootDir, 'public');
 
 // Client workpaths
 const clientPaths = {
@@ -16,22 +34,23 @@ const clientPaths = {
     },
     _static: {
         _this: path.join(__publicDir, 'static'),
-        css: path.(__publicDir, 'static', 'css')
+        css: path.join(__publicDir, 'static', 'css')
     }
 }
 
 // Server workpaths
 const serverPaths = {
-    root: path.join(__rootDir, 'src'),
-    server: path.join(__rootDir, 'src', 'server'),
-    scss: path.join(__rootDir, 'src', 'scss'),
-    utils: path.join(__rootDir, 'src', 'utils')
+    root: path.join(rootDir, 'src'),
+    server: path.join(rootDir, 'src', 'server'),
+    scss: path.join(rootDir, 'src', 'scss'),
+    utils: path.join(rootDir, 'src', 'utils')
 }
 
 // Export necessary objects
 Object.defineProperties(module, {
     exports: {
         value: {
+            rootDir,
             clientPaths,
             serverPaths
         },
