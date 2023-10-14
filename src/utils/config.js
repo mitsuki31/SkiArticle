@@ -4,13 +4,14 @@
  * @module    utils/config
  * @author    Ryuu Mitsuki
  * @since     0.1.0
- * @version   1.0
+ * @version   0.1.0
  * @copyright CV. DR2E 2023
  * @license   MIT
  */
 
 /**
  * An object representing configuration data for Sass or SassDoc.
+ * @global
  * @typedef {Object} SassConfig
  * @author  Ryuu Mitsuki
  * @since   0.1.0
@@ -18,6 +19,7 @@
 
 /**
  * An object representing resolved configuration data for Sass or SassDoc.
+ * @global
  * @typedef {Object} ResolvedSassConfig
  * @author  Ryuu Mitsuki
  * @since   0.1.0
@@ -44,11 +46,17 @@ const defaultConfig = {
      *
      * @namespace
      * @inner
-     * @property {!boolean} charset - Indicates whether to include charset in the compiled CSS. Default is <code>true</code>.
-     * @property {!boolean} sourceMap - Enables source maps for the compiled CSS. Default is <code>true</code>
-     * @property {!boolean} sourceMapIncludeSources - Indicates whether to include sources in the source map. Default is <code>false</code>.
-     * @property {!string}  style - Style of the compiled CSS (e.g., 'expanded', 'compressed'). Default is <code>'expanded'</code>.
-     * @property {!boolean} verbose - Enables verbose output during compilation. Default is <code>false</code>.
+     * @property {!boolean} charset - Indicates whether to include charset in
+     *                                the compiled CSS. Default is <code>true</code>.
+     * @property {!boolean} sourceMap - Enables source maps for the compiled CSS.
+     *                                  Default is <code>true</code>
+     * @property {!boolean} sourceMapIncludeSources - Indicates whether to include
+     *                                                sources in the source map.
+     *                                                Default is <code>false</code>.
+     * @property {!string}  style - Style of the compiled CSS (e.g., `expanded`,
+     *                              `compressed`). Default is <code>expanded</code>.
+     * @property {!boolean} verbose - Enables verbose output during compilation.
+     *                                Default is <code>false</code>.
      *
      * @public
      * @inner
@@ -103,33 +111,34 @@ const defaultConfig = {
  * <p><b>Note:</b>
  * Currently this function supports to resolve the configuration data for Sass only.
  *
- * @param {string}  type - The type of configuration to resolve ('sass' or 'sassdoc').
- * @param {Object}  data - User-provided configuration data, this can be from JSON file.
+ * @param {!string} type - The type of configuration to resolve (`sass` or `sassdoc`).
+ * @param {!SassConfig} data - User-provided configuration data, can be from JSON file.
  * @param {boolean} [useDefault] - Whether to use default configuration if specific options are not provided.
  *
- * @return {ResolvedSassConfig} Resolved configuration object for Sass or SassDoc.
+ * @return {ResolvedSassConfig | SassConfig} Resolved configuration object for Sass or SassDoc or returning
+ *                                           back the given data (unresolved) if the provided type is
+ *                                           not known by the function to be processed.
  *
  * @example
- * const sass = require('sass');
  * const config = require('./utils/config');
  *
  * // Retrieve configurations from JSON file
  * const sassConfig = require('./path/to/sass.json');
  *
  * // Resolve and fix the configurations
- * sassConfig = config.resolve(sassConfig);
+ * sassConfig = config.resolve('sass', sassConfig);
  *
  * @function
  * @public
  * @author  Ryuu Mitsuki
  * @since   0.1.0
- * @version 1.1
+ * @version 1.2
  */
-const resolve = (type, data, useDefault = false) => {
+function resolve(type, data, useDefault = false) {
     // => Sass
     if (/^s[a|c]ss$/.test(type.toLowerCase())) {
         // Return the default configuration when useDefault is `true`
-        if (useDefault) return defaultConfig.sass;
+        if (useDefault || !data) return defaultConfig.sass;
         
         return {
             charset: data.charset || defaultConfig.sass.charset,
@@ -147,6 +156,10 @@ const resolve = (type, data, useDefault = false) => {
     }
     
     // TODO: implement the code to resolve the SassDoc configuration
+    
+    // Returning back the data if the provided type
+    // is not known by the function
+    return data;
 }
 
 // This statements will make exported objects unmodifiable
