@@ -34,18 +34,32 @@ const path = require("path"),
     express = require("express"),
     app = express();
 
+const { clientPaths } = require("./../utils/coreutils");
+
 /**
  * Default host and port address for the web application to run.
  *
- * @type     {Object}
- * @property {String} host - A string representing the host address. Default is <code>'localhost'</code>.
- * @property {Number} port - A number representing the port address. Default is <code>4312</code>.
+ * @public
+ * @namespace
+ * @memberof module:server/server
+ * @property {!string} host - A string representing the host address. Default is <code>'localhost'</code>.
+ * @property {!number} port - A number representing the port address. Default is <code>4312</code>.
  *
  * @author  Ryuu Mitsuki
  * @since   0.1.0
  */
 const defaultAddress = {
+    /**
+     * @inner
+     * @default
+     * @type {!string}
+     */
     host: "localhost",
+    /**
+     * @inner
+     * @default
+     * @type {!number}
+     */
     port: 4312
 };
 
@@ -53,13 +67,14 @@ const defaultAddress = {
  * An object containing working directory paths used by both server-side and client-side.
  *
  * @type     {Object}
- * @property {String} _root - Path that refers to project root directory.
- * @property {String} _public - Path that refers to public directory, used by client-side.
- * @property {String} _assets - Path that refers to assets directory, used by client-side to search necessary local resources.
- * @property {String} _static - Path that refers to static directory, used by client-side to search static resources.
+ * @property {!string} _root - Path that refers to project root directory.
+ * @property {!string} _public - Path that refers to public directory, used by client-side.
+ * @property {!string} _assets - Path that refers to assets directory, used by client-side to search necessary local resources.
+ * @property {!string} _static - Path that refers to static directory, used by client-side to search static resources.
  *
  * @author  Ryuu Mitsuki
  * @since   0.1.0
+ * @deprecated Replaced by {@link module:utils/coreutils.clientPaths}.
  */
 const workpath = {
     _root: path.resolve(__dirname, ".."),
@@ -101,13 +116,13 @@ const workpath = {
     // Logging some requested stuff like URL, HTTP method, etc
     app.use((req, res, next) => {
         // Log the HTTP method, requested URL, and status code
-        console.log(`[${req.method}] ${res.statusCode} -- ${req.url === "/" ? "/index" : req.url}`);
+        console.log(`[${req.method}] ${res.statusCode} -- ${req.url === "/" ? "/{index}" : req.url}`);
         next();  // Continue to next middleware
     });
     
     // Serve static files from the 'public' directory
     // In this case, when users on root URL address, it will immediately send neccessary stuff
-    app.use("/", express.static(workpath._public, { index: "index.html" }));
+    app.use('/', express.static(clientPaths.root, { index: "index.html" }));
     
     // Run the server
     app.listen(address.port, address.host, () => {
