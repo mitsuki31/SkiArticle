@@ -150,14 +150,12 @@ const resolve = (type, data, useDefault = false) => {
 }
 
 // This statements will make exported objects unmodifiable
-Object.defineProperties(module, {
-    exports: {
-        value: {
-            // Objects that want to be exported
-            resolve,
-            defaultConfig
-        },
-        writeable: false,
-        configurable: false
-    }
+Object.defineProperty(module, 'exports', {
+    value: {
+        // Objects that want to be exported
+        resolve,
+        defaultConfig
+    },
+    writable: false,
+    configurable: false
 });

@@ -48,14 +48,12 @@ const serverPaths = {
 }
 
 // Export necessary objects
-Object.defineProperties(module, {
-    exports: {
-        value: {
-            rootDir,
-            clientPaths,
-            serverPaths
-        },
-        writeable: false,
-        configurable: false
-    }
+Object.defineProperty(module, 'exports', {
+    value: {
+        rootDir,
+        clientPaths,
+        serverPaths
+    },
+    writable: false,
+    configurable: false
 });
