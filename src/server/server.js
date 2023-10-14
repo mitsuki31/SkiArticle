@@ -63,9 +63,9 @@ const defaultAddress = {
  */
 const workpath = {
     _root: path.resolve(__dirname, '..'),
-    _public: path.resolve(__dirname, '..', 'public'),
-    _assets: path.resolve(__dirname, '..', 'public', 'assets'),
-    _static: path.resolve(__dirname, '..', 'public', 'static')
+    _public: path.resolve(__dirname, '..', '..', 'public'),
+    _assets: path.resolve(__dirname, '..', '..', 'public', 'assets'),
+    _static: path.resolve(__dirname, '..', '..', 'public', 'static')
 };
 
 /**
