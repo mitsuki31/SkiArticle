@@ -64,6 +64,16 @@ const _run_as_main = () => {
 }
 
 
+// Using this statement, the exported objects will be unmodifiable
+Object.defineProperty(module, 'exports', {
+    value: {
+        buildSass
+    },
+    writable: false,
+    configurable: false
+});
+
+
 // Main driver
 // Only run when the module is executed directly, not being imported as module
 if (require.main === module) {
