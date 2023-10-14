@@ -68,21 +68,42 @@ function buildSass(infile, outfile, sassConfig, callback) {
 }
 
 
-const _run_as_main = () => {
-    const args = process.argv.slice(2);  // Get the command line arguments
+/**
+ * Private function that runs as the main entry point of the module.
+ *
+ * <p>Parses command line arguments and processes the appropriate tasks.
+ * Specifically, this function compiles Sass files if the first argument
+ * is `sass` or `scss`. If triggered, it will searches for main Sass file
+ * in "src/scss" directory, compile it, and then saves it as a CSS file
+ * used by client-side in "public/assets/css" directory.
+ * 
+ * <p><b>Warning:</b>
+ * This function is intended for internal use and should not be
+ * called directly.
+ *
+ * @private
+ * @function
+ * @throws {Error} Throws an error if there is an issue with Sass compilation.
+ *
+ * @author  Ryuu Mitsuki
+ * @since   0.1.0
+ * @version 1.2
+ */
+function _run_as_main() {
+    // All command line arguments, excluding node command and the script path
+    const args = process.argv.slice(2);
     
-    if (args.length > 0 && args[0].toLowerCase() === 'sass') {
-        const sassFile = path.join(dirpaths.scss, 'main.scss'),
-              outfile = path.join(dirpaths.root, 'public', 'assets', 'css', 'main.css'),
-              parentDir = path.dirname(outfile);
+    // Check for "sass" or "scss" at first argument
+    // This is case-insensitive, which means allowing uppercase or lowercase
+    if (args.length > 0 && /^s[a|c]ss$/.test(args[0].toLowerCase())) {
+        const sassFile = path.join(serverPaths.scss, 'main.scss'),
+              outfile = path.join(clientPaths.assets.css, 'main.css');
         
         // Retrieve and parse the build configuration from 'build.json'
-        const buildConfig = require(path.join(dirpaths.config, 'build.json'));
-        
-        // Check existence of the parent directory, create new directory if not exist
-        if (!fs.existsSync(parentDir)) fs.mkdir(parentDir);
+        const buildConfig = require(path.join(serverPaths.config, 'build.json'));
         
         buildSass(sassFile, outfile, buildConfig.sass, (err) => {
+            // Print the errors to the console
             if (err) console.error(err);
         });
     }
