@@ -27,3 +27,15 @@ const serverPaths = {
     scss: path.join(__rootDir, 'src', 'scss'),
     utils: path.join(__rootDir, 'src', 'utils')
 }
+
+// Export necessary objects
+Object.defineProperties(module, {
+    exports: {
+        value: {
+            clientPaths,
+            serverPaths
+        },
+        writeable: false,
+        configurable: false
+    }
+});
