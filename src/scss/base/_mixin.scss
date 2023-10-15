@@ -93,21 +93,20 @@
 ///   }
 ///
 /// @require {variable} vendor-prefixes
-/// @require {mixin} mtransition
 /// @output  Sets the `transition` properties with vendor prefixes.
 ///
 /// @group   helpers
 /// @author  Ryuu Mitsuki `<github@mitsuki31>`
 /// @since   0.1.0
 ///
-@mixin mtransition-all($args) {
-    @include mtransition(
-        $property: nth($args, 1),
-        $durations: nth($args, 2),
-        $timing: nth($args, 3),
-        $vendors: if(length($args) == 4,
-            nth($args, 4), global.$vendor-prefixes)
-    );
+@mixin mtransition-all($args...) {
+    @if & {
+        transition: $args;
+        
+        @each $pre in global.$vendor-prefixes {
+            #{$pre}-transition: $args;
+        }
+    }
 }
 
 /// Applies `transform` property and its vendor-prefixed versions.
