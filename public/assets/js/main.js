@@ -12,7 +12,7 @@
  * @license   MIT
  */
 
-'use strict';
+"use strict";
 
 /**
  * An object that references to each elements inside the navigation bar,
@@ -79,18 +79,18 @@ const toggleNavBar = () => {
     // Toggle the 'active' class on several elements
     navbar.menu.classList.toggle("active");
     navbar.button.classList.toggle("active");
-    document.querySelector('.overlay').classList.toggle("active");
+    document.querySelector(".overlay").classList.toggle("active");
 };
 
 // Print user's connection status
-console.log(`INFO - Connection status: ${navigator.onLine ? 'ONLINE' : 'OFFLINE'}`);
+console.log(`INFO - Connection status: ${navigator.onLine ? "ONLINE" : "OFFLINE"}`);
 
 // Toggle navigation menu on click event of navigation button
 navbar.button.addEventListener("click", toggleNavBar);
 
 // Listen for click event on every elements
 window.addEventListener("click", (event) => {
-    const overlay = document.querySelector('.overlay');
+    const overlay = document.querySelector(".overlay");
     
     /* These code below will close the navigation bar when users
      * click or touch the overlay layer with navigation menu
