@@ -14,7 +14,7 @@
  * @license   MIT
  */
 
-'use strict';
+"use strict";
 
 /**
  * This method replaces all specific URLs immediately after the DOM tree has
@@ -75,13 +75,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 totalElements += elements.length;
                 
                 for (const element of elements) {
-                    if (element && element.nodeName === 'A') {
+                    if (element && element.nodeName === "A") {
                         element.href = jsonData[key] || "#";
                     }
                 }
             }
             
-            console.info(`SUCCESS - ${totalElements} ${totalElements <= 1 ? 'URL' : 'URLs'} has been replaced.`);
+            console.info(`SUCCESS - ${totalElements} ${totalElements <= 1 ? "URL" : "URLs"} has been replaced.`);
         })
         .catch((error) => {
             console.error(`ERROR - Failed to fetch URLs: ${error.message}`);

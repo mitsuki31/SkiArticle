@@ -30,9 +30,9 @@
  * @version     1.2
  */
 
-const path = require('path'),
-      express = require('express'),
-      app = express();
+const path = require("path"),
+    express = require("express"),
+    app = express();
 
 /**
  * Default host and port address for the web application to run.
@@ -45,7 +45,7 @@ const path = require('path'),
  * @since   0.1.0
  */
 const defaultAddress = {
-    host: 'localhost',
+    host: "localhost",
     port: 4312
 };
 
@@ -62,10 +62,10 @@ const defaultAddress = {
  * @since   0.1.0
  */
 const workpath = {
-    _root: path.resolve(__dirname, '..'),
-    _public: path.resolve(__dirname, '..', '..', 'public'),
-    _assets: path.resolve(__dirname, '..', '..', 'public', 'assets'),
-    _static: path.resolve(__dirname, '..', '..', 'public', 'static')
+    _root: path.resolve(__dirname, ".."),
+    _public: path.resolve(__dirname, "..", "..", "public"),
+    _assets: path.resolve(__dirname, "..", "..", "public", "assets"),
+    _static: path.resolve(__dirname, "..", "..", "public", "static")
 };
 
 /**
@@ -101,13 +101,13 @@ const workpath = {
     // Logging some requested stuff like URL, HTTP method, etc
     app.use((req, res, next) => {
         // Log the HTTP method, requested URL, and status code
-        console.log(`[${req.method}] ${res.statusCode} -- ${req.url === '/' ? '/index' : req.url}`);
+        console.log(`[${req.method}] ${res.statusCode} -- ${req.url === "/" ? "/index" : req.url}`);
         next();  // Continue to next middleware
     });
     
     // Serve static files from the 'public' directory
     // In this case, when users on root URL address, it will immediately send neccessary stuff
-    app.use('/', express.static(workpath._public, { index: 'index.html' }));
+    app.use("/", express.static(workpath._public, { index: "index.html" }));
     
     // Run the server
     app.listen(address.port, address.host, () => {
