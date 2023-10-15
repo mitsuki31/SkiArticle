@@ -203,25 +203,32 @@
     // Outer navigation button
     .nav-btn-out {
         $width-size: 35px;
-        $height-size: 30px;
+        $height-size: 29px;
+        $size-trans: 0.35s ease-in-out;
         
         // Button size
         width: $width-size;
         height: $height-size;
         
         // Button position
-        position: fixed;
+        position: relative;
         top: navbar-base.$navbtn-top + 2.5px;
         left: navbar-base.$navbtn-left;
+        padding: 0 1px;
+        
+        // Button coloring
+        background-color: #0c3963cc;
         
         // Other attributes
         cursor: pointer;
-        align-content: center;
+        border-radius: 5px;
         z-index: navbar-base.$navfixed-z + 2;
+        
+        @include mixin.mtransition-all(all $size-trans);
         
         // Inner navigation button
         .nav-btn-in {
-            position: inherit;
+            position: absolute;
             display: block;
             width: navbar-base.$navbtn-width;
             
@@ -229,7 +236,7 @@
             background: none;
             @include reset.re-image;  // For reset border and outline to none
             
-            @include mixin.mtransition-all(width 0.3s ease-in-out);
+            @include mixin.mtransition-all(width $size-trans);
             
             @media screen and (min-width: 720px) {
                // top: navbar-base.$navbtn-top + 0.5px;
@@ -266,6 +273,7 @@
             // Reduce size of outer element
             width: $width-size - $reduction-size;
             height: $height-size - 1.2px;
+            padding: 0;
             
             .nav-btn-in {
                 &::before {
