@@ -200,68 +200,95 @@
 /// @since   0.1.0
 ///
 @mixin navbar-button-layout {
-    position: fixed;
-    top: navbar-base.$navbtn-top;
-    left: navbar-base.$navbtn-left;
-    display: block;
-    width: navbar-base.$navbtn-width;
-    margin-top: 2.5px;
-    cursor: pointer;
-    z-index: navbar-base.$navfixed-z + 2;
-    
-    appearance: none;
-    background: none;
-    @include reset.re-image;  // For reset border and outline to none
-    
-    @include mixin.mtransition-all(width 0.3s ease-in-out);
-    
-    @media screen and (min-width: 720px) {
-       // top: navbar-base.$navbtn-top + 0.5px;
-        left: navbar-base.$navbtn-left + 5px;
-    }
-    
-    &.active {
-        &::before {
-            transform: navbar-base.$navbtn-transform-a;
+    // Outer navigation button
+    .nav-btn-out {
+        $width-size: 35px;
+        $height-size: 30px;
+        
+        // Button size
+        width: $width-size;
+        height: $height-size;
+        
+        // Button position
+        position: fixed;
+        top: navbar-base.$navbtn-top + 2.5px;
+        left: navbar-base.$navbtn-left;
+        
+        // Other attributes
+        cursor: pointer;
+        align-content: center;
+        z-index: navbar-base.$navfixed-z + 2;
+        
+        // Inner navigation button
+        .nav-btn-in {
+            position: inherit;
+            display: block;
+            width: navbar-base.$navbtn-width;
+            
+            appearance: none;
+            background: none;
+            @include reset.re-image;  // For reset border and outline to none
+            
+            @include mixin.mtransition-all(width 0.3s ease-in-out);
+            
+            @media screen and (min-width: 720px) {
+               // top: navbar-base.$navbtn-top + 0.5px;
+                left: navbar-base.$navbtn-left + 5px;
+            }
+            
+            .bar, &::before, &::after {
+                content: '';
+                display: block;
+                width: 100%;
+                height: navbar-base.$navbtn-n-height;
+                background-color: navbar-base.$navcolor;
+                margin: navbar-base.$navbtn-margin;
+                
+                @include mixin.mtransition-all(navbar-base.$navtrans-button);
+            }
+            
+            .bar {
+                // Deactivate the click event on 'bar' class, to prevent
+                // being clicked and cause the button unable to be clicked.
+                pointer-events: none;
+                
+                transition-delay: 0.2s;
+                -webkit-transition-delay: 0.2s;
+                -moz-transition-delay: 0.2s;
+                -o-transition-delay: 0.2s;
+            }
         }
         
-        &::after {
-            transform: navbar-base.$navbtn-transform-b;
+        // Settings when it has 'active' class
+        &.active {
+            $reduction-size: 2.75px;
+            
+            // Reduce size of outer element
+            width: $width-size - $reduction-size;
+            height: $height-size - 1.2px;
+            
+            .nav-btn-in {
+                &::before {
+                    transform: navbar-base.$navbtn-transform-a;
+                }
+                
+                &::after {
+                    transform: navbar-base.$navbtn-transform-b;
+                }
+                
+                width: navbar-base.$navbtn-width - $reduction-size;
+                
+                // Reset all the transition delay when active
+                .bar {
+                    width: 0;
+                    
+                    transition-delay: 0s;
+                    -webkit-transition-delay: 0s;
+                    -moz-transition-delay: 0s;
+                    -o-transition-delay: 0s;
+                }
+            }
         }
-        
-        width: navbar-base.$navbtn-width - 2.75px;
-    }
-    
-    .bar, &::before, &::after {
-        content: '';
-        display: block;
-        width: 100%;
-        height: navbar-base.$navbtn-n-height;
-        background-color: navbar-base.$navcolor;
-        margin: navbar-base.$navbtn-margin;
-        
-        @include mixin.mtransition-all(navbar-base.$navtrans-button);
-    }
-    
-    .bar {
-        // Deactivate the click event on 'bar' class, to prevent
-        // being clicked and cause the button unable to be clicked.
-        pointer-events: none;
-        
-        transition-delay: 0.2s;
-        -webkit-transition-delay: 0.2s;
-        -moz-transition-delay: 0.2s;
-        -o-transition-delay: 0.2s;
-    }
-    
-    // Reset all the transition delay when active
-    &.active .bar {
-        width: 0;
-        
-        transition-delay: 0s;
-        -webkit-transition-delay: 0s;
-        -moz-transition-delay: 0s;
-        -o-transition-delay: 0s;
     }
 }
 

@@ -72,9 +72,7 @@ img {
         @include dr2e--navbar-logo-layout;
     }
     
-    #navbar-button {
-        @include dr2e--navbar-button-layout;
-    }
+    @include dr2e--navbar-button-layout;
 }
 
 // ==> Navigation Bar Menu
