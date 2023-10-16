@@ -238,11 +238,6 @@
             
             @include mixin.mtransition-all(width $size-trans);
             
-            @media screen and (min-width: 720px) {
-               // top: navbar-base.$navbtn-top + 0.5px;
-                left: navbar-base.$navbtn-left + 5px;
-            }
-            
             .bar, &::before, &::after {
                 content: '';
                 display: block;
