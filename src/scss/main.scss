@@ -32,7 +32,7 @@ body {
     
     @include dr2e--mix-mtransition-all($dr2e--glob-trans-fontsize);
     
-    @media screen and (min-width: 720px) {
+    @media screen and (min-width: 768px) {
         font-size: $dr2e--glob-ft-medium-size-720;
     }
 }
@@ -64,32 +64,43 @@ img {
     @include dr2e--logo-layout;
 }
 
-// ==> Navigation Bar
+// ==>  Navigation Bar
 .navbar-section {
     @include dr2e--navbar-layout;
     
+    // ==> Navigation Bar Logo
     .nav-logo {
         @include dr2e--navbar-logo-layout;
     }
     
-    @include dr2e--navbar-button-layout;
-}
-
-// ==> Navigation Bar Menu
-#navbar-menu {
-    @include dr2e--navbar-menu-layout;
-    
-    .menu-contents {
-        @include dr2e--navbar-menu-contents-layout;
+    @media screen and (max-width: 767px) {
+        @include dr2e--navbar-button-layout;
+        
+        .nav-menu {
+            @include dr2e--navbar-menu-layout;
+            
+            // ==> Navigation Bar Menu
+            .menu-contents {
+                @include dr2e--navbar-menu-contents-layout;
+            }
+        }
     }
     
-    &.active {
-        visibility: visible;
-        width: $dr2e--navbase-navwidth;
+    // Navbar settings for larger devices
+    @media screen and (min-width: 768px) {
+        // Invert the logo position (from right to the left)
+        .nav-logo {
+            left: $dr2e--navbase-navlogo-right;
+            right: 0;
+        }
         
-        .menu-contents {
-            visibility: visible;
-            @include dr2e--mix-mtransform(translateX(0px));
+        // Hide the navigation bar button
+        .nav-btn-out {
+            display: none;
+        }
+        
+        .nav-menu .menu-contents {
+            @include dr2e--navbar-menu-contents-layout-ld;
         }
     }
 }

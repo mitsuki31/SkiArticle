@@ -137,7 +137,7 @@
 ///
 @mixin navbar-layout {
     padding-bottom: navbar-base.$navheight;
-    background-color: navbar-base.$navbgcolor
+    background-color: navbar-base.$navbgcolor;
 }
 
 /// Configures the layout for the navigation bar logo.
@@ -314,6 +314,17 @@
             $timing: nth(navbar-base.$navtrans, 2)
         );
     }
+    
+    &.active {
+        visibility: visible;
+        width: navbar-base.$navwidth;
+        
+        .menu-contents {
+            visibility: visible;
+            width: navbar-base.$navwidth;
+            @include mixin.mtransform(translateX(0px));
+        }
+    }
 }
 
 @mixin navbar-menu-contents-layout {
@@ -321,33 +332,32 @@
     
     position: fixed;
     padding: 0;
+    width: 0;  // Initial width (hidden)
     display: block;
-    margin-top: 1.8rem;
-    width: navbar-base.$navwidth;
-    visibility: hidden;
+    margin-top: 2.2rem;
     
     @include mixin.mtransform(translateX(-300px));
+    visibility: hidden;
     
-    @include mixin.mtransition(
-        $property: nth(navbar-base.$navtrans-items, 1),
-        $durations: nth(navbar-base.$navtrans-items, 2)
-                    nth(navbar-base.$navtrans-items, 3),
-        $timing: nth(navbar-base.$navtrans-items, 4)
+    @include mixin.mtransition-all(
+        navbar-base.$navtrans-items
     );
     
     li {
         $-icon-offset: 15px;
         $-icon-spaces: 10px;
+        $-icon-size: 1.5em;
         $-letter-space: 2.55px;
         
-        text-align: center;
+        display: inherit;
         letter-spacing: $-letter-space;
+        text-align: center;
         
         a {
             vertical-align: middle;
             
             & > i {
-                font-size: 1.5em;
+                font-size: $-icon-size;
                 margin-left: $-icon-offset;
                 margin-right: $-icon-spaces;
             }
