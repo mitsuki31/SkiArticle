@@ -110,7 +110,9 @@
     }
     
     // Settings for larger devices
-    @media screen and (min-width: 720px) {
+    @media screen and (min-width: 768px) {
+        margin-top: navbar-base.$navheight + 10px;
+        
         .header-title {
             font-size: global.$ft-big-size-720;
         }
@@ -169,6 +171,11 @@
     
     @include mixin.mtransform(translateY(37px));
     @include mixin.mtransition-all(navbar-base.$navlogo-trans);
+    
+    @media screen and (min-width: 768px) {
+        width: navbar-base.$navlogo-size + 10px;
+        height: navbar-base.$navlogo-size + 10px;
+    }
 }
 
 /// Configures the layout and animations for the navigation bar button.
@@ -380,6 +387,58 @@
     }
 }
 
+@mixin navbar-menu-contents-layout-ld {
+    @include reset.re-list;
+    @include reset.re-margin-padding;
+    
+    overflow: hidden;
+    
+    li {
+        $-icon-spaces: 3.5px;
+        $-icon-size: 1.35em;
+        $-text-size: navbar-base.$navitems-size + 0.3rem;
+        $-letter-space: 2.2px;
+        $-items-height: 65.5px;
+        
+        display: inherit;
+        float: right;
+        text-align: center;
+        width: 180px;
+        height: $-items-height;
+        
+        a {
+            & > i {
+                vertical-align: middle;
+                padding-right: 8px;
+                font-size: $-icon-size;
+                margin-right: $-icon-spaces;
+            }
+            
+            & > i::before {
+                vertical-align: middle;
+            }
+        }
+        
+        a:not(i) {
+            display: inline-block;
+            cursor: pointer;
+            height: 100%;
+            width: 100%;
+            line-height: $-items-height;
+            font-weight: global.$ft-bold-weight;
+            font-size: $-text-size;
+            color: navbar-base.$navcolor;
+            text-decoration: none;
+            letter-spacing: $-letter-space;
+        }
+        
+        &:hover, &:focus {
+            background-color: navbar-base.$navbgcolor-hover;
+        }
+    }
+}
+
+
 @mixin logo-layout {
     .logo {
         margin: 0 navbar-base.$navlogo-spaces;
@@ -392,7 +451,7 @@
         width: fit-content;
         height: 100%;
         
-        @media screen and (min-width: 720px) {
+        @media screen and (min-width: 768px) {
             font-size: global.$ft-big-size-720 + 0.20rem;
         }
     }
