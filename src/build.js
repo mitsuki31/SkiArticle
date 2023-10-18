@@ -123,6 +123,8 @@ function buildSass(infile, outfile, sassConfig, callback) {
  * @version 0.1
  */
 function _run_as_main() {
+    console.time("build");
+    
     // All command line arguments, excluding node command
     // and the script path
     const args = process.argv.slice(2);
@@ -130,20 +132,34 @@ function _run_as_main() {
     // Check for "sass" or "scss" at first argument
     // This is case-insensitive, which means allowing uppercase
     // or lowercase
-    if (args.length > 0 &&
-            /^s[a|c]ss$/.test(args[0].toLowerCase())) {
-        const sassFile = path.join(serverPaths.scss, 'main.scss'),
-              outfile = path.join(clientPaths.assets.css, 'main.css');
+    if (args.length > 0 && /^s[a|c]ss$/i.test(args[0])) {
+        const sassFile = path.join(serverPaths.scss, 'main.scss');
         
         // Retrieve and parse the build configuration from 'build.json'
         const buildConfig =
             require(path.join(serverPaths.config, 'build.json'));
+        const outFile = path.join(
+            /* Use from build configuration, if none use the
+             * default destination path instead
+             */
+            (buildConfig.sass.dest || clientPaths.css),
+            "main.css"
+        );
         
-        buildSass(sassFile, outfile, buildConfig.sass, (err) => {
-            // Print the errors to the console
-            if (err) console.error(err);
-        });
+        buildSass(
+            sassFile,               // Input
+            outFile,                // Output
+            buildConfig.sass,       // Configuration
+            // Catch errors, if any
+            (err) => {
+                // Print the errors to the console
+                if (err) console.error(err);
+            }
+        );
     }
+    
+    console.timeEnd("build");
+    console.info("Build successful.");
 }
 
 

@@ -2,7 +2,7 @@
     "sass": {
         "dest": "public/assets/css",
         "charset": true,
-        "style": "expanded",
+        "style": "compressed",
         "sourceMap": {
             "generateFile": false,
             "includeSources": false
