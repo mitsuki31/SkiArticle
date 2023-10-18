@@ -5,7 +5,7 @@
     "private": true,
     "scripts": {
         "start": "nodemon src/server/server.js",
-        "build": "sass src/scss:public/assets/css --style 'expanded' --no-source-map",
+        "build": "sass src/scss:public/assets/css --style compressed --no-source-map",
         "build-docs": "jsdoc -c config/jsdoc.json"
     },
     "author": {
