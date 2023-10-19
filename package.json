@@ -6,7 +6,9 @@
     "scripts": {
         "start": "nodemon src/server/server.js",
         "build": "node src/build.js sass",
-        "build-docs": "jsdoc -c config/jsdoc.json"
+        "build-docs": "jsdoc -c config/jsdoc.json",
+        "lint": "eslint .",
+        "ci-lint": "eslint . --cache --cache-location cache/.eslintcache"
     },
     "author": {
         "name": "Ryuu Mitsuki",

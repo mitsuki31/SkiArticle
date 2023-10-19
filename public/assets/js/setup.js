@@ -71,7 +71,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Using 'for' loop to replace all URLs
             for (const key of jsonKeys) {
                 // This variable will be a list, not a single HTML object
-                const elements = document.getElementsByClassName(prefix.concat(key));
+                const elements =
+                    document.getElementsByClassName(prefix.concat(key));
                 totalElements += elements.length;
                 
                 for (const element of elements) {
@@ -81,7 +82,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             }
             
-            console.info(`SUCCESS - ${totalElements} ${totalElements <= 1 ? "URL" : "URLs"} has been replaced.`);
+            console.info(
+                `SUCCESS - ${totalElements} ${
+                    totalElements <= 1 ? "URL" : "URLs"} has been replaced.`);
         })
         .catch((error) => {
             console.error(`ERROR - Failed to fetch URLs: ${error.message}`);

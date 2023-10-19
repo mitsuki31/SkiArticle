@@ -21,17 +21,16 @@
 
 "use strict";
 
-const path = require('path'),              // Path module
-      os = require('os'),                  // OS module
-      fs = require('fs'),                  // File System module
-      sass = require('sass'),              // Sass module
-      config = require('./utils/config');  // Config module (local)
+const path = require("path"),              // Path module
+      os = require("os"),                  // OS module
+      fs = require("fs"),                  // File System module
+      sass = require("sass"),              // Sass module
+      config = require("./utils/config");  // Config module (local)
 
 const {
-    rootDir,      // Project's root directory path
     serverPaths,  // Server-side's working directories paths
     clientPaths   // Client-side's working directories paths
-} = require('./utils/coreutils');
+} = require("./utils/coreutils");
 
 /**
  * Builds and compiles a specific Sass file and saves it to a specified
@@ -87,11 +86,11 @@ function buildSass(infile, outfile, sassConfig, callback) {
         // Write the compiled CSS to the specified
         // output file synchronously
         fs.writeFileSync(path.resolve(outfile),
-                         build.css.concat(os.EOL));
+            build.css.concat(os.EOL));
     } catch (error) {
         // Handle errors by invoking the provided function,
         // if present, otherwise throw the errors to outside
-        if (callback && typeof callback === 'function') {
+        if (callback && typeof callback === "function") {
             callback(error);
         } else {
             throw error;
@@ -133,11 +132,11 @@ function _run_as_main() {
     // This is case-insensitive, which means allowing uppercase
     // or lowercase
     if (args.length > 0 && /^s[a|c]ss$/i.test(args[0])) {
-        const sassFile = path.join(serverPaths.scss, 'main.scss');
+        const sassFile = path.join(serverPaths.scss, "main.scss");
         
         // Retrieve and parse the build configuration from 'build.json'
         const buildConfig =
-            require(path.join(serverPaths.config, 'build.json'));
+            require(path.join(serverPaths.config, "build.json"));
         const outFile = path.join(
             /* Use from build configuration, if none use the
              * default destination path instead
@@ -164,7 +163,7 @@ function _run_as_main() {
 
 
 // Using this statement, the exported objects will be unmodifiable
-Object.defineProperty(module, 'exports', {
+Object.defineProperty(module, "exports", {
     value: {
         buildSass
     },

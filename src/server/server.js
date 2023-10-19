@@ -25,9 +25,10 @@
  * @version     0.1
  */
 
-const path = require("path"),
-    express = require("express"),
-    app = express();
+"use strict";
+
+const express = require("express"),
+      app = express();
 
 const { clientPaths } = require("./../utils/coreutils");
 
@@ -63,32 +64,6 @@ const defaultAddress = {
     port: 4312
 };
 
-/**
- * An object containing working directory paths used by both server-side
- * and client-side.
- *
- * @namespace
- * @property {!string} _root - Path that refers to project's root directory.
- * @property {!string} _public - Path that refers to public directory,
- *                               used by client-side.
- * @property {!string} _assets - Path that refers to assets directory,
- *                               used by client-side to search necessary
- *                               local resources.
- * @property {!string} _static - Path that refers to static directory,
- *                               used by client-side to search static
- *                               resources.
- *
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- * @version 0.1
- * @deprecated Replaced by {@link module:utils/coreutils.clientPaths}.
- */
-const workpath = {
-    _root: path.resolve(__dirname, ".."),
-    _public: path.resolve(__dirname, "..", "..", "public"),
-    _assets: path.resolve(__dirname, "..", "..", "public", "assets"),
-    _static: path.resolve(__dirname, "..", "..", "public", "static")
-};
 
 /**
  * Runs the server for the web application on specific address.
