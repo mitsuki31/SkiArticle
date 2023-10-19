@@ -9,6 +9,8 @@
  * @license   MIT
  */
 
+"use strict";
+
 /**
  * An object representing configuration data for Sass or SassDoc.
  * @global
@@ -87,7 +89,7 @@ const defaultConfig = {
          * @default
          * @type {!string}
          */
-        style: 'expanded',
+        style: "expanded",
         /**
          * @inner
          * @default
@@ -164,7 +166,7 @@ function resolve(type, data, useDefault = false) {
 }
 
 // This statements will make exported objects unmodifiable
-Object.defineProperty(module, 'exports', {
+Object.defineProperty(module, "exports", {
     value: {
         // Objects that want to be exported
         resolve,
