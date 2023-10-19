@@ -10,9 +10,32 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "strict": ["error", "safe"],
+        "eol-last": ["error", "always"],
+        "eqeqeq": ["error", "always"],
+        "prefer-const": ["error"],
+        "max-len": [
+            "error",
+            {
+                "code": 80,
+                "ignoreComments": true,
+                "ignoreTrailingComments": true,
+                "ignoreUrls": true,
+                "ignoreStrings": true,
+                "ignoreRegExpLiterals": true
+            }
+        ],
         "indent": [
             "error",
-            4
+            4,
+            {
+                "SwitchCase": 1,
+                "VariableDeclarator": "first",
+                "FunctionExpression": {
+                    "parameters": "first",
+                    "body": 1
+                }
+            }
         ],
         "linebreak-style": [
             "error",
@@ -20,11 +43,52 @@
         ],
         "quotes": [
             "error",
-            "double"
+            "double",
+            {
+                "avoidEscape": true
+            }
         ],
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "camelcase": [
+            "error",
+            {
+                "properties": "always",
+                "allow": [
+                    "_run_as_main"
+                ]
+            }
+        ],
+        "curly": [
+            "error",
+            "multi-line",
+            "consistent"
+        ],
+        "no-use-before-define": [
+            "error",
+            {
+                "classes": true,
+                "functions": true,
+                "variables": true,
+                "allowNamedExports": false
+            }
+        ],
+        "no-duplicate-imports": [
+            "error",
+            {
+                "includeExports": true
+            }
+        ],
+        "no-else-return": ["error"],
+        "default-param-last": ["error"],
+        "default-case": [
+            "error",
+            {
+                "commentPattern": "^([S|s]kip|[N|n]o)\\sdefault(\\scase)*$"
+            }
+        ],
+        "default-case-last": "error"
     }
 }
