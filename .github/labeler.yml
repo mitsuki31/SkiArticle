@@ -1,0 +1,13 @@
+chore:
+- '.github/**/*'
+
+documentation:
+- '**/*.md'
+
+frontend:
+- 'public/**/*'
+- 'src/scss/**/*'
+
+backend:
+- 'src/**/*'
+- 'config/**/*'
