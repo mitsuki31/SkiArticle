@@ -118,6 +118,7 @@ function lsFiles(path, options, callback) {
             "Callback must be specified to pass the error and array of files"
         );
     }
+    
     // This will create a new object storing user-defined options,
     // and fixing some undefined or null options with their default values.
     options = (options ? options : {});  // Prevent null or undefined variable
@@ -125,6 +126,21 @@ function lsFiles(path, options, callback) {
         match: options.match || /.*/,
         exclude: options.exclude || /(^|\/)+\./
     };
+    
+    // Options checker
+    if (opts.match &&
+            !(opts.match instanceof RegExp)) {
+        throw new TypeError(
+            "Unexpected type of 'match' option: " +
+            `'${typeof opts.match}'. Expected is 'RegExp'`
+        );
+    } else if (opts.exclude &&
+            !(opts.exclude instanceof RegExp)) {
+        throw new TypeError(
+            "Unexpected type of 'exclude' option: " + 
+            `'${typeof opts.exclude}'. Expected is 'RegExp'`
+        );
+    }
     
     try {
         /* Given path should pass these checks, including:
