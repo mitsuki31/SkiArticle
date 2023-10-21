@@ -1,9 +1,11 @@
 /**
  * This core utility module brings several utilities to the project
- * that aim to increase project reliability and are easier to maintain.
+ * that aim to increase project reliability and easier to maintain.
  *
  * @module    utils/coreutils
  * @requires  path
+ * @requires  fs
+ * @requires  node-dir
  * @author    Ryuu Mitsuki
  * @since     0.1.0
  * @version   0.1
@@ -13,7 +15,9 @@
 
 "use strict";
 
-const path = require("path");  // Path module
+const path = require("path"),     // Path module
+      fs = require("fs"),         // File System module
+      dir = require("node-dir");  // Node-dir module
 
 /**
  * Path that references to the project's root directory.
@@ -106,12 +110,65 @@ const serverPaths = {
     config: path.join(rootDir, "config")
 };
 
+
+function lsFiles(path, options, callback) {
+    // This will create a new object storing user-defined options,
+    // and fixing some undefined or null options with their default values.
+    options = (options ? options : {});  // Prevent null or undefined variable
+    const opts = {
+        match: options.match || /.*/,
+        exclude: options.exclude || /(^|\/)+\./
+    };
+    
+    try {
+        /* Given path should pass these checks, including:
+         *   - Existence check
+         *   - isDirectory check
+         */
+        fs.stat(path, (err, stats) => {
+            // If the given path not exist, the error will be thrown
+            if (err) {
+                if (err.code === "ENOENT") {
+                    throw new Error(
+                        "${err.code}: No such file or directory: " +
+                        `'${err.path}'`);
+                }
+                
+                throw err;
+            }
+            
+            // Check if the given path is a directory
+            if (!stats.isDirectory()) {
+                throw new Error("The given path is not a directory");
+            }
+        });
+        
+        dir.files(path, (err, entries) => {
+            if (err) throw err;
+            
+            // Filter the entries with several checks from options
+            entries = entries.filter((entry) => {
+                return opts.match.test(entry) &&
+                       !opts.exclude.test(entry);
+            });
+            
+            // Pass the entries to callback
+            callback(null, entries);
+        });
+    } catch (error) {
+        // Pass the errors to callback
+        callback(error, null);
+    }
+}
+
+
 // Export necessary objects
 Object.defineProperty(module, "exports", {
     value: {
         rootDir,
         clientPaths,
-        serverPaths
+        serverPaths,
+        lsFiles
     },
     writable: false,
     configurable: false
