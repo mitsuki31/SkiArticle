@@ -112,6 +112,12 @@ const serverPaths = {
 
 
 function lsFiles(path, options, callback) {
+    // Throw error immediately if the callback not being specified
+    if (!callback) {
+        throw new Error(
+            "Callback must be specified to pass the error and array of files"
+        );
+    }
     // This will create a new object storing user-defined options,
     // and fixing some undefined or null options with their default values.
     options = (options ? options : {});  // Prevent null or undefined variable
