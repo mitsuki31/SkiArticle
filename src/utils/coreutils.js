@@ -111,11 +111,56 @@ const serverPaths = {
 };
 
 
+/**
+ * Asynchronously lists files in a directory based on
+ * specified options and passes the result to a callback function.
+ *
+ * @param {!string} path - The path of the directory to list
+ *                         files from.
+ * @param {?Object} [options] - Optional configuration options.
+ * @param {RegExp} [options.match] - A regular expression to
+ *                                   filter files. Default is
+ *                                   to match all files.
+ * @param {RegExp} [options.exclude] - A regular expression to
+ *                                     exclude files based on
+ *                                     their paths. Default excludes
+ *                                     hidden files (`.`).
+ * @param {!Object} callback - Callback function required to store the error
+ *                             and an array of files.
+ * @param {!Error} err - An error object if any error occurs during
+ *                       the process, otherwise `null`.
+ * @param {!string[]} files - An array of file paths that match the
+ *                           specified criteria.
+ *
+ * @throws {Error} If the specified path does not exist,
+ *                 is not a directory, or other unexpected errors occur.
+ * @throws {TypeError} If any option does not match with the expected type.
+ *
+ * @example
+ * lsFiles('/path/to/directory',
+ *   {
+ *     match: /\.txt$/,
+ *     exclude: /temp/
+ *   }, function(err, files) {
+ *     if (err) {
+ *       console.error('Error:', err);
+ *     } else {
+ *       console.log(files);
+ *     }
+ * });
+ *
+ * @public
+ * @function
+ * @author   Ryuu Mitsuki
+ * @since    0.1.0
+ * @version  0.1
+ */
 function lsFiles(path, options, callback) {
     // Throw error immediately if the callback not being specified
     if (!callback) {
         throw new Error(
-            "Callback must be specified to pass the error and array of files"
+            "Callback function must be specified to pass the error " +
+            "and an array of files"
         );
     }
     
@@ -148,15 +193,15 @@ function lsFiles(path, options, callback) {
          *   - isDirectory check
          */
         fs.stat(path, (err, stats) => {
-            // If the given path not exist, the error will be thrown
             if (err) {
+                // If the given path does not exist, the error will be thrown
                 if (err.code === "ENOENT") {
                     throw new Error(
                         "${err.code}: No such file or directory: " +
                         `'${err.path}'`);
                 }
                 
-                throw err;
+                throw err;  // Throw all type errors
             }
             
             // Check if the given path is a directory
