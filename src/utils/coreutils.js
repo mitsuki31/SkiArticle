@@ -169,7 +169,8 @@ function lsFiles(dirpath, options, callback) {
     options = (options ? options : {});  // Prevent null or undefined variable
     const opts = {
         match: options.match || /.*/,
-        exclude: options.exclude || /(^|\/)+\./
+        exclude: options.exclude || /(^|\/)+\./,
+        baseName: options.baseName || false
     };
     
     // Options checker
@@ -184,6 +185,12 @@ function lsFiles(dirpath, options, callback) {
         throw new TypeError(
             "Unexpected type of 'exclude' option: " + 
             `'${typeof opts.exclude}'. Expected is 'RegExp'`
+        );
+    } else if (opts.baseName &&
+            typeof opts.baseName !== "boolean") {
+        throw new TypeError(
+            "Unexpected type of 'baseName' option: " +
+            `'${typeof opts.baseName}'. Expected is 'boolean'`
         );
     }
     
@@ -218,6 +225,12 @@ function lsFiles(dirpath, options, callback) {
                 return opts.match.test(entry) &&
                        !opts.exclude.test(entry);
             });
+            
+            // Trim the file names only, if the baseName option is provided
+            if (opts.baseName) {
+                entries =
+                    entries.map((entry) => path.basename(entry));
+            }
             
             // Pass the entries to callback
             callback(null, entries);
