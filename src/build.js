@@ -5,7 +5,6 @@
  *
  * @module    build
  * @requires  module:utils/config
- * @requires  module:utils/coreutils.rootDir
  * @requires  module:utils/coreutils.clientPaths
  * @requires  module:utils/coreutils.serverPaths
  * @requires  module:path
@@ -32,69 +31,100 @@ const {
     clientPaths   // Client-side's working directories paths
 } = require("./utils/coreutils");
 
+
 /**
- * Builds and compiles a specific Sass file and saves it to a specified
- * output file.
+ * A callback function to handle the errors that could occur
+ * during I/O operations or any unexpected errors.
  *
- * <p><b>Note:</b>
- * This function runs synchronously and may block certain processes.
+ * @callback module:build~buildSassCallback
+ * @param    {!Error} error
+ *           An object to stores and pass the errors.
+ * @since    0.1.0
+ */
+
+
+/**
+ * Asynchronously builds and compiles a specific Sass file
+ * and saves the compiled CSS to a specified output file.
  *
+ * @param {!string} infile
+ *        Path to the input Sass file to be compiled.
+ * @param {!string} outfile
+ *        Path to save the compiled CSS output.
+ * @param {?SassConfig} [sassConfig]
+ *        Configuration options for Sass compilation.
+ * @param {!module:build~buildSassCallback} callback
+ *        A callback function to handle errors.
+ *
+ * @throws {Error} If the input Sass file does not
+ *                 exist or if there are I/O issues.
+ * @throws {TypeError} If the given callback is not
+ *                     a function or not specified.
+ *
+ * @public
+ * @async
  * @function
- * @param {!string} infile - Path to the input Sass file to be compiled.
- * @param {!string} outfile - Path to save the compiled CSS output.
- * @param {SassConfig} [sassConfig] - Configuration options for Sass
- *                                    compilation.
- * @param {Function} [callback] - A callback function to handle errors,
- *                                if any.
- *
- * @throws {Error} Throws an error if the input Sass file does not exist
- *                 or if there are I/O issues.
- *
  * @author   Ryuu Mitsuki
  * @since    0.1.0
  * @version  0.1
  */
-function buildSass(infile, outfile, sassConfig, callback) {
+async function buildSass(infile, outfile, sassConfig, callback) {
+    if (!callback || typeof callback !== "function") {
+        throw new TypeError(
+            "Undefined or null callback is not allowed"
+        );
+    }
+    
     // Resolve and fix the configuration, the configuration
     // will be passed to `sass.compile` arguments
     const resolvedSassConfig = config.resolve(
-        "sass", sassConfig, (sassConfig === undefined)
+        "sass", sassConfig, Boolean(sassConfig)
     );
     
     // I/O operations
     try {
-        // Ensure the input Sass file exists
-        if (!fs.existsSync(infile)) {
-            throw new Error(
-                `Given Sass file does not exist: '${infile}'`);
-        }
+        // Reusable variable to test the file permissions
+        const mode = fs.constants.F_OK | fs.constants.R_OK;
         
-        // Compile the input Sass file
-        const build = sass.compile(
+        // Ensure the input Sass file exists
+        await fs.access(infile, mode, (err) => {
+            if (err) {
+                if (err.code === "ENOENT") {
+                    throw new Error(
+                        `No such Sass file: '${infile}'`
+                    );
+                }
+                
+                throw err;
+            }
+        });
+        
+        // Asynchronously create the directory recursively
+        fs.mkdir(
+            path.dirname(outfile), { recursive: true },
+            (err) => {
+                if (err) throw err;
+            }
+        );
+        
+        // Compile the input Sass file asynchronously
+        const build = await sass.compileAsync(
             path.resolve(infile),  // Input file
             resolvedSassConfig     // Configuration settings
         );
         
-        // Check for existence of parent directories,
-        // create new if not present
-        const parentDir = path.dirname(outfile);
-        if (!fs.existsSync(parentDir)) {
-            // Create the directory recursively
-            fs.mkdirSync(parentDir, { recursive: true });
-        }
-        
         // Write the compiled CSS to the specified
-        // output file synchronously
-        fs.writeFileSync(path.resolve(outfile),
-            build.css.concat(os.EOL));
+        // output file asynchronously
+        await fs.writeFile(
+            path.resolve(outfile),
+            build.css.concat(os.EOL),
+            (err) => {
+                if (err) throw err;
+            }
+        );
     } catch (error) {
-        // Handle errors by invoking the provided function,
-        // if present, otherwise throw the errors to outside
-        if (callback && typeof callback === "function") {
-            callback(error);
-        } else {
-            throw error;
-        }
+        // Handle errors by invoking the provided function
+        callback(error);
     }
 }
 
@@ -149,8 +179,7 @@ function _run_as_main() {
             sassFile,               // Input
             outFile,                // Output
             buildConfig.sass,       // Configuration
-            // Catch errors, if any
-            (err) => {
+            (err) => {              // Callback
                 // Print the errors to the console
                 if (err) console.error(err);
             }
