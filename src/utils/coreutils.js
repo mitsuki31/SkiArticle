@@ -155,7 +155,7 @@ const serverPaths = {
  * @since    0.1.0
  * @version  0.1
  */
-function lsFiles(path, options, callback) {
+function lsFiles(dirpath, options, callback) {
     // Throw error immediately if the callback not being specified
     if (!callback) {
         throw new Error(
@@ -192,7 +192,7 @@ function lsFiles(path, options, callback) {
          *   - Existence check
          *   - isDirectory check
          */
-        fs.stat(path, (err, stats) => {
+        fs.stat(dirpath, (err, stats) => {
             if (err) {
                 // If the given path does not exist, the error will be thrown
                 if (err.code === "ENOENT") {
@@ -210,7 +210,7 @@ function lsFiles(path, options, callback) {
             }
         });
         
-        dir.files(path, (err, entries) => {
+        dir.files(dirpath, (err, entries) => {
             if (err) throw err;
             
             // Filter the entries with several checks from options
