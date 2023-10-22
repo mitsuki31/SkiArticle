@@ -104,23 +104,30 @@ const defaultConfig = {
 };
 
 /**
- * Resolves configuration options for Sass and SassDoc based on the provided type and data.
+ * Resolves configuration options based on the provided type and data.
  *
- * <p>Users can provide the configuration data either from extracted JSON file or an user-defined object
- * representing the configuration data of Sass or SassDoc. This function will resolves all known options
- * of Sass or SassDoc and ignoring all unknown options, and then returns an object that can be used directly
- * to <code>sass</code> module.
+ * <p>Users can provide the configuration data either from extracted
+ * JSON file or an user-defined object representing the configuration data.
+ * This function will resolves all known options of specific data type
+ * and ignoring all unknown options, and then returns an object that
+ * representing the resolved configuration data.
  *
  * <p><b>Note:</b>
- * Currently this function supports to resolve the configuration data for Sass only.
+ * Currently this function supports to resolve the configuration data
+ * for Sass only.
  *
- * @param {!string} type - The type of configuration to resolve (`sass` or `sassdoc`).
- * @param {!SassConfig} data - User-provided configuration data, can be from JSON file.
- * @param {boolean} [useDefault] - Whether to use default configuration if specific options are not provided.
+ * @param {!string} type
+ *        The type of configuration to resolve (only supports `sass`).
+ * @param {!SassConfig | Object} data
+ *        User-provided configuration data, can be from JSON file.
+ * @param {boolean} [useDefault=false]
+ *        Whether to use default configuration if specific options
+ *        are not provided.
  *
- * @return {ResolvedSassConfig | SassConfig} Resolved configuration object for Sass or SassDoc or returning
- *                                           back the given data (unresolved) if the provided type is
- *                                           not known by the function to be processed.
+ * @return {ResolvedSassConfig | SassConfig | Object}
+ *         Resolved configuration object for Sass or returning
+ *         back the given data (unresolved) if the provided type
+ *         is not known by the function to be processed.
  *
  * @example
  * const config = require('./utils/config');
@@ -131,34 +138,28 @@ const defaultConfig = {
  * // Resolve and fix the configurations
  * sassConfig = config.resolve('sass', sassConfig);
  *
- * @function
  * @public
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- * @version 0.1
+ * @function
+ * @author   Ryuu Mitsuki
+ * @since    0.1.0
+ * @version  0.1
  */
 function resolve(type, data, useDefault = false) {
     // => Sass
-    if (/^s[a|c]ss$/.test(type.toLowerCase())) {
+    if (/^s[a|c]ss$/i.test(type)) {
         // Return the default configuration when useDefault is `true`
         if (useDefault || !data) return defaultConfig.sass;
         
         return {
             charset: data.charset || defaultConfig.sass.charset,
-            sourceMap: (data.sourceMap
-                ? data.sourceMap.generateFile
-                : defaultConfig.sass.sourceMap
-            ),
-            sourceMapIncludeSources: (data.sourceMap
-                ? data.sourceMap.includeSources
-                : defaultConfig.sass.sourceMapIncludeSources
-            ),
+            sourceMap: data.sourceMap.generateFile ||
+                defaultConfig.sass.sourceMap,
+            sourceMapIncludeSources: data.sourceMap.includeSources ||
+                defaultConfig.sass.sourceMapIncludeSources,
             style: data.style || defaultConfig.sass.style,
             verbose: data.verbose || defaultConfig.sass.verbose
         };
     }
-    
-    // TODO: implement the code to resolve the SassDoc configuration
     
     // Returning back the data if the provided type
     // is not known by the function
