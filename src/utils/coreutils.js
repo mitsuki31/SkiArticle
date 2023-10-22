@@ -125,6 +125,9 @@ const serverPaths = {
  *                                     exclude files based on
  *                                     their paths. Default excludes
  *                                     hidden files (`.`).
+ * @param {boolean} [options.baseName] - Option to include only
+ *                                       base filenames without their paths.
+ *                                       Default is `false`.
  * @param {!Object} callback - Callback function required to store the error
  *                             and an array of files.
  * @param {!Error} err - An error object if any error occurs during
