@@ -3,9 +3,9 @@
  * that aim to increase project reliability and easier to maintain.
  *
  * @module    utils/coreutils
- * @requires  path
- * @requires  fs
- * @requires  node-dir
+ * @requires  module:path
+ * @requires  module:fs
+ * @requires  module:node-dir
  * @author    Ryuu Mitsuki
  * @since     0.1.0
  * @version   0.1
@@ -112,36 +112,59 @@ const serverPaths = {
 
 
 /**
- * Asynchronously lists files in a directory based on
- * specified options and passes the result to a callback function.
+ * A completion callback function of `lsFiles` function to handle
+ * the errors and get the returned array of files.
  *
- * @param {!string} path - The path of the directory to list
- *                         files from.
- * @param {?Object} [options] - Optional configuration options.
- * @param {RegExp} [options.match] - A regular expression to
- *                                   filter files. Default is
- *                                   to match all files.
- * @param {RegExp} [options.exclude] - A regular expression to
- *                                     exclude files based on
- *                                     their paths. Default excludes
- *                                     hidden files (`.`).
- * @param {boolean} [options.baseName] - Option to include only
- *                                       base filenames without their paths.
- *                                       Default is `false`.
- * @param {!Object} callback - Callback function required to store the error
- *                             and an array of files.
- * @param {!Error} err - An error object if any error occurs during
- *                       the process, otherwise `null`.
- * @param {!string[]} files - An array of file paths that match the
- *                           specified criteria.
+ * @callback module:utils/coreutils~lsFilesCallback
+ * @param    {?Error} error
+ *           An error object if any error occurs during the process,
+ *           otherwise `null`.
+ * @param    {?Array} files
+ *           An array of file paths that match the specified criteria.
+ *           If any errors occurred, it will be `null`.
+ * @since    0.1.0
+ */
+
+
+/**
+ * Asynchronously lists files in a directory based on specified
+ * options and passes the result to a completion callback function.
+ *
+ * @param {!string} path
+ *        The path of the directory to list files from.
+ * @param {?Object} [options]
+ *        Optional configuration options.
+ * @param {RegExp} [options.match]
+ *        A regular expression to filter files. Default is
+ *        to match all files.
+ * @param {RegExp} [options.exclude]
+ *        A regular expression to exclude files based on
+ *        their paths. Default excludes hidden files
+ *        (excludes directory that startswith `.`).
+ * @param {boolean} [options.baseName]
+ *        Option to include only base filenames without their paths.
+ *        Default is `false`.
+ * @param {!module:utils/coreutils~lsFilesCallback} callback
+ *        Callback function required to store the error
+ *        and an array of files.
  *
  * @throws {Error} If the specified path does not exist,
  *                 is not a directory, or other unexpected errors occur.
  * @throws {TypeError} If any option does not match with the expected type.
  *
- * @example
- * lsFiles('/path/to/directory',
- *   {
+ * @example <caption>Use Default Options</caption>
+ * lsFiles('/path/to/directory', null,
+ *   function(err, files) {
+ *     if (err) {
+ *       console.error(err);
+ *     } else {
+ *       console.log(files);
+ *     }
+ *   }
+ * );
+ *
+ * @example <caption>Use Custom Options</caption>
+ * lsFiles('/path/to/directory', {
  *     match: /\.txt$/,
  *     exclude: /temp/
  *   }, function(err, files) {
@@ -150,9 +173,11 @@ const serverPaths = {
  *     } else {
  *       console.log(files);
  *     }
- * });
+ *   }
+ * );
  *
  * @public
+ * @async
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
@@ -229,7 +254,7 @@ function lsFiles(dirpath, options, callback) {
                        !opts.exclude.test(entry);
             });
             
-            // Trim the file names only, if the baseName option is provided
+            // Trim the paths, if the baseName option is true
             if (opts.baseName) {
                 entries =
                     entries.map((entry) => path.basename(entry));
