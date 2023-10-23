@@ -99,6 +99,13 @@ async function buildSass(infile, outfile, sassConfig, callback) {
             }
         });
         
+        // Resolve and make the destination directory
+        // an absolute path, if it was non-absolute (i.e. relative)
+        outfile = (path.isAbsolute(outfile)
+            ? outfile
+            : path.resolve(outfile)
+        );
+        
         // Asynchronously create the directory recursively
         fs.mkdir(
             path.dirname(outfile), { recursive: true },
@@ -115,6 +122,7 @@ async function buildSass(infile, outfile, sassConfig, callback) {
         
         // Write the compiled CSS to the specified
         // output file asynchronously
+        // TODO: Fix the writeFile to not failed during first try
         await fs.writeFile(
             path.resolve(outfile),
             build.css.concat(os.EOL),
@@ -168,10 +176,11 @@ function _run_as_main() {
         const buildConfig =
             require(path.join(serverPaths.config, "build.json"));
         const outFile = path.join(
-            /* Use from build configuration, if none use the
-             * default destination path instead
+            /* Use destination path from build configuration,
+             * if none, use the default destination path instead
              */
-            (buildConfig.sass.dest || clientPaths.css),
+            (buildConfig.sass.dest ||
+                path.join(serverPaths.build, "css")),
             "main.css"
         );
         

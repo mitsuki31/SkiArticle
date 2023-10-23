@@ -17,6 +17,7 @@
  *
  * @module      server/server
  * @requires    module:utils/coreutils.clientPaths
+ * @requires    module:utils/coreutils.serverPaths
  * @requires    module:path
  * @requires    module:express
  * @author      Ryuu Mitsuki
@@ -27,10 +28,14 @@
 
 "use strict";
 
-const express = require("express"),
+const path = require("path"),
+      express = require("express"),
       app = express();
 
-const { clientPaths } = require("./../utils/coreutils");
+const {
+    serverPaths,
+    clientPaths
+} = require("./../utils/coreutils");
 
 /**
  * Default host and port address for the web application to run.
@@ -89,11 +94,16 @@ const defaultAddress = {
         port: process.argv[3] || process.env.PORT || defaultAddress.port
     };
     
+    // Path reference to compiled main CSS file
+    // ==> {rootDir}/build/css/main.css
+    const mainCss = path.join(serverPaths.build, "css", "main.css");
+    
     // Logging some requested stuff like URL, HTTP method, etc
     app.use((req, res, next) => {
         // Log the HTTP method, requested URL, and status code
-        console.log(`[${req.method}] ${res.statusCode} --
-            ${req.url === "/" ? "/{index}" : req.url}`);
+        console.log(`[${req.method}] ${res.statusCode} -- ` +
+            `${req.url === "/" ? "/{index}" : req.url}`);
+        console.log("----------------------------------------");
         next();  // Continue to next middleware
     });
     
@@ -101,12 +111,19 @@ const defaultAddress = {
     // send neccessary stuff
     app.use("/", express.static(clientPaths.root, { index: "index.html" }));
     
+    // Listen the request to get the main CSS from client-side
+    app.get("/assets/css/main.css", (req, res) => {
+        // Send the requested file
+        res.sendFile(mainCss);
+    });
+    
     // Run the server
     app.listen(address.port, address.host, () => {
         console.log(`${process.platform.replace(
             process.platform.at(0), process.platform.at(0).toUpperCase()
         )} (${process.arch}) | NodeJS ${process.version}`);
-        console.log(`Server is running at 'http://${address.host}:
-            ${address.port}'\n`);
+        console.log(
+            `Server is running at 'http://${address.host}:${address.port}'\n`
+        );
     });
 })();
