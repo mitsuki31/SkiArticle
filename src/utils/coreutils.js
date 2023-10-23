@@ -91,6 +91,9 @@ const clientPaths = {
  * @property  {!string} server - Path to the server directory.
  * @property  {!string} scss - Path to the SCSS directory.
  * @property  {!string} utils - Path to the utils directory.
+ * @property  {!string} config - Path to the configuration base.
+ * @property  {!string} build - Path to the built environments
+ *                              like compiled CSS files.
  *
  * @example <caption>ES Modules</caption>
  * import { serverPaths } from './utils/coreutils.js';
@@ -107,7 +110,8 @@ const serverPaths = {
     server: path.join(rootDir, "src", "server"),
     scss: path.join(rootDir, "src", "scss"),
     utils: path.join(rootDir, "src", "utils"),
-    config: path.join(rootDir, "config")
+    config: path.join(rootDir, "config"),
+    build: path.join(rootDir, "build")
 };
 
 
