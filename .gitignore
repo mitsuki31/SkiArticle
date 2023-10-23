@@ -131,3 +131,6 @@ dist
 
 # Documentaion build / output
 docs/
+
+# Environments built by the server-side (e.g. compiled CSS files)
+build/

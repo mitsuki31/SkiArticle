@@ -1,6 +1,6 @@
 {
     "sass": {
-        "dest": "public/assets/css",
+        "dest": "build/css",
         "charset": true,
         "style": "compressed",
         "sourceMap": {
