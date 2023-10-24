@@ -5,7 +5,6 @@
  *
  * @module    build
  * @requires  module:utils/config
- * @requires  module:utils/coreutils.clientPaths
  * @requires  module:utils/coreutils.serverPaths
  * @requires  module:path
  * @requires  module:os
@@ -27,8 +26,7 @@ const path = require("path"),              // Path module
       config = require("./utils/config");  // Config module (local)
 
 const {
-    serverPaths,  // Server-side's working directories paths
-    clientPaths   // Client-side's working directories paths
+    serverPaths  // Server-side's working directories paths
 } = require("./utils/coreutils");
 
 
