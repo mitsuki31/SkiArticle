@@ -107,6 +107,41 @@ const defaultConfig = {
 };
 
 
+/**
+ * Asynchronously checks if the given object matches the specified
+ * data type. Invokes the callback with the result, error,
+ * original value, and expected type.
+ *
+ * @param {!any} obj
+ *        The object to be checked.
+ * @param {!string} type
+ *        The expected data type (e.g., 'string', 'number', 'object',
+ *        'function', etc.).
+ * @param {!module:utils/config~typeCheckerAsyncCallback} callback
+ *        The callback function to handle the result response.
+ *
+ * @throws {Error} Throws an error if the given object is `null` or
+ *                 undefined.
+ * @throws {TypeError} Throws a type error if the 'type' argument is
+ *                     not a string or if the 'callback' argument
+ *                     is not a function.
+ *
+ * @example
+ * const obj = "this is foo";
+ * typeCheckerAsync(obj, "string",
+ *   function(resp) {
+ *     if (resp.error) console.error(resp.error);
+ *     else console.log(resp.result);  // true
+ *   }
+ * );
+ *
+ * @public
+ * @async
+ * @function
+ * @author   Ryuu Mitsuki
+ * @since    0.1.0
+ * @version  0.1
+ */
 function typeCheckerAsync(obj, type, callback) {
     if (util.isNullOrUndefined(obj)) {
         throw new Error("Undefined or null given object");
@@ -161,7 +196,7 @@ function typeCheckerAsync(obj, type, callback) {
  *        The type of configuration to resolve (only supports `sass`).
  * @param {!SassConfig | Object} data
  *        User-provided configuration data, can be from JSON file.
- * @param {boolean} [useDefault=false]
+ * @param {boolean} [useDefault]
  *        Whether to use default configuration if specific options
  *        are not provided.
  *
