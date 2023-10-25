@@ -127,6 +127,29 @@ const defaultConfig = {
 };
 
 
+function typeChecker(obj, type) {
+    if (util.isNullOrUndefined(obj)) {
+        throw new Error("Undefined or null given object");
+    } else if (!type || typeof type !== "string") {
+        throw new TypeError(
+            `Unexpected type of 'type': ${typeof type}. ` +
+            "Expected string"
+        );
+    }
+    
+    let res = false;
+    if (/^(object|array)$/i.test(type)) {
+        res = obj instanceof Object;
+    } else if (/^(string|number|boolean|function)$/i.test(type)) {
+        res = typeof obj === type;
+    } else {
+        throw new TypeError(`Unknown input type: ${type}`);
+    }
+    
+    return res;
+}
+
+
 /**
  * Asynchronously checks if the given object matches the specified
  * data type. Invokes the callback with the result, error,
@@ -359,6 +382,7 @@ Object.defineProperty(module, "exports", {
         // Objects that want to be exported
         resolve,
         defaultConfig,
+        typeChecker,
         typeCheckerAsync
     },
     writable: false,
