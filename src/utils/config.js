@@ -323,15 +323,19 @@ function resolve(type, data, useDefault = false) {
         }
         
         // Fix and resolve the verbose option
-        typeCheckerAsync(
-            data.verbose,
-            "boolean",
-            (response) => {
-                if (response.error) throw response.error;
-                
-                verbose = response.value;
-            }
-        );
+        if ("verbose" in data) {
+            typeCheckerAsync(
+                data.verbose,
+                "boolean",
+                (response) => {
+                    if (response.error) throw response.error;
+                    
+                    verbose = response.value;
+                }
+            );
+        } else {
+            verbose = sassConfig.verbose;
+        }
         
         return {
             charset,
