@@ -200,9 +200,9 @@ function typeCheckerAsync(obj, type, callback) {
     }
     
     let res = false;  // Store the result from various checks
-    if (/^object$/i.test(type)) {
+    if (/^(object|array)$/i.test(type)) {
         res = obj instanceof Object;
-    } else if (/^(string|number|boolean|function)?$/.test(type)) {
+    } else if (/^(string|number|boolean|function)$/i.test(type)) {
         res = typeof obj === type;
     } else {
         typeErr = new TypeError(`Unknown input type: ${type}`);
