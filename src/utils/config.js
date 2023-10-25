@@ -127,6 +127,38 @@ const defaultConfig = {
 };
 
 
+/**
+ * Synchronously checks if the given object matches the specified
+ * data type. This function throws errors for invalid inputs and
+ * returns a boolean indicating whether the object matches the
+ * expected type.
+ *
+ * @param {!any} obj
+ *        The object to be checked.
+ * @param {!string} type
+ *        The expected data type (e.g., `'string'`, `'number'`,
+ *        `'object'`, `'function'`, etc.).
+ *
+ * @returns {boolean} Returns `true` if the object matches
+ *                    the expected type, `false` otherwise.
+ *
+ * @throws {Error} Throws an error if the given object is
+ *                 null or undefined.
+ * @throws {TypeError} Throws a type error if the `type`
+ *                     argument is not a string or if the
+ *                     input type is unknown.
+ *
+ * @example
+ * const result = typeChecker('Hello', 'string');
+ * console.log(result);  // Outputs: true
+ *
+ * @public
+ * @function
+ * @author   Ryuu Mitsuki
+ * @since    0.1.0
+ * @version  0.1
+ * @see      {@link module:utils/config~typeCheckerAsync}
+ */
 function typeChecker(obj, type) {
     if (util.isNullOrUndefined(obj)) {
         throw new Error("Undefined or null given object");
@@ -158,15 +190,15 @@ function typeChecker(obj, type) {
  * @param {!any} obj
  *        The object to be checked.
  * @param {!string} type
- *        The expected data type (e.g., 'string', 'number', 'object',
- *        'function', etc.).
+ *        The expected data type (e.g., `'string'`, `'number'`,
+ *        `'object'`, `'function'`, etc.).
  * @param {!module:utils/config~typeCheckerAsyncCallback} callback
  *        The callback function to handle the result response.
  *
  * @throws {Error} Throws an error if the given object is `null` or
  *                 undefined.
- * @throws {TypeError} Throws a type error if the 'type' argument is
- *                     not a string or if the 'callback' argument
+ * @throws {TypeError} Throws a type error if the `type` argument is
+ *                     not a string or if the `callback` argument
  *                     is not a function.
  *
  * @example
