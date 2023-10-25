@@ -2,6 +2,7 @@
  * Utility module for handling configurations related to Sass and SassDoc.
  *
  * @module    utils/config
+ * @requires  module:util
  * @author    Ryuu Mitsuki
  * @since     0.1.0
  * @version   0.1
@@ -10,6 +11,8 @@
  */
 
 "use strict";
+
+const util = require("util");
 
 /**
  * An object representing configuration data for Sass or SassDoc.
@@ -102,6 +105,44 @@ const defaultConfig = {
     // TODO: implement the default configuration of SassDoc
     sassdoc: {}
 };
+
+
+function typeCheckerAsync(obj, type, callback) {
+    if (util.isNullOrUndefined(obj)) {
+        throw new Error("Undefined or null given object");
+    } else if (!type || typeof type !== "string") {
+        throw new TypeError(
+            `Unexpected type of 'type': ${typeof type}. ` +
+            "Expected string"
+        );
+    } else if (!callback || typeof callback !== "function") {
+        throw new TypeError(
+            `Unexpected type of 'callback': ${typeof callback}. ` +
+            "Expected function"
+        );
+    }
+    
+    // Create new type error
+    const typeErr = new TypeError(
+        `Given object are not type of ${type}: ` +
+        `${typeof obj} != ${type}`
+    );
+    
+    let res;  // Store the result from various checks
+    if (/^object$/i.test(type)) {
+        res = obj instanceof Object;
+    } else if (/^(string|number|boolean|function)?$/.test(type)) {
+        res = typeof obj === type;
+    }
+    
+    callback({
+        result: res,
+        error: !res ? typeErr : null,
+        value: obj,
+        type: type
+    });
+}
+
 
 /**
  * Resolves configuration options based on the provided type and data.
