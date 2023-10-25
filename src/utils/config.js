@@ -173,7 +173,7 @@ function typeCheckerAsync(obj, type, callback) {
     }
     
     // Create new type error
-    const typeErr = new TypeError(
+    let typeErr = new TypeError(
         `Given object are not type of ${type}: ` +
         `${typeof obj} != ${type}`
     );
@@ -204,6 +204,8 @@ function typeCheckerAsync(obj, type, callback) {
         res = obj instanceof Object;
     } else if (/^(string|number|boolean|function)?$/.test(type)) {
         res = typeof obj === type;
+    } else {
+        typeErr = new TypeError(`Unknown input type: ${type}`);
     }
     
     callback({
