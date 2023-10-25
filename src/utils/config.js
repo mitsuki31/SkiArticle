@@ -35,17 +35,17 @@ const util = require("util");
  *
  * @callback module:utils/config~typeCheckerAsyncCallback
  * @param {!Object} response
- *        An object representing the result response containing
+ *        An object representing the response results containing
  *        the check result and additional information.
- * @param {!boolean} resultObj.result
+ * @param {!boolean} response.result
  *        Boolean indicating whether the object matches the
  *        expected type.
- * @param {?Error | null} resultObj.error
+ * @param {?Error | null} response.error
  *        Error object if the object does not match the expected
  *        type, null otherwise.
- * @param {!any} resultObj.value
+ * @param {!any} response.value
  *        The original object being checked.
- * @param {!string} resultObj.type
+ * @param {!string} response.type
  *        The expected data type.
  * @since 0.1.0
  */
@@ -163,14 +163,9 @@ const defaultConfig = {
  * @version  0.1
  */
 function typeCheckerAsync(obj, type, callback) {
-    if (util.isNullOrUndefined(obj)) {
-        throw new Error("Undefined or null given object");
-    } else if (!type || typeof type !== "string") {
-        throw new TypeError(
-            `Unexpected type of 'type': ${typeof type}. ` +
-            "Expected string"
-        );
-    } else if (!callback || typeof callback !== "function") {
+    // Check whether the given callback is not a function
+    // or not being specified (undefined)
+    if (!callback || typeof callback !== "function") {
         throw new TypeError(
             `Unexpected type of 'callback': ${typeof callback}. ` +
             "Expected function"
@@ -183,7 +178,28 @@ function typeCheckerAsync(obj, type, callback) {
         `${typeof obj} != ${type}`
     );
     
-    let res;  // Store the result from various checks
+    let err;  // Used to store any error
+    if (util.isNullOrUndefined(obj)) {
+        err = new Error("Undefined or null given object");
+    } else if (!type || typeof type !== "string") {
+        err = new TypeError(
+            `Unexpected type of 'type': ${typeof type}. ` +
+            "Expected string"
+        );
+    }
+    
+    // Invoke the callback returning the error, if any
+    if (err) {
+        callback({
+            result: false,
+            error: err,
+            value: obj,
+            type: type
+        });
+        return;  // Break and return
+    }
+    
+    let res = false;  // Store the result from various checks
     if (/^object$/i.test(type)) {
         res = obj instanceof Object;
     } else if (/^(string|number|boolean|function)?$/.test(type)) {
@@ -191,10 +207,10 @@ function typeCheckerAsync(obj, type, callback) {
     }
     
     callback({
-        result: res,
-        error: !res ? typeErr : null,
-        value: obj,
-        type: type
+        result: res,                     // Result
+        error: (!res ? typeErr : null),  // Error
+        value: obj,                      // Original value
+        type: type                       // Expected type
     });
 }
 
