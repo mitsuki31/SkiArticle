@@ -31,6 +31,26 @@ const util = require("util");
  */
 
 /**
+ * Callback function to handle the result of the type check.
+ *
+ * @callback module:utils/config~typeCheckerAsyncCallback
+ * @param {!Object} response
+ *        An object representing the result response containing
+ *        the check result and additional information.
+ * @param {!boolean} resultObj.result
+ *        Boolean indicating whether the object matches the
+ *        expected type.
+ * @param {?Error | null} resultObj.error
+ *        Error object if the object does not match the expected
+ *        type, null otherwise.
+ * @param {!any} resultObj.value
+ *        The original object being checked.
+ * @param {!string} resultObj.type
+ *        The expected data type.
+ * @since 0.1.0
+ */
+
+/**
  * A namespace that provides default configurations for Sass and SassDoc.
  *
  * @namespace
