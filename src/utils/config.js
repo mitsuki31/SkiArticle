@@ -267,7 +267,8 @@ Object.defineProperty(module, "exports", {
     value: {
         // Objects that want to be exported
         resolve,
-        defaultConfig
+        defaultConfig,
+        typeCheckerAsync
     },
     writable: false,
     configurable: false
