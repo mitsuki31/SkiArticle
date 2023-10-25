@@ -243,17 +243,73 @@ function typeCheckerAsync(obj, type, callback) {
 function resolve(type, data, useDefault = false) {
     // => Sass
     if (/^s[a|c]ss$/i.test(type)) {
-        // Return the default configuration when useDefault is `true`
+        // Return the default configuration if useDefault is `true`
+        // or user not specified the data (e.g. null or undefined)
         if (useDefault || !data) return defaultConfig.sass;
         
+        const sassConfig = defaultConfig.sass;  // Alias
+        let sourceMap, includeSources, verbose;
+        
+        if (data.sourceMap) {
+            // Check whether the data.sourceMap has property
+            // called "generateFile"
+            if ("generateFile" in data.sourceMap) {
+                typeCheckerAsync(
+                    data.sourceMap.generateFile,
+                    "boolean",       // Expected type
+                    (response) => {  // Callback response
+                        // Throw error when the given object are
+                        // different with the expected type
+                        if (response.error) throw response.error;
+                        
+                        // Return the value if its type were expected
+                        sourceMap = response.value;
+                    }
+                );
+            } else {
+                sourceMap = sassConfig.sourceMap;
+            }
+            
+            // Check whether the data.sourceMap has property
+            // called "includeSources"
+            if ("includeSources" in data.sourceMap) {
+                typeCheckerAsync(
+                    data.sourceMap.includeSources,
+                    "boolean",       // Expected type
+                    (response) => {  // Callback response
+                        // Throw error when the given object are
+                        // different with the expected type
+                        if (response.error) throw response.error;
+                        
+                        // Return the value if its type were expected
+                        includeSources = response.value;
+                    }
+                );
+            } else {
+                includeSources = sassConfig.sourceMapIncludeSources;
+            }
+        } else {
+            sourceMap = sassConfig.sourceMap;
+            includeSources = sassConfig.sourceMapIncludeSources;
+        }
+        
+        // Fix and resolve the verbose option
+        typeCheckerAsync(
+            data.verbose,
+            "boolean",
+            (response) => {
+                if (response.error) throw response.error;
+                
+                verbose = response.value;
+            }
+        );
+        
         return {
-            charset: data.charset || defaultConfig.sass.charset,
-            sourceMap: data.sourceMap.generateFile ||
-                defaultConfig.sass.sourceMap,
-            sourceMapIncludeSources: data.sourceMap.includeSources ||
-                defaultConfig.sass.sourceMapIncludeSources,
-            style: data.style || defaultConfig.sass.style,
-            verbose: data.verbose || defaultConfig.sass.verbose
+            charset: data.charset || sassConfig.charset,
+            sourceMap: sourceMap,
+            sourceMapIncludeSources: includeSources,
+            style: data.style || sassConfig.style,
+            verbose: verbose
         };
     }
     
