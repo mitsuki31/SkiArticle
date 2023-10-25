@@ -264,7 +264,20 @@ function resolve(type, data, useDefault = false) {
         if (useDefault || !data) return defaultConfig.sass;
         
         const sassConfig = defaultConfig.sass;  // Alias
-        let sourceMap, includeSources, verbose;
+        let charset, sourceMap, includeSources, verbose;
+        
+        // Check for "charset" property in user-provided data
+        if ("charset" in data) {
+            typeCheckerAsync(
+                data.charset,
+                "boolean",
+                (response) => {
+                    // Throw the error, if any
+                    if (response.error) throw response.error;
+                    charset = response.value;
+                }
+            );
+        }
         
         if (data.sourceMap) {
             // Check whether the data.sourceMap has property
@@ -321,11 +334,11 @@ function resolve(type, data, useDefault = false) {
         );
         
         return {
-            charset: data.charset || sassConfig.charset,
-            sourceMap: sourceMap,
+            charset,
+            sourceMap,
             sourceMapIncludeSources: includeSources,
             style: data.style || sassConfig.style,
-            verbose: verbose
+            verbose
         };
     }
     
