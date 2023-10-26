@@ -53,14 +53,13 @@ const util = require("util");
 /**
  * A namespace that provides default configurations for Sass and SassDoc.
  *
- * @namespace
- * @memberof module:utils/config
  * @property {!SassConfig} sass - Default configuration of Sass.
  * @property {!SassConfig} sassdoc - Default configuration of SassDoc.
  *
+ * @public
  * @constant
  * @namespace
- * @public
+ * @memberof  module:utils/config
  * @author    Ryuu Mitsuki
  * @since     0.1.0
  * @version   0.1
@@ -69,22 +68,20 @@ const defaultConfig = {
     /**
      * Default configuration of Sass.
      *
-     * @namespace
-     * @inner
      * @property {!boolean} charset - Indicates whether to include charset in
-     *                                the compiled CSS. Default is <code>true</code>.
+     *                                the compiled CSS. Default is `true`.
      * @property {!boolean} sourceMap - Enables source maps for the compiled CSS.
-     *                                  Default is <code>true</code>
+     *                                  Default is `true`
      * @property {!boolean} sourceMapIncludeSources - Indicates whether to include
      *                                                sources in the source map.
-     *                                                Default is <code>false</code>.
+     *                                                Default is `false`.
      * @property {!string}  style - Style of the compiled CSS (e.g., `expanded`,
-     *                              `compressed`). Default is <code>expanded</code>.
+     *                              `compressed`). Default is `expanded`.
      * @property {!boolean} verbose - Enables verbose output during compilation.
-     *                                Default is <code>false</code>.
+     *                                Default is `false`.
      *
      * @public
-     * @inner
+     * @namespace
      * @since   0.1.0
      * @version 0.1
      */

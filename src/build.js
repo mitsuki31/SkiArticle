@@ -76,7 +76,7 @@ async function buildSass(infile, outfile, sassConfig, callback) {
     // Resolve and fix the configuration, the configuration
     // will be passed to `sass.compile` arguments
     const resolvedSassConfig = config.resolve(
-        "sass", sassConfig, Boolean(sassConfig)
+        "sass", sassConfig, !sassConfig
     );
     
     // I/O operations
