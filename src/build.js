@@ -109,31 +109,29 @@ async function buildSass(infile, outfile, sassConfig, callback) {
             resolvedSassConfig     // Configuration settings
         );
         
-        // Synchronously create the directory recursively
-        fs.mkdirSync(
+        // Asynchronously create the directory recursively
+        fs.mkdir(
             path.dirname(outfile),
-            { recursive: true }
-        );
-        
-        // Write the compiled CSS to the specified
-        // output file asynchronously
-        fs.open(
-            outfile,
-            fs.constants.O_RDWR          // Read/write permission
-                | fs.constants.O_CREAT,  // Create if not exist
-            (err, fd) => {
+            { recursive: true },
+            (err) => {
+                // Throw the errors, if any
                 if (err) throw err;
                 
-                // Write the compiled CSS to the output file
+                // Write the compiled CSS to the specified
+                // output file asynchronously after its parent
+                // directory successfully created with no error
                 fs.writeFile(
                     outfile,
                     build.css.concat(
-                        sassConfig.style !== "compressed" ? os.EOL : ""),
+                        // If the style is 'compressed',
+                        // do not append a new line character at EOF,
+                        // will be appended otherwise.
+                        sassConfig.style !== "compressed"
+                            ? os.EOL  // New line
+                            : ""      // No new line
+                    ),
                     (err) => { if (err) throw err; }
                 );
-                
-                // Close the file descriptor, preventing data corruption
-                fs.close(fd, (err) => { if (err) throw err; });
             }
         );
     } catch (error) {
