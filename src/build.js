@@ -130,7 +130,7 @@ async function buildSass(infile, outfile, sassConfig, callback) {
                             ? os.EOL  // New line
                             : ""      // No new line
                     ),
-                    (err) => { if (err) throw err; }
+                    (errWrite) => { if (errWrite) throw errWrite; }
                 );
             }
         );
