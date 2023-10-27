@@ -49,7 +49,7 @@ const {
  *        Path to the input Sass file to be compiled.
  * @param {!string} outfile
  *        Path to save the compiled CSS output.
- * @param {?SassConfig} [sassConfig]
+ * @param {?SassConfig | null} [sassConfig]
  *        Configuration options for Sass compilation.
  * @param {!module:build~buildSassCallback} callback
  *        A callback function to handle errors.
@@ -99,18 +99,9 @@ async function buildSass(infile, outfile, sassConfig, callback) {
         
         // Resolve and make the destination directory
         // an absolute path, if it was non-absolute (i.e. relative)
-        outfile = (path.isAbsolute(outfile)
+        outfile = path.isAbsolute(outfile)
             ? outfile
-            : path.resolve(outfile)
-        );
-        
-        // Asynchronously create the directory recursively
-        fs.mkdir(
-            path.dirname(outfile), { recursive: true },
-            (err) => {
-                if (err) throw err;
-            }
-        );
+            : path.resolve(outfile);
         
         // Compile the input Sass file asynchronously
         const build = await sass.compileAsync(
@@ -118,14 +109,31 @@ async function buildSass(infile, outfile, sassConfig, callback) {
             resolvedSassConfig     // Configuration settings
         );
         
+        // Synchronously create the directory recursively
+        fs.mkdirSync(
+            path.dirname(outfile),
+            { recursive: true }
+        );
+        
         // Write the compiled CSS to the specified
         // output file asynchronously
-        // TODO: Fix the writeFile to not failed during first try
-        await fs.writeFile(
-            path.resolve(outfile),
-            build.css.concat(os.EOL),
-            (err) => {
+        fs.open(
+            outfile,
+            fs.constants.O_RDWR          // Read/write permission
+                | fs.constants.O_CREAT,  // Create if not exist
+            (err, fd) => {
                 if (err) throw err;
+                
+                // Write the compiled CSS to the output file
+                fs.writeFile(
+                    outfile,
+                    build.css.concat(
+                        sassConfig.style !== "compressed" ? os.EOL : ""),
+                    (err) => { if (err) throw err; }
+                );
+                
+                // Close the file descriptor, preventing data corruption
+                fs.close(fd, (err) => { if (err) throw err; });
             }
         );
     } catch (error) {
