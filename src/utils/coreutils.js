@@ -228,27 +228,27 @@ function lsFiles(dirpath, options, callback) {
     
     try {
         dir.files(dirpath, (err, entries) => {
-            let isRegFile = false;
+            let isNotDir = false;
             if (err) {
                 if (err.code === "ENOTDIR") {
-                    // Check whether the given path is a regular file
-                    // with read/write permissions is permitted
-                    fs.accessSync(
-                        dirpath,
-                        fs.constants.R_OK
-                            | fs.constants.F_OK
-                            | fs.constants.W_OK,
-                    );
-                    isRegFile = true;
+                    isNotDir = true;
                 } else {
                     throw err;
                 }
             }
             
-            // Immediately return the given input path as an array,
-            // if the path is refer to a regular file
-            if (isRegFile) {
-                callback(null, [ dirpath ]);
+            // These expression will take care the error of 'ENOTDIR'
+            // (no such a directory, but this can be a regular file)
+            // by checking whether the given path is refer to a regular file.
+            if (isNotDir) {
+                // Check whether the given path is a regular file
+                fs.stat(dirpath, (errStat, stats) => {
+                    if (errStat) throw errStat;
+                    
+                    // Immediately return the given input path as an array,
+                    // if the path is refer to a regular file.
+                    if (stats.isFile()) callback(null, [ dirpath ]);
+                });
             } else {
                 // Filter the entries with several checks from options
                 entries = entries.filter((entry) => {
