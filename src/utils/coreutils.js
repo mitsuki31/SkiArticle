@@ -227,21 +227,6 @@ function lsFiles(dirpath, options, callback) {
     }
     
     try {
-        // Check for existence of given path
-        fs.stat(dirpath, (err, stats) => {
-            if (err) {
-                // If the given path does not exist, the error will be thrown
-                if (err.code === "ENOENT") {
-                    throw new Error(
-                        "${err.code}: No such file or directory: " +
-                        `'${err.path}'`);
-                }
-                
-                throw err;  // Throw other errors
-            }
-        });
-        
-        
         dir.files(dirpath, (err, entries) => {
             let isRegFile = false;
             if (err) {
