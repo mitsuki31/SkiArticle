@@ -227,10 +227,7 @@ function lsFiles(dirpath, options, callback) {
     }
     
     try {
-        /* Given path should pass these checks, including:
-         *   - Existence check
-         *   - isDirectory check
-         */
+        // Check for existence of given path
         fs.stat(dirpath, (err, stats) => {
             if (err) {
                 // If the given path does not exist, the error will be thrown
@@ -240,32 +237,49 @@ function lsFiles(dirpath, options, callback) {
                         `'${err.path}'`);
                 }
                 
-                throw err;  // Throw all type errors
-            }
-            
-            // Check if the given path is a directory
-            if (!stats.isDirectory()) {
-                throw new Error("The given path is not a directory");
+                throw err;  // Throw other errors
             }
         });
         
+        
         dir.files(dirpath, (err, entries) => {
-            if (err) throw err;
-            
-            // Filter the entries with several checks from options
-            entries = entries.filter((entry) => {
-                return opts.match.test(entry) &&
-                       !opts.exclude.test(entry);
-            });
-            
-            // Trim the paths, if the baseName option is true
-            if (opts.baseName) {
-                entries =
-                    entries.map((entry) => path.basename(entry));
+            let isRegFile = false;
+            if (err) {
+                if (err.code === "ENOTDIR") {
+                    // Check whether the given path is a regular file
+                    // with read/write permissions is permitted
+                    fs.accessSync(
+                        dirpath,
+                        fs.constants.R_OK
+                            | fs.constants.F_OK
+                            | fs.constants.W_OK,
+                    );
+                    isRegFile = true;
+                } else {
+                    throw err;
+                }
             }
             
-            // Pass the entries to callback
-            callback(null, entries);
+            // Immediately return the given input path as an array,
+            // if the path is refer to a regular file
+            if (isRegFile) {
+                callback(null, [ dirpath ]);
+            } else {
+                // Filter the entries with several checks from options
+                entries = entries.filter((entry) => {
+                    return opts.match.test(entry) &&
+                           !opts.exclude.test(entry);
+                });
+                
+                // Trim the paths, if the baseName option is true
+                if (opts.baseName) {
+                    entries =
+                        entries.map((entry) => path.basename(entry));
+                }
+                
+                // Pass the entries to callback
+                callback(null, entries);
+            }
         });
     } catch (error) {
         // Pass the errors to callback
