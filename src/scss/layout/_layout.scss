@@ -305,10 +305,10 @@
 
 /// Configures the layout setting for the navigation bar menu.
 ///
-/// When the navigation menu in non-active mode (closed), it will not
-/// appears (i.e. hidden), otherwise when it is active (opened) the element
-/// will appears with a slide animation from left to right. The width size
-/// of navigation menu is depends to the value of `$navwidth`.
+/// When the navigation menu in non-active mode (_closed_), it will not
+/// appears (_i.e. hidden_), otherwise when it is active (_opened_) the element
+/// will appears with a slide animation from left to the right. The width size
+/// of navigation menu is depends to the value of [`$navwidth`](#navbar-variable-navwidth).
 ///
 /// @require {variable} navbgcolor
 /// @require {variable} navfixed-z
@@ -354,6 +354,35 @@
     }
 }
 
+
+/// This mixin configures the layout of navigation bar menu's list.
+///
+/// The configuration including:
+///   - Reset the default properties of `<ul>` element
+///   - Add several animations
+///   - Resize the logos within `<i>` elements
+///
+/// The menu contents is stick (and depends) to the navigation bar appearances,
+/// it will be hidden when navigation bar is also hidden or closed.
+///
+/// **Note:**
+/// This mixin is used and intended for small devices like mobile phones.
+/// For larger devices, refer to the
+/// [`navbar-menu-contents-layout-ld`](#layouts-mixin-navbar-menu-contents-layout-ld).
+///
+/// @require {variable} ft-bold-weight
+/// @require {variable} navtrans-items
+/// @require {variable} navitems-size
+/// @require {variable} navcolor
+/// @require {variable} navbgcolor-hover
+/// @require {mixin} re-list
+/// @require {mixin} mtransform
+/// @require {mixin} mtransition-all
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
 @mixin navbar-menu-contents-layout {
     @include reset.re-list;  // Reset list styles
     
