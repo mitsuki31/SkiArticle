@@ -303,6 +303,26 @@
 }
 
 
+/// Configures the layout setting for the navigation bar menu.
+///
+/// When the navigation menu in non-active mode (closed), it will not
+/// appears (i.e. hidden), otherwise when it is active (opened) the element
+/// will appears with a slide animation from left to right. The width size
+/// of navigation menu is depends to the value of `$navwidth`.
+///
+/// @require {variable} navbgcolor
+/// @require {variable} navfixed-z
+/// @require {variable} navtrans
+/// @require {variable} navwidth
+/// @require {mixin} mtransition
+/// @require {mixin} mtransform
+///
+/// @output  Configures the layout and animations for the navigation bar menu.
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
 @mixin navbar-menu-layout {
     &, &::before, &::after {
         top: 0;
