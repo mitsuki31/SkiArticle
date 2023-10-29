@@ -505,7 +505,17 @@
     }
 }
 
-
+/// Configures the layout of logos for element with a class of `.logo`.
+///
+/// @require {variable} clr-title
+/// @require {variable} ft-big-size
+/// @require {variable} ft-big-size-720
+/// @require {variable} navlogo-spaces
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+///
 @mixin logo-layout {
     .logo {
         margin: 0 navbar-base.$navlogo-spaces;
