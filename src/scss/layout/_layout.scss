@@ -436,6 +436,24 @@
     }
 }
 
+/// Configures the layout of navigation menu's list for larger devices only.
+///
+/// The layout configured by this mixin are different with the layout for small devices,
+/// it is because on larger devices the layout of navigation menu contents will no
+/// longer sticks to the navigation bar appearances, instead it will be at the top right
+/// of the header element and always visible.
+///
+/// @require {variable} navitems-size
+/// @require {variable} navcolor
+/// @require {variable} navbgcolor-hover
+/// @require {mixin} re-list
+/// @require {mixin} re-margin-padding
+///
+/// @group   layouts
+/// @author  Ryuu Mitsuki `<github@mitsuki31>`
+/// @since   0.1.0
+/// @see     {mixin} navbar-menu-contents-layout
+///
 @mixin navbar-menu-contents-layout-ld {
     @include reset.re-list;
     @include reset.re-margin-padding;
