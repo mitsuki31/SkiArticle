@@ -6,3 +6,4 @@ groups:
   settings: API Settings
   globals: Globals
   navbar: Navigation Bar
+  layouts: Layouts
