@@ -1,3 +1,10 @@
+/**
+ * A string representing the directory path.
+ * @global
+ * @typedef {string} StringPath
+ * @author  Ryuu Mitsuki
+ * @since   0.1.0
+ */
 export type StringPath = string;
 
 export interface ClientPaths {
@@ -42,6 +49,13 @@ export interface DefaultConfig {
     sassdoc: {}  // Currently just an empty object
 }
 
+/**
+ * An object representing configuration data for Sass or SassDoc.
+ * @global
+ * @typedef {Object} SassConfig
+ * @author  Ryuu Mitsuki
+ * @since   0.1.0
+ */
 export interface SassConfig {
     dest?: StringPath,
     destination?: StringPath,
@@ -54,4 +68,18 @@ export interface SassConfig {
     verbose?: boolean
 }
 
+/**
+ * An object representing resolved configuration data for Sass or SassDoc.
+ * @global
+ * @extends SassDefaultConfig
+ * @typedef {Object} ResolvedSassConfig
+ * @author  Ryuu Mitsuki
+ * @since   0.1.0
+ */
 export interface ResolvedSassConfig extends SassDefaultConfig {}
+
+
+export interface ServerAddress {
+    host: string,
+    port: number
+}

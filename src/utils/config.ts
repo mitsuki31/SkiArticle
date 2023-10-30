@@ -17,21 +17,6 @@ import {
     SassConfig, ResolvedSassConfig
 } from '../core/types'
 
-/**
- * An object representing configuration data for Sass or SassDoc.
- * @global
- * @typedef {Object} SassConfig
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- */
-
-/**
- * An object representing resolved configuration data for Sass or SassDoc.
- * @global
- * @typedef {Object} ResolvedSassConfig
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- */
 
 /**
  * Callback function to handle the result of the type check.
