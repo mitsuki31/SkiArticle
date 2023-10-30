@@ -8,26 +8,31 @@
  * @requires  module:node-dir
  * @author    Ryuu Mitsuki
  * @since     0.1.0
- * @version   0.1
+ * @version   0.2
  * @copyright 2023 CV. DR2E
  * @license   MIT
  */
 
-"use strict";
+import * as path from 'path';     // Path module
+import * as fs from 'fs';         // File System module
+import * as dir from 'node-dir';  // Node-dir module
 
-const path = require("path"),     // Path module
-      fs = require("fs"),         // File System module
-      dir = require("node-dir");  // Node-dir module
+import {
+    StringPath,
+    ServerPaths,
+    ClientPaths,
+    LsFilesOptions
+} from '../core/types';
 
 /**
  * Path that references to the project's root directory.
  *
  * @constant
  * @public
- * @type     {!string}
+ * @type     {!StringPath}
  * @since    0.1.0
  */
-const rootDir = path.resolve(__dirname, "..", "..");
+const rootDir: StringPath = path.resolve(__dirname, '..', '..', '..');
 
 /**
  * Path that references to the public directory used by the client-side,
@@ -35,11 +40,11 @@ const rootDir = path.resolve(__dirname, "..", "..");
  *
  * @constant
  * @private
- * @type     {!string}
+ * @type     {!StringPath}
  * @since    0.1.0
  * @see      {@link rootDir}
  */
-const __publicDir = path.join(rootDir, "public");
+const __publicDir: StringPath = path.join(rootDir, 'public');
 
 /**
  * A namespace containing working directories used by client-side.
@@ -47,15 +52,15 @@ const __publicDir = path.join(rootDir, "public");
  * @public
  * @namespace
  * @memberof  module:utils/coreutils
- * @property  {!string} root - Root path for client-side assets.
+ * @property  {!StringPath} root - Root path for client-side assets.
  * @property  {!Object} assets - Paths for asset directories (css, js, images).
- * @property  {!string} assets._this - Path to the root of the assets directory.
- * @property  {!string} assets.css - Path to the css directory within assets.
- * @property  {!string} assets.js - Path to the js directory within assets.
- * @property  {!string} assets.images - Path to the images directory within assets.
+ * @property  {!StringPath} assets._this - Path to the root of the assets directory.
+ * @property  {!StringPath} assets.css - Path to the css directory within assets.
+ * @property  {!StringPath} assets.js - Path to the js directory within assets.
+ * @property  {!StringPath} assets.images - Path to the images directory within assets.
  * @property  {!Object} _static - Paths for static files (css).
- * @property  {!string} _static._this - Path to the root of the static directory.
- * @property  {!string} _static.css - Path to the css directory within static.
+ * @property  {!StringPath} _static._this - Path to the root of the static directory.
+ * @property  {!StringPath} _static.css - Path to the css directory within static.
  *
  * @example <caption>ES Modules</caption>
  * import { clientPaths } from './utils/coreutils.js';
@@ -65,19 +70,19 @@ const __publicDir = path.join(rootDir, "public");
  *
  * @author    Ryuu Mitsuki
  * @since     0.1.0
- * @version   0.1
+ * @version   0.2
  */
-const clientPaths = {
+const clientPaths: ClientPaths = {
     root: __publicDir,
     assets: {
-        _this: path.join(__publicDir, "assets"),
-        css: path.join(__publicDir, "assets", "css"),
-        js: path.join(__publicDir, "assets", "js"),
-        images: path.join(__publicDir, "assets", "images")
+        _this: path.join(__publicDir, 'assets'),
+        css: path.join(__publicDir, 'assets', 'css'),
+        js: path.join(__publicDir, 'assets', 'js'),
+        images: path.join(__publicDir, 'assets', 'images')
     },
     _static: {
-        _this: path.join(__publicDir, "static"),
-        css: path.join(__publicDir, "static", "css")
+        _this: path.join(__publicDir, 'static'),
+        css: path.join(__publicDir, 'static', 'css')
     }
 };
 
@@ -87,13 +92,13 @@ const clientPaths = {
  * @public
  * @namespace
  * @memberof  module:utils/coreutils
- * @property  {!string} root - Root path for server-side directories.
- * @property  {!string} server - Path to the server directory.
- * @property  {!string} scss - Path to the SCSS directory.
- * @property  {!string} utils - Path to the utils directory.
- * @property  {!string} config - Path to the configuration base.
- * @property  {!string} build - Path to the built environments
- *                              like compiled CSS files.
+ * @property  {!StringPath} root - Root path for server-side directories.
+ * @property  {!StringPath} server - Path to the server directory.
+ * @property  {!StringPath} scss - Path to the SCSS directory.
+ * @property  {!StringPath} utils - Path to the utils directory.
+ * @property  {!StringPath} config - Path to the configuration base.
+ * @property  {!StringPath} build - Path to the built environments
+ *                                  like compiled CSS files.
  *
  * @example <caption>ES Modules</caption>
  * import { serverPaths } from './utils/coreutils.js';
@@ -103,40 +108,25 @@ const clientPaths = {
  *
  * @author    Ryuu Mitsuki
  * @since     0.1.0
- * @version   0.1
+ * @version   0.2
  */
-const serverPaths = {
-    root: path.join(rootDir, "src"),
-    server: path.join(rootDir, "src", "server"),
-    scss: path.join(rootDir, "src", "scss"),
-    utils: path.join(rootDir, "src", "utils"),
-    config: path.join(rootDir, "config"),
-    build: path.join(rootDir, "build")
+const serverPaths: ServerPaths = {
+    root: path.join(rootDir, 'src'),
+    server: path.join(rootDir, 'src', 'server'),
+    scss: path.join(rootDir, 'src', 'scss'),
+    utils: path.join(rootDir, 'src', 'utils'),
+    config: path.join(rootDir, 'config'),
+    build: path.join(rootDir, 'build')
 };
-
-
-/**
- * A completion callback function of `lsFiles` function to handle
- * the errors and get the returned array of files.
- *
- * @callback module:utils/coreutils~lsFilesCallback
- * @param    {?Error} error
- *           An error object if any error occurs during the process,
- *           otherwise `null`.
- * @param    {?Array} files
- *           An array of file paths that match the specified criteria.
- *           If any errors occurred, it will be `null`.
- * @since    0.1.0
- */
 
 
 /**
  * Asynchronously lists files in a directory based on specified
  * options and passes the result to a completion callback function.
  *
- * @param {!string} path
+ * @param {!StringPath} path
  *        The path of the directory to list files from.
- * @param {?Object} [options]
+ * @param {LsFilesOptions | null} options
  *        Optional configuration options.
  * @param {RegExp} [options.match]
  *        A regular expression to filter files. Default is
@@ -148,7 +138,7 @@ const serverPaths = {
  * @param {boolean} [options.baseName]
  *        Option to include only base filenames without their paths.
  *        Default is `false`.
- * @param {!module:utils/coreutils~lsFilesCallback} callback
+ * @param {!Function} callback
  *        Callback function required to store the error
  *        and an array of files.
  *
@@ -185,52 +175,26 @@ const serverPaths = {
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  0.1
+ * @version  0.2
  */
-function lsFiles(dirpath, options, callback) {
-    // Throw error immediately if the callback not being specified
-    if (!callback) {
-        throw new Error(
-            "Callback function must be specified to pass the error " +
-            "and an array of files"
-        );
-    }
-    
+function lsFiles(dirpath: StringPath,
+                 options: LsFilesOptions | null,
+                 callback: (error?: Error | null,
+                            entries?: Array<string> | null) => void): void {
     // This will create a new object storing user-defined options,
     // and fixing some undefined or null options with their default values.
-    options = (options ? options : {});  // Prevent null or undefined variable
-    const opts = {
-        match: options.match || /.*/,
-        exclude: options.exclude || /(^|\/)+\./,
-        baseName: options.baseName || false
+    const opts: LsFilesOptions = {
+        match: options?.match || /.*/,
+        exclude: options?.exclude || /(^|\/)+\./,
+        baseName: options?.baseName || false
     };
     
-    // Options checker
-    if (opts.match &&
-            !(opts.match instanceof RegExp)) {
-        throw new TypeError(
-            "Unexpected type of 'match' option: " +
-            `'${typeof opts.match}'. Expected is 'RegExp'`
-        );
-    } else if (opts.exclude &&
-            !(opts.exclude instanceof RegExp)) {
-        throw new TypeError(
-            "Unexpected type of 'exclude' option: " + 
-            `'${typeof opts.exclude}'. Expected is 'RegExp'`
-        );
-    } else if (opts.baseName &&
-            typeof opts.baseName !== "boolean") {
-        throw new TypeError(
-            "Unexpected type of 'baseName' option: " +
-            `'${typeof opts.baseName}'. Expected is 'boolean'`
-        );
-    }
-    
     try {
-        dir.files(dirpath, (err, entries) => {
-            let isNotDir = false;
+        dir.files(dirpath, function (err?: any | null,
+                                     entries?: Array<string> | null): void {
+            let isNotDir: boolean = false;
             if (err) {
-                if (err.code === "ENOTDIR") {
+                if (err!.code === 'ENOTDIR') {
                     isNotDir = true;
                 } else {
                     throw err;
@@ -242,24 +206,26 @@ function lsFiles(dirpath, options, callback) {
             // by checking whether the given path is refer to a regular file.
             if (isNotDir) {
                 // Check whether the given path is a regular file
-                fs.stat(dirpath, (errStat, stats) => {
+                fs.stat(dirpath, function (errStat?: any | null,
+                                           stats?: fs.Stats | null): void {
                     if (errStat) throw errStat;
                     
                     // Immediately return the given input path as an array,
                     // if the path is refer to a regular file.
-                    if (stats.isFile()) callback(null, [ dirpath ]);
+                    if (stats!.isFile()) callback(null, [ dirpath ]);
                 });
             } else {
                 // Filter the entries with several checks from options
-                entries = entries.filter((entry) => {
+                entries!.filter(function (entry: string): boolean {
                     return opts.match.test(entry) &&
                            !opts.exclude.test(entry);
                 });
                 
                 // Trim the paths, if the baseName option is true
                 if (opts.baseName) {
-                    entries =
-                        entries.map((entry) => path.basename(entry));
+                    entries!.map(function (entry: string): void {
+                        path.basename(entry)
+                    });
                 }
                 
                 // Pass the entries to callback
@@ -272,15 +238,4 @@ function lsFiles(dirpath, options, callback) {
     }
 }
 
-
-// Export necessary objects
-Object.defineProperty(module, "exports", {
-    value: {
-        rootDir,
-        clientPaths,
-        serverPaths,
-        lsFiles
-    },
-    writable: false,
-    configurable: false
-});
+export { rootDir, clientPaths, serverPaths, lsFiles };
