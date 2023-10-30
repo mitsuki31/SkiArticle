@@ -12,22 +12,25 @@
  * @requires  modules:sass
  * @author    Ryuu Mitsuki
  * @since     0.1.0
- * @version   0.1
+ * @version   0.2
  * @copyright 2023 CV. DR2E
  * @license   MIT
  */
 
-"use strict";
+import * as path from 'path';              // Path module
+import * as os from 'os';                  // OS module
+import * as fs from 'fs';                  // File System module
+import * as sass from 'sass';              // Sass module
 
-const path = require("path"),              // Path module
-      os = require("os"),                  // OS module
-      fs = require("fs"),                  // File System module
-      sass = require("sass"),              // Sass module
-      config = require("./utils/config");  // Config module (local)
-
-const {
+import * as config from './utils/config';  // Config module (local)
+import {
     serverPaths  // Server-side's working directories paths
-} = require("./utils/coreutils");
+} from './utils/coreutils';
+import {
+    StringPath,
+    SassConfig,
+    ResolvedSassConfig
+} from './core/types';
 
 
 /**
@@ -49,7 +52,7 @@ const {
  *        Path to the input Sass file to be compiled.
  * @param {!string} outfile
  *        Path to save the compiled CSS output.
- * @param {?SassConfig | null} [sassConfig]
+ * @param {SassConfig | null} sassConfig
  *        Configuration options for Sass compilation.
  * @param {!module:build~buildSassCallback} callback
  *        A callback function to handle errors.
@@ -64,36 +67,33 @@ const {
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  0.1
+ * @version  0.2
  */
-async function buildSass(infile, outfile, sassConfig, callback) {
-    if (!callback || typeof callback !== "function") {
-        throw new TypeError(
-            "Undefined or null callback is not allowed"
-        );
-    }
-    
+async function buildSass(
+    infile: StringPath,
+    outfile: StringPath,
+    sassConfig: SassConfig | null,
+    callback: (error?: Error | null) => void
+): Promise<void> {
     // Resolve and fix the configuration, the configuration
     // will be passed to `sass.compile` arguments
-    const resolvedSassConfig = config.resolve(
-        "sass", sassConfig, !sassConfig
-    );
+    const resolvedSassConfig: any =
+        config.resolve('sass', sassConfig, !sassConfig);
     
     // I/O operations
     try {
         // Reusable variable to test the file permissions
-        const mode = fs.constants.F_OK | fs.constants.R_OK;
+        const mode: number = fs.constants.F_OK | fs.constants.R_OK;
         
         // Ensure the input Sass file exists
-        await fs.access(infile, mode, (err) => {
-            if (err) {
-                if (err.code === "ENOENT") {
-                    throw new Error(
-                        `No such Sass file: '${infile}'`
-                    );
+        await fs.access(infile, mode,
+                        function (err?: any | null): void {
+            if (err!) {
+                if (err!.code === 'ENOENT') {
+                    throw new Error(`No such Sass file: '${infile}'`);
                 }
                 
-                throw err;
+                throw err!;
             }
         });
         
@@ -104,33 +104,37 @@ async function buildSass(infile, outfile, sassConfig, callback) {
             : path.resolve(outfile);
         
         // Compile the input Sass file asynchronously
-        const build = await sass.compileAsync(
+        // Use 'any' type because the type of 'CompileResult' is
+        // kind of a private member in `sass` module
+        const build: any = await sass.compileAsync(
             path.resolve(infile),  // Input file
             resolvedSassConfig     // Configuration settings
         );
         
         // Asynchronously create the directory recursively
-        fs.mkdir(
+        await fs.mkdir(
             path.dirname(outfile),
             { recursive: true },
-            (err) => {
+            async function (err?: Error | null): Promise<void> {
                 // Throw the errors, if any
-                if (err) throw err;
+                if (err!) throw err!;
                 
                 // Write the compiled CSS to the specified
                 // output file asynchronously after its parent
                 // directory successfully created with no error
-                fs.writeFile(
+                await fs.writeFile(
                     outfile,
                     build.css.concat(
                         // If the style is 'compressed',
                         // do not append a new line character at EOF,
                         // will be appended otherwise.
-                        sassConfig.style !== "compressed"
+                        sassConfig.style !== 'compressed'
                             ? os.EOL  // New line
-                            : ""      // No new line
+                            : ''      // No new line
                     ),
-                    (errWrite) => { if (errWrite) throw errWrite; }
+                    function (errWrite?: Error | null): void {
+                        if (errWrite!) throw errWrite!;
+                    }
                 );
             }
         );
@@ -161,62 +165,55 @@ async function buildSass(infile, outfile, sassConfig, callback) {
  *
  * @author  Ryuu Mitsuki
  * @since   0.1.0
- * @version 0.1
+ * @version 0.2
  */
-function _run_as_main() {
-    console.time("build");
+async function _run_as_main(): Promise<void> {
+    // Retrieve and parse the build configuration from 'build.json'
+    const buildConfig: any =
+        require(path.join(serverPaths.config, 'build.json'));
+    
+    console.time('build');
     
     // All command line arguments, excluding node command
     // and the script path
-    const args = process.argv.slice(2);
+    const args: Array<string> = process.argv.slice(2);
     
     // Check for "sass" or "scss" at first argument
     // This is case-insensitive, which means allowing uppercase
     // or lowercase
     if (args.length > 0 && /^s[a|c]ss$/i.test(args[0])) {
-        const sassFile = path.join(serverPaths.scss, "main.scss");
         
-        // Retrieve and parse the build configuration from 'build.json'
-        const buildConfig =
-            require(path.join(serverPaths.config, "build.json"));
-        const outFile = path.join(
+        const sassFile: StringPath = path.join(serverPaths.scss, 'main.scss');
+        const outFile: StringPath = path.join(
             /* Use destination path from build configuration,
              * if none, use the default destination path instead
              */
-            (buildConfig.sass.dest ||
-                path.join(serverPaths.build, "css")),
-            "main.css"
+            (buildConfig.sass?.dest ||
+                path.join(serverPaths.build, 'css')),
+            'main.css'
         );
         
-        buildSass(
-            sassFile,               // Input
-            outFile,                // Output
-            buildConfig.sass,       // Configuration
-            (err) => {              // Callback
+        await buildSass(
+            sassFile,                              // Input
+            outFile,                               // Output
+            buildConfig.sass || null,              // Configuration
+            function (err?: Error | null): void {  // Callback
                 // Print the errors to the console
-                if (err) console.error(err);
+                if (err!) throw err!;
             }
         );
     }
     
-    console.timeEnd("build");
-    console.info("Build successful.");
+    console.timeEnd('build');
+    console.info('Build successful.');
 }
-
-
-// Using this statement, the exported objects will be unmodifiable
-Object.defineProperty(module, "exports", {
-    value: {
-        buildSass
-    },
-    writable: false,
-    configurable: false
-});
 
 
 // Main driver
 // Only run when the module is executed directly,
 // not being imported as module
 if (require.main === module) {
-    _run_as_main();
+    _run_as_main().catch(function (err?: Error | null): void {
+        console.error(err!);
+    });
 }
