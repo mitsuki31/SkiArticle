@@ -3,3 +3,5 @@ node_modules/
 
 # Ignore generated documentation (it is sometimes has JS files within)
 docs/
+
+build/
