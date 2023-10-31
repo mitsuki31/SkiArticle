@@ -231,7 +231,7 @@ function lsFiles(dirpath: StringPath,
                 callback(null, entries);
             }
         });
-    } catch (error) {
+    } catch (error: any) {
         // Pass the errors to callback
         callback(error, null);
     }

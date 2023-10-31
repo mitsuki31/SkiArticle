@@ -132,7 +132,7 @@ const defaultAddress: ServerAddress = {
     // Run the server
     app.listen(address.port, address.host, function (): void {
         console.log(`${process.platform.replace(
-            process.platform.at(0), process.platform.at(0).toUpperCase()
+            process.platform.at(0)!, process.platform.at(0)!.toUpperCase()
         )} (${process.arch}) | NodeJS ${process.version}`);
         console.log(
             `Server is running at 'http://${address.host}:${address.port}'\n`
@@ -146,8 +146,8 @@ const defaultAddress: ServerAddress = {
     let host: string,
         port: number;
     
-    host = args.length > 0 ? args[0] : process.env.HOST;
-    port = Number.parseInt(args.length > 1 ? args[1] : process.env.PORT);
+    host = args.length > 0 ? args[0] : process.env.HOST!;
+    port = Number.parseInt(args.length > 1 ? args[1] : process.env.PORT!);
     
     return {
         host: host || null,

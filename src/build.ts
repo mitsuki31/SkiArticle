@@ -136,7 +136,7 @@ async function buildSass(
                 );
             }
         );
-    } catch (error) {
+    } catch (error: any) {
         // Handle errors by invoking the provided function
         callback(error);
     }
