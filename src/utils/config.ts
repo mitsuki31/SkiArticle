@@ -288,10 +288,9 @@ function typeCheckerAsync(obj: any,
  * @since    0.1.0
  * @version  0.2
  */
-function resolve(
-    type: string,
-    data: SassConfig,
-    useDefault: boolean = false
+function resolve(type: string,
+                 data: SassConfig,
+                 useDefault: boolean = false
 ): ResolvedSassConfig | SassConfig {
     // => Sass
     if (/^s[a|c]ss$/i.test(type)) {
@@ -307,54 +306,26 @@ function resolve(
         
         // Check for "charset" property in user-provided data
         if ("charset" in data) {
-            typeCheckerAsync(
-                data.charset,
-                "boolean",
-                (response: { error?: Error, value: any }) => {
-                    // Throw the error, if any
-                    if (response.error!) throw response.error!;
-                    charset = response.value;
-                }
-            );
+            charset = typeChecker(data.charset, 'boolean')
+                ? data.charset
+                : sassConfig.charset;
         }
         
         if (data.sourceMap) {
             // Check whether the data.sourceMap has property
             // called "generateFile"
             if ("generateFile" in data.sourceMap) {
-                typeCheckerAsync(
-                    data.sourceMap.generateFile,
-                    "boolean",                                      // Expected type
-                    (response: { error?: Error, value: any }) => {  // Callback response
-                        // Throw error when the given object are
-                        // different with the expected type
-                        if (response.error!) throw response.error!;
-                        
-                        // Return the value if its type were expected
-                        sourceMap = response.value;
-                    }
-                );
-            } else {
-                sourceMap = sassConfig.sourceMap;
+                sourceMap = typeChecker(data.sourceMap.generateFile, 'boolean')                                      // Expected type
+                    ? data.sourceMap.generateFile
+                    : sassConfig.sourceMap;
             }
             
             // Check whether the data.sourceMap has property
             // called "includeSources"
             if ("includeSources" in data.sourceMap) {
-                typeCheckerAsync(
-                    data.sourceMap.includeSources,
-                    "boolean",                                      // Expected type
-                    (response: { error?: Error, value: any }) => {  // Callback response
-                        // Throw error when the given object are
-                        // different with the expected type
-                        if (response.error!) throw response.error!;
-                        
-                        // Return the value if its type were expected
-                        includeSources = response.value;
-                    }
-                );
-            } else {
-                includeSources = sassConfig.sourceMapIncludeSources;
+                includeSources = typeChecker(data.sourceMap.includeSources, 'boolean')                                      // Expected type
+                    ? data.sourceMap.includeSources
+                    : sassConfig.sourceMapIncludeSources;
             }
         } else {
             sourceMap = sassConfig.sourceMap;
@@ -363,17 +334,9 @@ function resolve(
         
         // Fix and resolve the verbose option
         if ("verbose" in data) {
-            typeCheckerAsync(
-                data.verbose,
-                "boolean",
-                (response: { error?: Error, value: any }) => {
-                    if (response.error!) throw response.error!;
-                    
-                    verbose = response.value;
-                }
-            );
-        } else {
-            verbose = sassConfig.verbose;
+            verbose = typeChecker(data.verbose, 'boolean')
+                ? data.verbose
+                : sassConfig.verbose;
         }
         
         return {
