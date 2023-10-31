@@ -42,17 +42,17 @@ const app: express.Express = express();
 /**
  * Default host and port address for the web application to run.
  *
- * @public
- * @namespace
- * @memberof module:server/server
  * @property {!string} host - A string representing the default host address.
  *                            Default is `'localhost'`.
  * @property {!number} port - A number representing the default port.
  *                            Default is `4312`.
  *
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- * @version 0.2
+ * @public
+ * @namespace
+ * @memberof module:server/server
+ * @author   Ryuu Mitsuki
+ * @since    0.1.0
+ * @version  0.2
  */
 const defaultAddress: ServerAddress = {
     /**
@@ -97,7 +97,7 @@ const defaultAddress: ServerAddress = {
             || defaultAddress.port
     };
     
-    // Path reference to compiled main CSS file
+    // Path reference to the compiled main CSS file
     // ==> .../build/css/main.css
     const mainCss: StringPath =
         path.join(serverPaths.build, 'css', 'main.css');

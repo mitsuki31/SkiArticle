@@ -49,8 +49,6 @@ const __publicDir: StringPath = path.join(rootDir, 'public');
 /**
  * A namespace containing working directories used by client-side.
  *
- * @public
- * @namespace
  * @memberof  module:utils/coreutils
  * @property  {!StringPath} root - Root path for client-side assets.
  * @property  {!Object} assets - Paths for asset directories (css, js, images).
@@ -62,12 +60,14 @@ const __publicDir: StringPath = path.join(rootDir, 'public');
  * @property  {!StringPath} _static._this - Path to the root of the static directory.
  * @property  {!StringPath} _static.css - Path to the css directory within static.
  *
- * @example <caption>ES Modules</caption>
+ * @example <caption>ES Module</caption>
  * import { clientPaths } from './utils/coreutils.js';
  *
  * @example <caption>CommonJS</caption>
  * const { clientPaths } = require('./utils/coreutils');
  *
+ * @public
+ * @namespace
  * @author    Ryuu Mitsuki
  * @since     0.1.0
  * @version   0.2
@@ -100,7 +100,7 @@ const clientPaths: ClientPaths = {
  * @property  {!StringPath} build - Path to the built environments
  *                                  like compiled CSS files.
  *
- * @example <caption>ES Modules</caption>
+ * @example <caption>ES Module</caption>
  * import { serverPaths } from './utils/coreutils.js';
  *
  * @example <caption>CommonJS</caption>
@@ -144,7 +144,6 @@ const serverPaths: ServerPaths = {
  *
  * @throws {Error} If the specified path does not exist,
  *                 is not a directory, or other unexpected errors occur.
- * @throws {TypeError} If any option does not match with the expected type.
  *
  * @example <caption>Use Default Options</caption>
  * lsFiles('/path/to/directory', null,
@@ -208,7 +207,7 @@ function lsFiles(dirpath: StringPath,
                 // Check whether the given path is a regular file
                 fs.stat(dirpath, function (errStat?: any | null,
                                            stats?: fs.Stats | null): void {
-                    if (errStat) throw errStat;
+                    if (errStat!) throw errStat!;
                     
                     // Immediately return the given input path as an array,
                     // if the path is refer to a regular file.

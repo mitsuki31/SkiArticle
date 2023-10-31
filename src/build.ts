@@ -48,9 +48,9 @@ import {
  * Asynchronously builds and compiles a specific Sass file
  * and saves the compiled CSS to a specified output file.
  *
- * @param {!string} infile
+ * @param {!StringPath} infile
  *        Path to the input Sass file to be compiled.
- * @param {!string} outfile
+ * @param {!StringPath} outfile
  *        Path to save the compiled CSS output.
  * @param {SassConfig | null} sassConfig
  *        Configuration options for Sass compilation.
@@ -59,8 +59,6 @@ import {
  *
  * @throws {Error} If the input Sass file does not
  *                 exist or if there are I/O issues.
- * @throws {TypeError} If the given callback is not
- *                     a function or not specified.
  *
  * @public
  * @async
@@ -146,7 +144,8 @@ async function buildSass(
 
 
 /**
- * Private function that runs as the main entry point of the module.
+ * Private function that runs asynchronously as the main entry
+ * point of the module.
  *
  * <p>Parses command line arguments and processes the appropriate tasks.
  * Specifically, this function compiles Sass files if the first argument
@@ -159,6 +158,7 @@ async function buildSass(
  * called directly.
  *
  * @private
+ * @async
  * @function
  * @throws {Error} Throws an error if there is an issue with
  *                 Sass compilation.
