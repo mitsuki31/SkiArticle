@@ -207,7 +207,7 @@ function typeCheckerAsync(obj: any,
         `${typeof obj} != ${type}`
     );
     
-    let err: Error | TypeError;  // Used to store any error
+    let err: Error | TypeError | null = null;  // Used to store any error
     if (util.isNullOrUndefined(obj)) {
         err = new Error("Undefined or null given object");
     } else if (!type || typeof type !== "string") {
@@ -221,7 +221,7 @@ function typeCheckerAsync(obj: any,
     if (err) {
         callback({
             result: false,
-            error: err,
+            error: err!,
             value: obj,
             type: type
         });
@@ -299,16 +299,15 @@ function resolve(type: string,
         if (useDefault || !data) return defaultConfig.sass;
         
         const sassConfig: SassDefaultConfig = defaultConfig.sass;
-        let charset: boolean,
-            sourceMap: boolean,
-            includeSources: boolean,
-            verbose: boolean;
+        let charset: boolean = sassConfig.charset,
+            sourceMap: boolean = sassConfig.sourceMap,
+            includeSources: boolean = sassConfig.sourceMapIncludeSources,
+            verbose: boolean = sassConfig.verbose;
         
         // Check for "charset" property in user-provided data
         if ("charset" in data) {
             charset = typeChecker(data.charset, 'boolean')
-                ? data.charset
-                : sassConfig.charset;
+                ? data.charset! : charset;
         }
         
         if (data.sourceMap) {
@@ -316,34 +315,28 @@ function resolve(type: string,
             // called "generateFile"
             if ("generateFile" in data.sourceMap) {
                 sourceMap = typeChecker(data.sourceMap.generateFile, 'boolean')                                      // Expected type
-                    ? data.sourceMap.generateFile
-                    : sassConfig.sourceMap;
+                    ? data.sourceMap.generateFile! : sourceMap;
             }
             
             // Check whether the data.sourceMap has property
             // called "includeSources"
             if ("includeSources" in data.sourceMap) {
                 includeSources = typeChecker(data.sourceMap.includeSources, 'boolean')                                      // Expected type
-                    ? data.sourceMap.includeSources
-                    : sassConfig.sourceMapIncludeSources;
+                    ? data.sourceMap.includeSources! : includeSources;
             }
-        } else {
-            sourceMap = sassConfig.sourceMap;
-            includeSources = sassConfig.sourceMapIncludeSources;
         }
         
         // Fix and resolve the verbose option
         if ("verbose" in data) {
             verbose = typeChecker(data.verbose, 'boolean')
-                ? data.verbose
-                : sassConfig.verbose;
+                ? data.verbose! : verbose;
         }
         
         return {
             charset,
             sourceMap,
             sourceMapIncludeSources: includeSources,
-            style: data.style || sassConfig.style,
+            style: data.style! || sassConfig.style,
             verbose
         };
     }
