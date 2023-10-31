@@ -21,45 +21,47 @@
  * @requires    module:path
  * @requires    module:express
  * @author      Ryuu Mitsuki
- * @copyright   2023 CV. DR2E
  * @since       0.1.0
- * @version     0.1
+ * @version     0.2
+ * @copyright   2023 CV. DR2E
+ * @license     MIT
  */
 
-"use strict";
+import * as path from 'path';
+import * as express from 'express';
 
-const path = require("path"),
-      express = require("express"),
-      app = express();
-
-const {
+import {
     serverPaths,
     clientPaths
-} = require("./../utils/coreutils");
+} from '../utils/coreutils';
+
+import { StringPath, ServerAddress } from '../core/types';
+
+const app: express.Express = express();
 
 /**
  * Default host and port address for the web application to run.
  *
+ * @property {!string} host - A string representing the default host address.
+ *                            Default is `'localhost'`.
+ * @property {!number} port - A number representing the default port.
+ *                            Default is `4312`.
+ *
  * @public
  * @namespace
  * @memberof module:server/server
- * @property {!string} host - A string representing the default host address.
- *                            Default is <code>'localhost'</code>.
- * @property {!number} port - A number representing the default port.
- *                            Default is <code>4312</code>.
- *
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- * @version 0.1
+ * @author   Ryuu Mitsuki
+ * @since    0.1.0
+ * @version  0.2
  */
-const defaultAddress = {
+const defaultAddress: ServerAddress = {
     /**
      * Default host address.
      * @inner
      * @default
      * @type {!string}
      */
-    host: "localhost",
+    host: 'localhost',
     /**
      * Default port.
      * @inner
@@ -81,49 +83,74 @@ const defaultAddress = {
  * @name    run
  * @author  Ryuu Mitsuki
  * @since   0.1.0
- * @version 0.1
+ * @version 0.2
  */
-(() => {
+(function (
+    opts: {
+        host?: string | null,
+        port?: number | null
+    }
+): void {
     // Use host or IP address and port from input arguments.
-    // If not specified, search for HOST and PORT in environment variables.
-    // And if none all of above specified, use the default address instead.
-    const address = {
-        // Host address
-        host: process.argv[2] || process.env.HOST || defaultAddress.host,
-        // Port
-        port: process.argv[3] || process.env.PORT || defaultAddress.port
-    };
+    // If not specified, use the default address instead.
+    let address: ServerAddress;
+    if (Object.keys(opts).length > 0) {
+        address = {
+            // Host address
+            host: opts.host || defaultAddress.host,
+            // Port
+            port: opts.port || defaultAddress.port
+        };
+    } else {
+        address = defaultAddress;  // Copy
+    }
     
-    // Path reference to compiled main CSS file
-    // ==> {rootDir}/build/css/main.css
-    const mainCss = path.join(serverPaths.build, "css", "main.css");
+    // Path reference to the compiled main CSS file
+    // ==> .../build/css/main.css
+    const mainCss: StringPath =
+        path.join(serverPaths.build, 'css', 'main.css');
     
     // Logging some requested stuff like URL, HTTP method, etc
-    app.use((req, res, next) => {
+    app.use(function (req: any, res: any, next: Function): void {
         // Log the HTTP method, requested URL, and status code
         console.log(`[${req.method}] ${res.statusCode} -- ` +
-            `${req.url === "/" ? "/{index}" : req.url}`);
-        console.log("----------------------------------------");
+            `${req.url === '/' ? '/{index}' : req.url}`);
+        console.log('----------------------------------------');
         next();  // Continue to next middleware
     });
     
     // In this case, when users on root URL address, it will immediately
     // send neccessary stuff
-    app.use("/", express.static(clientPaths.root, { index: "index.html" }));
+    app.use('/', express.static(clientPaths.root, { index: 'index.html' }));
     
     // Listen the request to get the main CSS from client-side
-    app.get("/assets/css/main.css", (req, res) => {
+    app.get('/assets/css/main.css', function (req: any, res: any): void {
         // Send the requested file
         res.sendFile(mainCss);
     });
     
     // Run the server
-    app.listen(address.port, address.host, () => {
+    app.listen(address.port, address.host, function (): void {
         console.log(`${process.platform.replace(
-            process.platform.at(0), process.platform.at(0).toUpperCase()
+            process.platform.at(0)!, process.platform.at(0)!.toUpperCase()
         )} (${process.arch}) | NodeJS ${process.version}`);
         console.log(
             `Server is running at 'http://${address.host}:${address.port}'\n`
         );
     });
-})();
+})((function (): {
+    host?: string | null,
+    port?: number | null
+} {
+    const args: Array<string> = process.argv.slice(2);
+    let host: string,
+        port: number;
+    
+    host = args.length > 0 ? args[0] : process.env.HOST!;
+    port = Number.parseInt(args.length > 1 ? args[1] : process.env.PORT!);
+    
+    return {
+        host: host || null,
+        port: port || null
+    };
+})());

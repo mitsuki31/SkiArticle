@@ -5,30 +5,18 @@
  * @requires  module:util
  * @author    Ryuu Mitsuki
  * @since     0.1.0
- * @version   0.1
+ * @version   0.2
  * @copyright 2023 CV. DR2E
  * @license   MIT
  */
 
-"use strict";
+import * as util from 'util';  // Built-in Util module
 
-const util = require("util");
+import {
+    DefaultConfig, SassDefaultConfig,
+    SassConfig, ResolvedSassConfig
+} from '../core/types'
 
-/**
- * An object representing configuration data for Sass or SassDoc.
- * @global
- * @typedef {Object} SassConfig
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- */
-
-/**
- * An object representing resolved configuration data for Sass or SassDoc.
- * @global
- * @typedef {Object} ResolvedSassConfig
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- */
 
 /**
  * Callback function to handle the result of the type check.
@@ -62,9 +50,9 @@ const util = require("util");
  * @memberof  module:utils/config
  * @author    Ryuu Mitsuki
  * @since     0.1.0
- * @version   0.1
+ * @version   0.2
  */
-const defaultConfig = {
+const defaultConfig: DefaultConfig = {
     /**
      * Default configuration of Sass.
      *
@@ -83,7 +71,7 @@ const defaultConfig = {
      * @public
      * @namespace
      * @since   0.1.0
-     * @version 0.1
+     * @version 0.2
      */
     sass: {
         /**
@@ -153,19 +141,10 @@ const defaultConfig = {
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  0.1
+ * @version  0.2
  * @see      {@link module:utils/config~typeCheckerAsync}
  */
-function typeChecker(obj, type) {
-    if (util.isNullOrUndefined(obj)) {
-        throw new Error("Undefined or null given object");
-    } else if (!type || typeof type !== "string") {
-        throw new TypeError(
-            `Unexpected type of 'type': ${typeof type}. ` +
-            "Expected string"
-        );
-    }
-    
+function typeChecker(obj: any, type: string): boolean {
     let res = false;
     if (/^(object|array)$/i.test(type)) {
         res = obj instanceof Object;
@@ -212,25 +191,23 @@ function typeChecker(obj, type) {
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  0.1
+ * @version  0.2
  */
-function typeCheckerAsync(obj, type, callback) {
-    // Check whether the given callback is not a function
-    // or not being specified (undefined)
-    if (!callback || typeof callback !== "function") {
-        throw new TypeError(
-            `Unexpected type of 'callback': ${typeof callback}. ` +
-            "Expected function"
-        );
-    }
-    
+function typeCheckerAsync(obj: any,
+                          type: string,
+                          callback: (response: {
+                              result: boolean,
+                              error?: Error | null,
+                              value: any,
+                              type: string
+                          }) => void) {
     // Create new type error
-    let typeErr = new TypeError(
+    let typeErr: TypeError = new TypeError(
         `Given object are not type of ${type}: ` +
         `${typeof obj} != ${type}`
     );
     
-    let err;  // Used to store any error
+    let err: Error | TypeError | null = null;  // Used to store any error
     if (util.isNullOrUndefined(obj)) {
         err = new Error("Undefined or null given object");
     } else if (!type || typeof type !== "string") {
@@ -244,14 +221,14 @@ function typeCheckerAsync(obj, type, callback) {
     if (err) {
         callback({
             result: false,
-            error: err,
+            error: err!,
             value: obj,
             type: type
         });
         return;  // Break and return
     }
     
-    let res = false;  // Store the result from various checks
+    let res: boolean = false;  // Store the result from various checks
     if (/^(object|array)$/i.test(type)) {
         res = obj instanceof Object;
     } else if (/^(string|number|boolean|function)$/i.test(type)) {
@@ -284,118 +261,82 @@ function typeCheckerAsync(obj, type, callback) {
  *
  * @param {!string} type
  *        The type of configuration to resolve (only supports `sass`).
- * @param {!SassConfig | Object} data
+ * @param {!SassConfig} data
  *        User-provided configuration data, can be from JSON file.
  * @param {boolean} [useDefault]
  *        Whether to use default configuration if specific options
  *        are not provided.
  *
- * @return {ResolvedSassConfig | SassConfig | Object}
+ * @return {ResolvedSassConfig | SassConfig}
  *         Resolved configuration object for Sass or returning
  *         back the given data (unresolved) if the provided type
  *         is not known by the function to be processed.
  *
  * @example
- * const config = require('./utils/config');
- *
- * // Retrieve configurations from JSON file
- * const sassConfig = require('./path/to/sass.json');
+ * const sassConfig = {
+ *   dest: './build',
+ *   charset: false,
+ *   sourceMap: false
+ * };
  *
  * // Resolve and fix the configurations
- * sassConfig = config.resolve('sass', sassConfig);
+ * sassConfig = resolve('sass', sassConfig);
  *
  * @public
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  0.1
+ * @version  0.2
  */
-function resolve(type, data, useDefault = false) {
+function resolve(type: string,
+                 data: SassConfig,
+                 useDefault: boolean = false
+): ResolvedSassConfig | SassConfig {
     // => Sass
     if (/^s[a|c]ss$/i.test(type)) {
         // Return the default configuration if useDefault is `true`
         // or user not specified the data (e.g. null or undefined)
         if (useDefault || !data) return defaultConfig.sass;
         
-        const sassConfig = defaultConfig.sass;  // Alias
-        let charset, sourceMap, includeSources, verbose;
+        const sassConfig: SassDefaultConfig = defaultConfig.sass;
+        let charset: boolean = sassConfig.charset,
+            sourceMap: boolean = sassConfig.sourceMap,
+            includeSources: boolean = sassConfig.sourceMapIncludeSources,
+            verbose: boolean = sassConfig.verbose;
         
         // Check for "charset" property in user-provided data
         if ("charset" in data) {
-            typeCheckerAsync(
-                data.charset,
-                "boolean",
-                (response) => {
-                    // Throw the error, if any
-                    if (response.error) throw response.error;
-                    charset = response.value;
-                }
-            );
+            charset = typeChecker(data.charset, 'boolean')
+                ? data.charset! : charset;
         }
         
         if (data.sourceMap) {
             // Check whether the data.sourceMap has property
             // called "generateFile"
             if ("generateFile" in data.sourceMap) {
-                typeCheckerAsync(
-                    data.sourceMap.generateFile,
-                    "boolean",       // Expected type
-                    (response) => {  // Callback response
-                        // Throw error when the given object are
-                        // different with the expected type
-                        if (response.error) throw response.error;
-                        
-                        // Return the value if its type were expected
-                        sourceMap = response.value;
-                    }
-                );
-            } else {
-                sourceMap = sassConfig.sourceMap;
+                sourceMap = typeChecker(data.sourceMap.generateFile, 'boolean')                                      // Expected type
+                    ? data.sourceMap.generateFile! : sourceMap;
             }
             
             // Check whether the data.sourceMap has property
             // called "includeSources"
             if ("includeSources" in data.sourceMap) {
-                typeCheckerAsync(
-                    data.sourceMap.includeSources,
-                    "boolean",       // Expected type
-                    (response) => {  // Callback response
-                        // Throw error when the given object are
-                        // different with the expected type
-                        if (response.error) throw response.error;
-                        
-                        // Return the value if its type were expected
-                        includeSources = response.value;
-                    }
-                );
-            } else {
-                includeSources = sassConfig.sourceMapIncludeSources;
+                includeSources = typeChecker(data.sourceMap.includeSources, 'boolean')                                      // Expected type
+                    ? data.sourceMap.includeSources! : includeSources;
             }
-        } else {
-            sourceMap = sassConfig.sourceMap;
-            includeSources = sassConfig.sourceMapIncludeSources;
         }
         
         // Fix and resolve the verbose option
         if ("verbose" in data) {
-            typeCheckerAsync(
-                data.verbose,
-                "boolean",
-                (response) => {
-                    if (response.error) throw response.error;
-                    
-                    verbose = response.value;
-                }
-            );
-        } else {
-            verbose = sassConfig.verbose;
+            verbose = typeChecker(data.verbose, 'boolean')
+                ? data.verbose! : verbose;
         }
         
         return {
             charset,
             sourceMap,
             sourceMapIncludeSources: includeSources,
-            style: data.style || sassConfig.style,
+            style: data.style! || sassConfig.style,
             verbose
         };
     }
@@ -405,15 +346,4 @@ function resolve(type, data, useDefault = false) {
     return data;
 }
 
-// This statements will make exported objects unmodifiable
-Object.defineProperty(module, "exports", {
-    value: {
-        // Objects that want to be exported
-        resolve,
-        defaultConfig,
-        typeChecker,
-        typeCheckerAsync
-    },
-    writable: false,
-    configurable: false
-});
+export { resolve, defaultConfig, typeChecker, typeCheckerAsync };

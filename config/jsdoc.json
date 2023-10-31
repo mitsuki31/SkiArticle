@@ -10,9 +10,10 @@
             "public/assets/js"
         ],
         "exclude": [
-            "docs"
+            "docs",
+            "build"
         ],
-        "includePattern": ".+\\.js(doc|x)?$",
+        "includePattern": ".+\\.[t|j]s(doc|x)?$",
         "excludePattern": "(^|\\/|\\\\)_"
     },
     "tags": {
