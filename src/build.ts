@@ -76,7 +76,7 @@ async function buildSass(
     // Resolve and fix the configuration, the configuration
     // will be passed to `sass.compile` arguments
     const resolvedSassConfig: any =
-        config.resolve('sass', sassConfig, !sassConfig);
+        config.resolve('sass', sassConfig!, !sassConfig!);
     
     // I/O operations
     try {
@@ -126,7 +126,7 @@ async function buildSass(
                         // If the style is 'compressed',
                         // do not append a new line character at EOF,
                         // will be appended otherwise.
-                        sassConfig.style !== 'compressed'
+                        sassConfig!.style !== 'compressed'
                             ? os.EOL  // New line
                             : ''      // No new line
                     ),
