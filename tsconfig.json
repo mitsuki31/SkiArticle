@@ -3,7 +3,8 @@
     "module": "commonjs",
     "target": "es6",
     "outDir": "./build/js",
-    "removeComments": true
+    "removeComments": true,
+    "strict": true
   },
   "include": ["./src/**/*", "./tests/**/*"],
   "exclude": ["./public/**/*", "./src/s?ss/**/*"]
