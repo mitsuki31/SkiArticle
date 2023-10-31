@@ -85,17 +85,25 @@ const defaultAddress: ServerAddress = {
  * @since   0.1.0
  * @version 0.2
  */
-(function (): void {
+(function (
+    opts: {
+        host?: string | null,
+        port?: number | null
+    }
+): void {
     // Use host or IP address and port from input arguments.
-    // If not specified, search for HOST and PORT in environment variables.
-    // And if none all of above specified, use the default address instead.
-    const address: ServerAddress = {
-        // Host address
-        host: process.argv[2] || process.env.HOST || defaultAddress.host,
-        // Port
-        port: Number.parseInt(process.argv[3] || process.env.PORT)
-            || defaultAddress.port
-    };
+    // If not specified, use the default address instead.
+    let address: ServerAddress;
+    if (Object.keys(opts).length > 0) {
+        address = {
+            // Host address
+            host: opts.host || defaultAddress.host,
+            // Port
+            port: opts.port || defaultAddress.port
+        };
+    } else {
+        address = defaultAddress;  // Copy
+    }
     
     // Path reference to the compiled main CSS file
     // ==> .../build/css/main.css
@@ -130,4 +138,19 @@ const defaultAddress: ServerAddress = {
             `Server is running at 'http://${address.host}:${address.port}'\n`
         );
     });
-})();
+})((function (): {
+    host?: string | null,
+    port?: number | null
+} {
+    const args: Array<string> = process.argv.slice(2);
+    let host: string,
+        port: number;
+    
+    host = args.length > 0 ? args[0] : process.env.HOST;
+    port = Number.parseInt(args.length > 1 ? args[1] : process.env.PORT);
+    
+    return {
+        host: host || null,
+        port: port || null
+    };
+})());
