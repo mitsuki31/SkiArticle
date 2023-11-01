@@ -41,6 +41,8 @@
     "devDependencies": {
         "@types/express": "^4.17.20",
         "@types/node-dir": "^0.0.36",
+        "@typescript-eslint/eslint-plugin": "^6.9.1",
+        "@typescript-eslint/parser": "^6.9.1",
         "docdash": "^2.0.2",
         "eslint": "^8.51.0",
         "jsdoc": "~4.0.2"
