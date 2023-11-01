@@ -35,7 +35,11 @@ import {
     clientPaths
 } from '../utils/coreutils';
 
-import { StringPath, ServerAddress } from '../core/types';
+import {
+    StringPath,
+    ServerAddress,
+    ServerOptions
+} from '../core/types';
 
 const app: express.Express = express();
 
@@ -85,12 +89,7 @@ const defaultAddress: ServerAddress = {
  * @since   0.1.0
  * @version 0.2
  */
-(function (
-    opts: {
-        host?: string | null,
-        port?: number | null
-    }
-): void {
+(function (opts?: ServerOptions): void {
     // Use host or IP address and port from input arguments.
     // If not specified, use the default address instead.
     let address: ServerAddress;
@@ -144,10 +143,7 @@ const defaultAddress: ServerAddress = {
         console.log(`Server is running at 'http://${
                 address.host}:${address.port}'\n`);
     });
-})((function (): {
-    host?: string | null,
-    port?: number | null
-} {
+})((function (): ServerOptions {
     const args: Array<string> = process.argv.slice(2);
     
     const host: string = args.length > 0
@@ -157,6 +153,6 @@ const defaultAddress: ServerAddress = {
     
     return {
         host: host || null,
-        port: port || null
+        port: port
     };
 })());
