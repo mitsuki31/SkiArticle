@@ -94,12 +94,12 @@ const defaultAddress: ServerAddress = {
     // Use host or IP address and port from input arguments.
     // If not specified, use the default address instead.
     let address: ServerAddress;
-    if (Object.keys(opts).length > 0) {
+    if (Object.keys(opts!).length > 0) {
         address = {
             // Host address
-            host: opts.host || defaultAddress.host,
+            host: opts!.host || defaultAddress.host,
             // Port
-            port: opts.port || defaultAddress.port
+            port: opts!.port || defaultAddress.port
         };
     } else {
         address = defaultAddress;  // Copy
