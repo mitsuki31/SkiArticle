@@ -46,7 +46,7 @@ export interface SassDefaultConfig {
 
 export interface DefaultConfig {
     sass: SassDefaultConfig,
-    sassdoc: {}  // Currently just an empty object
+    sassdoc: NonNullable<unknown>  // Currently just an empty object
 }
 
 /**
