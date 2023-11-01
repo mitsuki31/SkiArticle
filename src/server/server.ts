@@ -111,7 +111,9 @@ const defaultAddress: ServerAddress = {
         path.join(serverPaths.build, 'css', 'main.css');
     
     // Logging some requested stuff like URL, HTTP method, etc
-    app.use(function (req: any, res: any, next: Function): void {
+    app.use(function (req: express.Request,
+                      res: express.Response,
+                      next: express.NextFunction): void {
         // Log the HTTP method, requested URL, and status code
         console.log(`[${req.method}] ${res.statusCode} -- ` +
             `${req.url === '/' ? '/{index}' : req.url}`);
@@ -119,12 +121,16 @@ const defaultAddress: ServerAddress = {
         next();  // Continue to next middleware
     });
     
-    // In this case, when users on root URL address, it will immediately
-    // send neccessary stuff
-    app.use('/', express.static(clientPaths.root, { index: 'index.html' }));
+    // In this case, when users on root URL address,
+    // it will immediately send necessary stuff
+    app.use('/', express.static(
+        clientPaths.root, { index: 'index.html' }
+    ));
     
     // Listen the request to get the main CSS from client-side
-    app.get('/assets/css/main.css', function (req: any, res: any): void {
+    app.get('/assets/css/main.css',
+        function (req: express.Request,
+                  res: express.Response): void {
         // Send the requested file
         res.sendFile(mainCss);
     });
@@ -132,22 +138,22 @@ const defaultAddress: ServerAddress = {
     // Run the server
     app.listen(address.port, address.host, function (): void {
         console.log(`${process.platform.replace(
-            process.platform.at(0)!, process.platform.at(0)!.toUpperCase()
+            process.platform.at(0)!,
+            process.platform.at(0)!.toUpperCase()
         )} (${process.arch}) | NodeJS ${process.version}`);
-        console.log(
-            `Server is running at 'http://${address.host}:${address.port}'\n`
-        );
+        console.log(`Server is running at 'http://${
+                address.host}:${address.port}'\n`);
     });
 })((function (): {
     host?: string | null,
     port?: number | null
 } {
     const args: Array<string> = process.argv.slice(2);
-    let host: string,
-        port: number;
     
-    host = args.length > 0 ? args[0] : process.env.HOST!;
-    port = Number.parseInt(args.length > 1 ? args[1] : process.env.PORT!);
+    const host: string = args.length > 0
+        ? args[0] : process.env.HOST!;
+    const port: number = Number.parseInt(
+        args.length > 1 ? args[1] : process.env.PORT!);
     
     return {
         host: host || null,
