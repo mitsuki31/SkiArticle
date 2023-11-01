@@ -77,7 +77,8 @@ const defaultAddress: ServerAddress = {
 
 
 /**
- * Runs the server for the web application on specific address.
+ * Configures and runs the Express server with the provided options.
+ * If no options are provided, it uses default host and port values.
  *
  * <p>Users can customize the address by specifying host and
  * port either from command line arguments or environment
