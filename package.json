@@ -4,8 +4,8 @@
     "description": "Private module for handling server-side logic and client-side scripts.",
     "private": true,
     "scripts": {
-        "start": "nodemon src/server/server.js",
-        "build": "node src/build.js sass",
+        "start": "nodemon build/src/server/server.js",
+        "build": "node build/src/build.js sass",
         "build-docs": "jsdoc -c config/jsdoc.json",
         "lint": "eslint .",
         "ci-lint": "eslint . --cache --cache-location cache/.eslintcache"
