@@ -17,20 +17,22 @@
  * @license   MIT
  */
 
-import * as path from 'path';              // Path module
-import * as os from 'os';                  // OS module
-import * as fs from 'fs';                  // File System module
-import * as sass from 'sass';              // Sass module
+import * as path from 'path';         // Path module
+import * as os from 'os';             // OS module
+import * as fs from 'fs';             // File System module
+import * as sass from 'sass';         // Sass module
+import { isError } from 'util';       // Utilities module
+import {
+    Options as SassOptions,
+    CompileResult as SassCompileResult
+} from 'sass/types';  // Sass types
 
-import * as config from './utils/config';  // Config module (local)
-import {
-    serverPaths  // Server-side's working directories paths
-} from './utils/coreutils';
-import {
-    StringPath,
-    SassConfig,
-    ResolvedSassConfig
-} from './core/types';
+import * as config from './utils/config';             // Config module (local)
+import { serverPaths } from './utils/coreutils';
+import { StringPath, SassConfig } from './core/types';
+
+// Build Configuration
+import buildConfig = require('../config/build.json');
 
 
 /**
@@ -67,15 +69,15 @@ import {
  * @since    0.1.0
  * @version  0.2
  */
-async function buildSass(
+function buildSass(
     infile: StringPath,
     outfile: StringPath,
     sassConfig: SassConfig | null,
-    callback: (error?: Error | null) => void
-): Promise<void> {
+    callback: (error?: Error) => void
+): void {
     // Resolve and fix the configuration, the configuration
     // will be passed to `sass.compile` arguments
-    const resolvedSassConfig: any =
+    const resolvedSassConfig: SassOptions<'sync'> =
         config.resolve('sass', sassConfig!, !sassConfig!);
     
     // I/O operations
@@ -84,14 +86,14 @@ async function buildSass(
         const mode: number = fs.constants.F_OK | fs.constants.R_OK;
         
         // Ensure the input Sass file exists
-        await fs.access(infile, mode,
-                        function (err?: any | null): void {
+        fs.access(infile, mode,
+                  function (err: NodeJS.ErrnoException | null): void {
             if (err!) {
                 if (err!.code === 'ENOENT') {
                     throw new Error(`No such Sass file: '${infile}'`);
                 }
                 
-                throw err!;
+                throw <Error>err!;
             }
         });
         
@@ -104,41 +106,37 @@ async function buildSass(
         // Compile the input Sass file asynchronously
         // Use 'any' type because the type of 'CompileResult' is
         // kind of a private member in `sass` module
-        const build: any = await sass.compileAsync(
+        const build: SassCompileResult = sass.compile(
             path.resolve(infile),  // Input file
-            resolvedSassConfig     // Configuration settings
+            resolvedSassConfig
         );
         
         // Asynchronously create the directory recursively
-        await fs.mkdir(
+        fs.mkdir(
             path.dirname(outfile),
             { recursive: true },
-            async function (err?: Error | null): Promise<void> {
+            function (err: NodeJS.ErrnoException | null): void {
                 // Throw the errors, if any
                 if (err!) throw err!;
                 
                 // Write the compiled CSS to the specified
                 // output file asynchronously after its parent
                 // directory successfully created with no error
-                await fs.writeFile(
-                    outfile,
-                    build.css.concat(
-                        // If the style is 'compressed',
-                        // do not append a new line character at EOF,
-                        // will be appended otherwise.
-                        sassConfig!.style !== 'compressed'
-                            ? os.EOL  // New line
-                            : ''      // No new line
-                    ),
-                    function (errWrite?: Error | null): void {
-                        if (errWrite!) throw errWrite!;
-                    }
-                );
+                fs.writeFile(outfile, build.css.toString().concat(
+                    // If the style is 'compressed',
+                    // do not append a new line character at EOF,
+                    // will be appended otherwise.
+                    sassConfig!.style !== 'compressed'
+                        ? os.EOL  // New line
+                        : ''      // No new line
+                ), function (errWrite: NodeJS.ErrnoException | null): void {
+                    if (errWrite!) throw errWrite!;
+                });
             }
         );
-    } catch (error: any) {
+    } catch (error: unknown) {
         // Handle errors by invoking the provided function
-        callback(error);
+        callback(isError(error) ? error : <Error>error);
     }
 }
 
@@ -158,7 +156,6 @@ async function buildSass(
  * called directly.
  *
  * @private
- * @async
  * @function
  * @throws {Error} Throws an error if there is an issue with
  *                 Sass compilation.
@@ -167,11 +164,7 @@ async function buildSass(
  * @since   0.1.0
  * @version 0.2
  */
-async function _run_as_main(): Promise<void> {
-    // Retrieve and parse the build configuration from 'build.json'
-    const buildConfig: any =
-        require(path.join(serverPaths.config, 'build.json'));
-    
+function _run_as_main(): void {
     console.time('build');
     
     // All command line arguments, excluding node command
@@ -182,7 +175,6 @@ async function _run_as_main(): Promise<void> {
     // This is case-insensitive, which means allowing uppercase
     // or lowercase
     if (args.length > 0 && /^s[a|c]ss$/i.test(args[0])) {
-        
         const sassFile: StringPath = path.join(serverPaths.scss, 'main.scss');
         const outFile: StringPath = path.join(
             /* Use destination path from build configuration,
@@ -193,15 +185,13 @@ async function _run_as_main(): Promise<void> {
             'main.css'
         );
         
-        await buildSass(
-            sassFile,                              // Input
-            outFile,                               // Output
-            buildConfig.sass || null,              // Configuration
-            function (err?: Error | null): void {  // Callback
-                // Print the errors to the console
-                if (err!) throw err!;
-            }
-        );
+        buildSass(sassFile,                  // Input
+                  outFile,                   // Output
+                  buildConfig.sass || null,  // Configuration
+                  function (err?: Error | NodeJS.ErrnoException): void {
+            // Print the errors to the console
+            if (err!) throw <Error>err!;
+        });
     }
     
     console.timeEnd('build');
@@ -213,7 +203,5 @@ async function _run_as_main(): Promise<void> {
 // Only run when the module is executed directly,
 // not being imported as module
 if (require.main === module) {
-    _run_as_main().catch(function (err?: Error | null): void {
-        console.error(err!);
-    });
+    _run_as_main();
 }
