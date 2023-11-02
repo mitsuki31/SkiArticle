@@ -16,6 +16,7 @@
 import * as path from 'path';     // Path module
 import * as fs from 'fs';         // File System module
 import * as dir from 'node-dir';  // Node-dir module
+import { isError } from 'util';   // Utilities module
 
 import {
     StringPath,
@@ -23,6 +24,7 @@ import {
     ClientPaths,
     LsFilesOptions
 } from '../core/types';
+
 
 /**
  * Path that references to the project's root directory.
@@ -189,14 +191,14 @@ function lsFiles(dirpath: StringPath,
     };
     
     try {
-        dir.files(dirpath, function (err?: any | null,
+        dir.files(dirpath, function (err?: NodeJS.ErrnoException,
                                      entries?: Array<string> | null): void {
             let isNotDir: boolean = false;
-            if (err) {
+            if (err!) {
                 if (err!.code === 'ENOTDIR') {
                     isNotDir = true;
                 } else {
-                    throw err;
+                    throw <Error>err!;
                 }
             }
             
@@ -205,7 +207,7 @@ function lsFiles(dirpath: StringPath,
             // by checking whether the given path is refer to a regular file.
             if (isNotDir) {
                 // Check whether the given path is a regular file
-                fs.stat(dirpath, function (errStat?: any | null,
+                fs.stat(dirpath, function (errStat?: Error | null,
                                            stats?: fs.Stats | null): void {
                     if (errStat!) throw errStat!;
                     
@@ -231,9 +233,9 @@ function lsFiles(dirpath: StringPath,
                 callback(null, entries);
             }
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         // Pass the errors to callback
-        callback(error, null);
+        callback(isError(error) ? error : <Error>error, null);
     }
 }
 

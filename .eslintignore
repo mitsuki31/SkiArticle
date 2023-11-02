@@ -4,4 +4,12 @@ node_modules/
 # Ignore generated documentation (it is sometimes has JS files within)
 docs/
 
+# Build environments
 build/
+
+# ESLint configuration file
+.eslintrc*
+
+# All JavaScript files in client-side
+# This may be temporarily excluded, we will think about it
+public/**/*.js

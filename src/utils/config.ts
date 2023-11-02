@@ -10,11 +10,13 @@
  * @license   MIT
  */
 
-import * as util from 'util';  // Built-in Util module
+import * as util from 'util';                         // Built-in Util module
+import { Options as SassOptions } from 'sass/types';  // Sass types
 
 import {
-    DefaultConfig, SassDefaultConfig,
-    SassConfig, ResolvedSassConfig
+    DefaultConfig,
+    SassDefaultConfig,
+    SassConfig,
 } from '../core/types'
 
 
@@ -144,7 +146,7 @@ const defaultConfig: DefaultConfig = {
  * @version  0.2
  * @see      {@link module:utils/config~typeCheckerAsync}
  */
-function typeChecker(obj: any, type: string): boolean {
+function typeChecker(obj: unknown, type: string): boolean {
     let res = false;
     if (/^(object|array)$/i.test(type)) {
         res = obj instanceof Object;
@@ -193,12 +195,12 @@ function typeChecker(obj: any, type: string): boolean {
  * @since    0.1.0
  * @version  0.2
  */
-function typeCheckerAsync(obj: any,
+function typeCheckerAsync(obj: unknown,
                           type: string,
                           callback: (response: {
                               result: boolean,
-                              error?: Error | null,
-                              value: any,
+                              error: Error | TypeError | null,
+                              value: unknown,
                               type: string
                           }) => void) {
     // Create new type error
@@ -290,13 +292,13 @@ function typeCheckerAsync(obj: any,
  */
 function resolve(type: string,
                  data: SassConfig,
-                 useDefault: boolean = false
-): ResolvedSassConfig | SassConfig {
+                 useDefault?: boolean
+): SassOptions<'sync'> {
     // => Sass
     if (/^s[a|c]ss$/i.test(type)) {
         // Return the default configuration if useDefault is `true`
         // or user not specified the data (e.g. null or undefined)
-        if (useDefault || !data) return defaultConfig.sass;
+        if (useDefault! || !data) return <SassOptions<'sync'>>defaultConfig.sass;
         
         const sassConfig: SassDefaultConfig = defaultConfig.sass;
         let charset: boolean = sassConfig.charset,
@@ -332,7 +334,7 @@ function resolve(type: string,
                 ? data.verbose! : verbose;
         }
         
-        return {
+        return <SassOptions<'sync'>>{
             charset,
             sourceMap,
             sourceMapIncludeSources: includeSources,
@@ -343,7 +345,7 @@ function resolve(type: string,
     
     // Returning back the data if the provided type
     // is not known by the function
-    return data;
+    return <SassOptions<'sync'>>data;
 }
 
 export { resolve, defaultConfig, typeChecker, typeCheckerAsync };
