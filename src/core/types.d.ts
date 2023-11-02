@@ -40,7 +40,7 @@ export interface SassDefaultConfig {
     charset: boolean,
     sourceMap: boolean,
     sourceMapIncludeSources: boolean,
-    style: "expanded" | "compressed",
+    style: string,
     verbose: boolean
 }
 
@@ -64,7 +64,7 @@ export interface SassConfig {
         generateFile?: boolean,
         includeSources?: boolean
     },
-    style?: "expanded" | "compressed",
+    style?: string,
     verbose?: boolean
 }
 
