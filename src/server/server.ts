@@ -39,7 +39,7 @@ import {
     StringPath,
     ServerAddress,
     ServerOptions
-} from '../core/types';
+} from '../typings/types';
 
 const app: express.Express = express();
 
