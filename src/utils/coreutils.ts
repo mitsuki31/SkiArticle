@@ -23,7 +23,7 @@ import {
     ServerPaths,
     ClientPaths,
     LsFilesOptions
-} from '../typings/types';
+} from '../typings';
 
 
 /**

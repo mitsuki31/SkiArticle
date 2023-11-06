@@ -17,7 +17,7 @@ import {
     DefaultConfig,
     SassDefaultConfig,
     SassConfig,
-} from '../typings/types'
+} from '../typings';
 
 
 /**

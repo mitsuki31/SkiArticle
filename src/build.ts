@@ -29,7 +29,7 @@ import {
 
 import * as config from './utils/config';             // Config module (local)
 import { serverPaths } from './utils/coreutils';
-import { StringPath, SassConfig } from './typings/types';
+import { StringPath, SassConfig } from './typings';
 
 // Build Configuration
 import buildConfig = require('../config/build.json');
