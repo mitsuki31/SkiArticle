@@ -5,16 +5,19 @@
  * @version 0.1
  */
 
+import * as path from 'path';
 import { Options as SassOptions } from 'sass/types';
 import {
     typeChecker,
     typeCheckerAsync,
     resolve
 } from '../src/utils/config';
+import { lsFiles } from '../src/utils/coreutils';
 import {
     StringPath,
     SassConfig,
-    ResolvedSassConfig
+    ResolvedSassConfig,
+    LsFilesOptions
 } from '../src/typings';
 
 // TODO: move this interface to typings module
@@ -141,6 +144,44 @@ describe("Module: 'utils/config'", function (): void {
             
             expect(result).not.toBeNull();
             expect(result).toStrictEqual(expectedResult);
+        });
+    });
+});
+
+describe("Module: 'utils/coreutils'", function (): void {
+    describe('#lsFiles', function (): void {
+        test(`search for '${path.basename(__filename)}' in ${path.basename(__dirname)} directory`,
+                function (done: jest.DoneCallback): void {
+            const dirpath: StringPath = path.resolve(__filename);
+            const expectedFile: string = path.basename(__filename);
+            const options: LsFilesOptions = {
+                match: new RegExp(expectedFile),
+                exclude: /(^|\/)+\./,
+                baseName: false
+            };
+            lsFiles(dirpath, options,
+                    function (err?: Error | null, entries?: Array<string> | null): void {
+                if (err!) {
+                    done(err!);
+                    return;
+                }
+                
+                
+                try {
+                    // Get the base file names
+                    entries = entries!.map(function (entry: string): string {
+                        return path.basename(entry);
+                    });
+                    
+                    expect(err!).toBeNull();
+                    expect(entries!).not.toBeNull();
+                    expect(Array.isArray(entries!)).toBeTruthy();
+                    expect(entries!).toContain(expectedFile);
+                    done();
+                } catch (e: unknown) {
+                    done(<Error>e);
+                }
+            });
         });
     });
 });
