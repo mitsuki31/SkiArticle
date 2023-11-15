@@ -22,7 +22,8 @@ import {
     StringPath,
     ServerPaths,
     ClientPaths,
-    LsFilesOptions
+    LsFilesOptions,
+    LsFilesCallback
 } from '../typings';
 
 
@@ -180,8 +181,7 @@ const serverPaths: ServerPaths = {
  */
 function lsFiles(dirpath: StringPath,
                  options: LsFilesOptions | null,
-                 callback: (error?: Error | null,
-                            entries?: Array<string> | null) => void): void {
+                 callback: LsFilesCallback): void {
     // This will create a new object storing user-defined options,
     // and fixing some undefined or null options with their default values.
     const opts: LsFilesOptions = {
@@ -218,8 +218,8 @@ function lsFiles(dirpath: StringPath,
             } else {
                 // Filter the entries with several checks from options
                 entries!.filter(function (entry: string): boolean {
-                    return opts.match.test(entry) &&
-                           !opts.exclude.test(entry);
+                    return opts.match!.test(entry) &&
+                           !opts.exclude!.test(entry);
                 });
                 
                 // Trim the paths, if the baseName option is true

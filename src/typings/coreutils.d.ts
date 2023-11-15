@@ -30,8 +30,13 @@ export interface ServerPaths {
     build: StringPath
 }
 
+export type LsFilesCallback = (
+    error?: Error | null,
+    entries?: Array<string> | null
+) => void;
+
 export interface LsFilesOptions {
-    match: RegExp,
-    exclude: RegExp,
-    baseName: boolean
+    match?: RegExp,
+    exclude?: RegExp,
+    baseName?: boolean
 }
