@@ -55,4 +55,56 @@ describe("Module: 'utils/config'", function (): void {
             expect(typeChecker(testFunction, 'function')).toBeTruthy();
         });
     });
+    
+    // config#typeCheckerAsync function
+    describe('#typeCheckerAsync', function (): void {
+        test('string test', function (): void {
+            typeCheckerAsync(testString, 'string', function (response: TypeCheckerResponse): void {
+                expect(response.error).toBeNull();
+                expect(response.result).toBeTruthy();
+                expect(response.value).toEqual(testString);
+                expect(response.type).toEqual('string');
+            });
+        });
+        test('number test', function (): void {
+            typeCheckerAsync(testNumber, 'number', function (response: TypeCheckerResponse): void {
+                expect(response.error).toBeNull();
+                expect(response.result).toBeTruthy();
+                expect(response.value).toEqual(testNumber);
+                expect(response.type).toEqual('number');
+            });
+        });
+        test('boolean test', function (): void {
+            typeCheckerAsync(testBoolean, 'boolean', function (response: TypeCheckerResponse): void {
+                expect(response.error).toBeNull();
+                expect(response.result).toBeTruthy();
+                expect(response.value).toEqual(testBoolean);
+                expect(response.type).toEqual('boolean');
+            });
+        });
+        test('array test', function (): void {
+            typeCheckerAsync(testArray, 'array', function (response: TypeCheckerResponse): void {
+                expect(response.error).toBeNull();
+                expect(response.result).toBeTruthy();
+                expect(response.value).toEqual(testArray);
+                expect(response.type).toEqual('array');
+            });
+        });
+        test('object test', function (): void {
+            typeCheckerAsync(testObject, 'object', function (response: TypeCheckerResponse): void {
+                expect(response.error).toBeNull();
+                expect(response.result).toBeTruthy();
+                expect(response.value).toEqual(testObject);
+                expect(response.type).toEqual('object');
+            });
+        });
+        test('function test', function (): void {
+            typeCheckerAsync(testFunction, 'function', function (response: TypeCheckerResponse): void {
+                expect(response.error).toBeNull();
+                expect(response.result).toBeTruthy();
+                expect(response.value).toEqual(testFunction);
+                expect(response.type).toEqual('function');
+            });
+        });
+    });
 });
