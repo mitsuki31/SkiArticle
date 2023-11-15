@@ -8,6 +8,6 @@
     "resolveJsonModule": true,
     "strict": true
   },
-  "include": ["./src/**/*", "./tests/**/*"],
+  "include": ["./src/**/*", "./test/**/*"],
   "exclude": ["./public/**/*", "./src/s?ss/**/*"]
 }
