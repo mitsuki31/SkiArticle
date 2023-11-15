@@ -21,8 +21,7 @@ describe("Module: 'utils/config'", function (): void {
     const testBoolean: boolean = true;
     const testArray: Array<string> = [ 'a', 'r', 'r', 'a', 'y' ];
     const testObject: Record<string, string | number
-                                | Array<string | number
-                                    | Array<string | Record<string, string>>>> = {
+                                | Array<string | Record<string, string>>> = {
         o: 1,
         b: '2',
         j: [ { a: 'false', b: 'bar' }, 'foo' ]
