@@ -39,4 +39,13 @@ export interface SassConfig {
  * @author  Ryuu Mitsuki
  * @since   0.1.0
  */
-export interface ResolvedSassConfig extends Omit<SassDefaultConfig, 'dest'> {}
+export interface ResolvedSassConfig extends SassDefaultConfig {}
+
+export interface TypeCheckerResponse {
+    result: boolean,
+    error: Error | TypeError | null,
+    value: unknown,
+    type: string
+}
+
+export type TypeCheckerCallback = (response: TypeCheckerResponse) => void;
