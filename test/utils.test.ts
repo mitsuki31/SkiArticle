@@ -5,7 +5,17 @@
  * @version 0.1
  */
 
-import { typeChecker, typeCheckerAsync } from '../src/utils/config';
+import { Options as SassOptions } from 'sass/types';
+import {
+    typeChecker,
+    typeCheckerAsync,
+    resolve
+} from '../src/utils/config';
+import {
+    StringPath,
+    SassConfig,
+    ResolvedSassConfig
+} from '../src/typings';
 
 // TODO: move this interface to typings module
 interface TypeCheckerResponse {
@@ -104,6 +114,33 @@ describe("Module: 'utils/config'", function (): void {
                 expect(response.value).toEqual(testFunction);
                 expect(response.type).toEqual('function');
             });
+        });
+    });
+    
+    // config#resolve function
+    describe('#resolve', function (): void {
+        test('result test', function (): void {
+            const otherConfig: SassConfig = {
+                dest: 'tmp/build/',
+                charset: true,
+                sourceMap: {
+                    generateFile: false,
+                    includeSources: false
+                },
+                style: 'expanded',
+                verbose: true
+            };
+            const expectedResult: ResolvedSassConfig = {
+                charset: true,
+                sourceMap: false,
+                sourceMapIncludeSources: false,
+                style: 'expanded',
+                verbose: true
+            };
+            const result: SassOptions<'sync'> = resolve('sass', otherConfig);
+            
+            expect(result).not.toBeNull();
+            expect(result).toStrictEqual(expectedResult);
         });
     });
 });
