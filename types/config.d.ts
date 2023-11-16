@@ -1,6 +1,4 @@
-import { StringPath } from './coreutils';
-
-export interface SassDefaultConfig {
+declare interface SassDefaultConfig {
     charset: boolean,
     sourceMap: boolean,
     sourceMapIncludeSources: boolean,
@@ -8,7 +6,7 @@ export interface SassDefaultConfig {
     verbose: boolean
 }
 
-export interface DefaultConfig {
+declare interface DefaultConfig {
     sass: SassDefaultConfig,
     sassdoc: NonNullable<unknown>  // Currently just an empty object
 }
@@ -20,7 +18,7 @@ export interface DefaultConfig {
  * @author  Ryuu Mitsuki
  * @since   0.1.0
  */
-export interface SassConfig {
+declare interface SassConfig {
     dest?: StringPath,
     charset?: boolean,
     sourceMap?: {
@@ -39,13 +37,13 @@ export interface SassConfig {
  * @author  Ryuu Mitsuki
  * @since   0.1.0
  */
-export interface ResolvedSassConfig extends SassDefaultConfig {}
+declare interface ResolvedSassConfig extends SassDefaultConfig {}
 
-export interface TypeCheckerResponse {
+declare interface TypeCheckerResponse {
     result: boolean,
     error: Error | TypeError | null,
     value: unknown,
     type: string
 }
 
-export type TypeCheckerCallback = (response: TypeCheckerResponse) => void;
+declare type TypeCheckerCallback = (response: TypeCheckerResponse) => void;

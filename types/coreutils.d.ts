@@ -5,9 +5,9 @@
  * @author  Ryuu Mitsuki
  * @since   0.1.0
  */
-export type StringPath = string;
+declare type StringPath = string;
 
-export interface ClientPaths {
+declare interface ClientPaths {
     root: StringPath,
     assets: {
         _this: StringPath,
@@ -21,7 +21,7 @@ export interface ClientPaths {
     }
 }
 
-export interface ServerPaths {
+declare interface ServerPaths {
     root: StringPath,
     server: StringPath,
     scss: StringPath,
@@ -30,12 +30,12 @@ export interface ServerPaths {
     build: StringPath
 }
 
-export type LsFilesCallback = (
+declare type LsFilesCallback = (
     error?: Error | null,
     entries?: Array<string> | null
 ) => void;
 
-export interface LsFilesOptions {
+declare interface LsFilesOptions {
     match?: RegExp,
     exclude?: RegExp,
     baseName?: boolean
