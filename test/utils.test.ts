@@ -13,20 +13,6 @@ import {
     resolve
 } from '../src/utils/config';
 import { lsFiles } from '../src/utils/coreutils';
-import {
-    StringPath,
-    SassConfig,
-    ResolvedSassConfig,
-    LsFilesOptions
-} from '../src/typings';
-
-// TODO: move this interface to typings module
-interface TypeCheckerResponse {
-    result: boolean,
-    error: Error | TypeError | null,
-    value: unknown,
-    type: string
-}
 
 describe("Module: 'utils/config'", function (): void {
     const testString: string = 'This is a string, you know';
