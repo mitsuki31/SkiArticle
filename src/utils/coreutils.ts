@@ -209,15 +209,15 @@ function lsFiles(dirpath: StringPath,
                 });
             } else {
                 // Filter the entries with several checks from options
-                entries!.filter(function (entry: string): boolean {
+                entries = entries!.filter(function (entry: string): boolean {
                     return opts.match!.test(entry) &&
                            !opts.exclude!.test(entry);
                 });
                 
                 // Trim the paths, if the baseName option is true
                 if (opts.baseName) {
-                    entries!.map(function (entry: string): void {
-                        path.basename(entry)
+                    entries = entries!.map(function (entry: string): string {
+                        return path.basename(entry)
                     });
                 }
                 
