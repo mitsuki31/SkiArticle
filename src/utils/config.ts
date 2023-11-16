@@ -13,13 +13,6 @@
 import * as util from 'util';                         // Built-in Util module
 import { Options as SassOptions } from 'sass/types';  // Sass types
 
-import {
-    DefaultConfig,
-    SassDefaultConfig,
-    SassConfig,
-    TypeCheckerCallback
-} from '../typings';
-
 
 /**
  * Callback function to handle the result of the type check.

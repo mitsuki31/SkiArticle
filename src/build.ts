@@ -27,9 +27,8 @@ import {
     CompileResult as SassCompileResult
 } from 'sass/types';  // Sass types
 
-import * as config from './utils/config';             // Config module (local)
-import { serverPaths } from './utils/coreutils';
-import { StringPath, SassConfig } from './typings';
+import * as config from './utils/config';         // Config module (local)
+import { serverPaths } from './utils/coreutils';  // Coreutils module (local)
 
 // Build Configuration
 import buildConfig = require('../config/build.json');

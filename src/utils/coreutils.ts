@@ -18,14 +18,6 @@ import * as fs from 'fs';         // File System module
 import * as dir from 'node-dir';  // Node-dir module
 import { isError } from 'util';   // Utilities module
 
-import {
-    StringPath,
-    ServerPaths,
-    ClientPaths,
-    LsFilesOptions,
-    LsFilesCallback
-} from '../typings';
-
 
 /**
  * Path that references to the project's root directory.
