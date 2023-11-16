@@ -35,12 +35,6 @@ import {
     clientPaths
 } from '../utils/coreutils';
 
-import {
-    StringPath,
-    ServerAddress,
-    ServerOptions
-} from '../typings';
-
 const app: express.Express = express();
 
 /**

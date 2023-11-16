@@ -1,4 +1,4 @@
-export interface ServerAddress {
+declare interface ServerAddress {
     host: string,
     port: number
 }
@@ -15,7 +15,7 @@ export interface ServerAddress {
  * @author   Ryuu Mitsuki
  * @since    0.1.0
  */
-export interface ServerOptions {
+declare interface ServerOptions {
     /**
      * The host address to bind the server to. If not provided, defaults to `null`.
      */

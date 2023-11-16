@@ -13,12 +13,6 @@
 import * as util from 'util';                         // Built-in Util module
 import { Options as SassOptions } from 'sass/types';  // Sass types
 
-import {
-    DefaultConfig,
-    SassDefaultConfig,
-    SassConfig,
-} from '../typings';
-
 
 /**
  * Callback function to handle the result of the type check.
@@ -197,12 +191,7 @@ function typeChecker(obj: unknown, type: string): boolean {
  */
 function typeCheckerAsync(obj: unknown,
                           type: string,
-                          callback: (response: {
-                              result: boolean,
-                              error: Error | TypeError | null,
-                              value: unknown,
-                              type: string
-                          }) => void) {
+                          callback: TypeCheckerCallback): void {
     // Create new type error
     let typeErr: TypeError = new TypeError(
         `Given object are not type of ${type}: ` +
@@ -269,7 +258,7 @@ function typeCheckerAsync(obj: unknown,
  *        Whether to use default configuration if specific options
  *        are not provided.
  *
- * @return {ResolvedSassConfig | SassConfig}
+ * @return {SassOptions<'sync'>}
  *         Resolved configuration object for Sass or returning
  *         back the given data (unresolved) if the provided type
  *         is not known by the function to be processed.
