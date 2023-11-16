@@ -24,6 +24,8 @@ jobs:
     - name: Build the project
       id: build
       run: npm run compile
+    - name: Test the project
+      run: npm test -- --coverage false
     - name: Clean the project
       needs: build
       run: rm --recursive build --verbose
