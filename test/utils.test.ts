@@ -136,32 +136,34 @@ describe("Module: 'utils/config'", function (): void {
 
 describe("Module: 'utils/coreutils'", function (): void {
     describe('#lsFiles', function (): void {
-        test(`search for '${path.basename(__filename)}' in ${path.basename(__dirname)} directory`,
+        const expectedFile: StringPath = path.basename(__filename),
+              dirpath: StringPath = path.resolve(__dirname),
+              curdirBase: StringPath = path.basename(__dirname);
+        
+        let options: LsFilesOptions = {
+            baseName: true
+        };
+        
+        test(`search for '${expectedFile}' in ${curdirBase} directory with \`match\` search`,
                 function (done: jest.DoneCallback): void {
-            const dirpath: StringPath = path.resolve(__filename);
-            const expectedFile: string = path.basename(__filename);
-            const options: LsFilesOptions = {
-                match: new RegExp(expectedFile),
-                exclude: /(^|\/)+\./,
-                baseName: false
-            };
-            lsFiles(dirpath, options,
-                    function (err?: Error | null, entries?: Array<string> | null): void {
+            
+            // Add match option
+            Object.defineProperty(options, 'match', {
+                value: new RegExp(expectedFile)
+            });
+            
+            lsFiles(dirpath, options, function (err?: Error | null,
+                                                entries?: Array<string> | null): void {
                 if (err!) {
                     done(err!);
                     return;
                 }
                 
-                
                 try {
-                    // Get the base file names
-                    entries = entries!.map(function (entry: string): string {
-                        return path.basename(entry);
-                    });
-                    
                     expect(err!).toBeNull();
                     expect(entries!).not.toBeNull();
                     expect(Array.isArray(entries!)).toBeTruthy();
+                    expect(entries!).toHaveLength(1);
                     expect(entries!).toContain(expectedFile);
                     done();
                 } catch (e: unknown) {
