@@ -171,5 +171,27 @@ describe("Module: 'utils/coreutils'", function (): void {
                 }
             });
         });
+        
+        test(`search for '${expectedFile}' in ${curdirBase} directory without \`match\` search`,
+                function (done: jest.DoneCallback): void {
+            lsFiles(path.join(dirpath, expectedFile), null, function (err?: Error | null,
+                                                                      entries?: Array<string> | null): void {
+                if (err!) {
+                    done(err!);
+                    return;
+                }
+                
+                try {
+                    expect(err!).toBeNull();
+                    expect(entries!).not.toBeNull();
+                    expect(Array.isArray(entries!)).toBeTruthy();
+                    expect(entries!).toHaveLength(1);
+                    expect(entries!).toContain(path.resolve(__filename));
+                    done();
+                } catch (e: unknown) {
+                    done(<Error>e);
+                }
+            });
+        });
     });
 });
