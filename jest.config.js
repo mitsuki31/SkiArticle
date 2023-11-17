@@ -14,7 +14,7 @@ const config = {
   // bail: 0,
 
   // The directory where Jest should store its cached dependency information
-  // cacheDirectory: "/data/data/com.termux/files/usr/tmp/jest_86u",
+  // cacheDirectory: "<rootDir>/tmp/jest_86u",
 
   // Automatically clear mock calls, instances, contexts and results before every test
   // clearMocks: true,
@@ -30,7 +30,8 @@ const config = {
 
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
-    "node_modules/"
+    "node_modules/",
+    "<rootDir>/build/"
   ],
 
   // Indicates which provider should be used to instrument code for coverage
@@ -45,7 +46,13 @@ const config = {
   // ],
 
   // An object that configures minimum threshold enforcement for coverage results
-  // coverageThreshold: undefined,
+  coverageThreshold: {
+      global: {
+          functions: 90,
+          lines: 75,
+          statements: 80
+      }
+  },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -79,16 +86,16 @@ const config = {
   // ],
 
   // An array of file extensions your modules use
-  // moduleFileExtensions: [
-  //   "js",
-  //   "mjs",
-  //   "cjs",
-  //   "jsx",
-  //   "ts",
-  //   "tsx",
-  //   "json",
-  //   "node"
-  // ],
+  moduleFileExtensions: [
+    "ts",
+    "tsx",
+    "json",
+    "js",
+    "mjs",
+    "cjs",
+    "jsx",
+    "node"
+  ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
@@ -124,7 +131,7 @@ const config = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
-  // rootDir: 'test',
+  // rootDir: undefined,
 
   // A list of paths to directories that Jest should use to search for files in
   // roots: [
