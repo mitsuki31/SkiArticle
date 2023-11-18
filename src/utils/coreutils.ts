@@ -16,7 +16,7 @@
 import * as path from 'path';     // Path module
 import * as fs from 'fs';         // File System module
 import * as dir from 'node-dir';  // Node-dir module
-import { isError, isNullOrUndefined } from 'util';   // Utilities module
+import { isNullOrUndefined } from 'util';   // Utilities module
 
 
 /**

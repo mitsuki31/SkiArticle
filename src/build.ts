@@ -21,7 +21,6 @@ import * as path from 'path';         // Path module
 import * as os from 'os';             // OS module
 import * as fs from 'fs';             // File System module
 import * as sass from 'sass';         // Sass module
-import { isError } from 'util';       // Utilities module
 import {
     Options as SassOptions,
     CompileResult as SassCompileResult

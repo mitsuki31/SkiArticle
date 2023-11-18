@@ -10,7 +10,6 @@
  * @license   MIT
  */
 
-import * as util from 'util';                         // Built-in Util module
 import { Options as SassOptions } from 'sass/types';  // Sass types
 
 
