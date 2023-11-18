@@ -193,5 +193,16 @@ describe("Module: 'utils/coreutils'", function (): void {
                 }
             });
         });
+        
+        // FIXME
+        test.skip('error no such file test', function (done: jest.DoneCallback) {
+            lsFiles(path.join(__dirname, `unknown-${Math.random() * 4300}.jsx`), null,
+                    function (err?: Error | null, entries?: Array<string> | null): void {
+                expect(err!).not.toBeNull();
+                expect(err!).toBeInstanceOf(Error);
+                expect(entries!).toBeNull();
+                done(err!);
+            });
+        });
     });
 });
