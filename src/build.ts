@@ -55,88 +55,53 @@ import buildConfig = require('../config/build.json');
  *        Path to save the compiled CSS output.
  * @param {SassConfig | null} sassConfig
  *        Configuration options for Sass compilation.
- * @param {!module:build~buildSassCallback} callback
- *        A callback function to handle errors.
  *
  * @throws {Error} If the input Sass file does not
  *                 exist or if there are I/O issues.
  *
  * @public
- * @async
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  0.2
+ * @version  0.3
  */
-function buildSass(
-    infile: StringPath,
-    outfile: StringPath,
-    sassConfig: SassConfig | null,
-    callback: (error?: Error) => void
-): void {
+function buildSass(infile: StringPath,
+                   outfile: StringPath,
+                   sassConfig?: SassConfig | null): void {
     // Resolve and fix the configuration, the configuration
     // will be passed to `sass.compile` arguments
     const resolvedSassConfig: SassOptions<'sync'> =
         config.resolve('sass', sassConfig!, !sassConfig!);
     
-    // I/O operations
-    try {
-        // Reusable variable to test the file permissions
-        const mode: number = fs.constants.F_OK | fs.constants.R_OK;
-        
-        // Ensure the input Sass file exists
-        fs.access(infile, mode,
-                  function (err: NodeJS.ErrnoException | null): void {
-            if (err!) {
-                if (err!.code === 'ENOENT') {
-                    throw new Error(`No such Sass file: '${infile}'`);
-                }
-                
-                throw <Error>err!;
-            }
-        });
-        
-        // Resolve and make the destination directory
-        // an absolute path, if it was non-absolute (i.e. relative)
-        outfile = path.isAbsolute(outfile)
-            ? outfile
-            : path.resolve(outfile);
-        
-        // Compile the input Sass file asynchronously
-        // Use 'any' type because the type of 'CompileResult' is
-        // kind of a private member in `sass` module
-        const build: SassCompileResult = sass.compile(
-            path.resolve(infile),  // Input file
-            resolvedSassConfig
-        );
-        
-        // Asynchronously create the directory recursively
-        fs.mkdir(
-            path.dirname(outfile),
-            { recursive: true },
-            function (err: NodeJS.ErrnoException | null): void {
-                // Throw the errors, if any
-                if (err!) throw err!;
-                
-                // Write the compiled CSS to the specified
-                // output file asynchronously after its parent
-                // directory successfully created with no error
-                fs.writeFile(outfile, build.css.toString().concat(
-                    // If the style is 'compressed',
-                    // do not append a new line character at EOF,
-                    // will be appended otherwise.
-                    sassConfig!.style !== 'compressed'
-                        ? os.EOL  // New line
-                        : ''      // No new line
-                ), function (errWrite: NodeJS.ErrnoException | null): void {
-                    if (errWrite!) throw errWrite!;
-                });
-            }
-        );
-    } catch (error: unknown) {
-        // Handle errors by invoking the provided function
-        callback(isError(error) ? error : <Error>error);
-    }
+    // Ensure the input Sass file exists
+    fs.accessSync(infile, fs.constants.F_OK | fs.constants.R_OK);
+    
+    // Resolve and make the destination directory
+    // an absolute path, if it was non-absolute (i.e. relative)
+    outfile = path.isAbsolute(outfile)
+        ? outfile
+        : path.resolve(outfile);
+    
+    // Compile the input Sass file synchronously
+    const build: SassCompileResult = sass.compile(
+        path.resolve(infile),  // Input file
+        resolvedSassConfig
+    );
+    
+    // Synchronously create the directory recursively
+    fs.mkdirSync(path.dirname(outfile), { recursive: true });
+    
+    // Write the compiled CSS to the specified
+    // output file synchronously after its parent
+    // directory successfully created with no error
+    fs.writeFileSync(outfile, build.css.toString().concat(
+        // If the style is 'compressed',
+        // do not append a new line character at EOF,
+        // will be appended otherwise.
+        sassConfig!.style !== 'compressed'
+            ? os.EOL  // New line
+            : ''      // No new line
+    ));
 }
 
 
@@ -174,28 +139,27 @@ function _run_as_main(): void {
     // This is case-insensitive, which means allowing uppercase
     // or lowercase
     if (args.length > 0 && /^s[a|c]ss$/i.test(args[0])) {
-        const sassFile: StringPath = path.join(serverPaths.scss, 'main.scss');
-        const outFile: StringPath = path.join(
+        const sassFile: StringPath = path.join(serverPaths.scss, 'main.scss'),
+              outFile: StringPath = path.join(
             /* Use destination path from build configuration,
              * if none, use the default destination path instead
              */
-            (buildConfig.sass?.dest ||
-                path.join(serverPaths.build, 'css')),
+            (buildConfig.sass?.dest || path.join(serverPaths.build, 'css')),
             'main.css'
         );
         
-        buildSass(sassFile,                  // Input
-                  outFile,                   // Output
-                  buildConfig.sass || null,  // Configuration
-                  function (err?: Error | NodeJS.ErrnoException): void {
-            // Print the errors to the console
-            if (err!) throw <Error>err!;
-        });
+        buildSass(
+            sassFile,                  // Input
+            outFile,                   // Output
+            buildConfig.sass! || null,  // Configuration
+        );
     }
     
     console.timeEnd('build');
     console.info('Build successful.');
 }
+
+export { buildSass };
 
 
 // Main driver
