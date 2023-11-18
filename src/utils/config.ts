@@ -10,7 +10,6 @@
  * @license   MIT
  */
 
-import * as util from 'util';                         // Built-in Util module
 import { Options as SassOptions } from 'sass/types';  // Sass types
 
 
@@ -137,14 +136,17 @@ const defaultConfig: DefaultConfig = {
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  0.2
+ * @version  0.3
  * @see      {@link module:utils/config~typeCheckerAsync}
  */
 function typeChecker(obj: unknown, type: string): boolean {
-    let res = false;
-    if (/^(object|array)$/i.test(type)) {
-        res = obj instanceof Object;
-    } else if (/^(string|number|boolean|function)$/i.test(type)) {
+    let res: boolean = false;
+    if (/^(object|regexp)$/i.test(type)) {
+        if (type === 'object') res = obj instanceof Object;
+        else res = obj instanceof RegExp;
+    } else if (type === 'array') {
+        res = Array.isArray(obj);
+    } else if (/^(string|number|bigint|boolean|function)$/i.test(type)) {
         res = typeof obj === type;
     } else {
         throw new TypeError(`Unknown input type: ${type}`);
@@ -187,52 +189,29 @@ function typeChecker(obj: unknown, type: string): boolean {
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  0.2
+ * @version  0.3
  */
 function typeCheckerAsync(obj: unknown,
                           type: string,
                           callback: TypeCheckerCallback): void {
-    // Create new type error
-    let typeErr: TypeError = new TypeError(
-        `Given object are not type of ${type}: ` +
-        `${typeof obj} != ${type}`
-    );
-    
-    let err: Error | TypeError | null = null;  // Used to store any error
-    if (util.isNullOrUndefined(obj)) {
-        err = new Error("Undefined or null given object");
-    } else if (!type || typeof type !== "string") {
-        err = new TypeError(
-            `Unexpected type of 'type': ${typeof type}. ` +
-            "Expected string"
-        );
-    }
-    
-    // Invoke the callback returning the error, if any
-    if (err) {
-        callback({
-            result: false,
-            error: err!,
-            value: obj,
-            type: type
-        });
-        return;  // Break and return
-    }
-    
-    let res: boolean = false;  // Store the result from various checks
-    if (/^(object|array)$/i.test(type)) {
-        res = obj instanceof Object;
-    } else if (/^(string|number|boolean|function)$/i.test(type)) {
+    let err: Error | TypeError | null = null,  // Used to store any error
+        res: boolean = false;                  // Store the result from various checks
+    if (/^(object|regexp)$/i.test(type)) {
+        if (type === 'object') res = obj instanceof Object;
+        else res = obj instanceof RegExp;
+    } else if (type === 'array') {
+        res = Array.isArray(obj);
+    } else if (/^(string|number|bigint|boolean|function)$/i.test(type)) {
         res = typeof obj === type;
     } else {
-        typeErr = new TypeError(`Unknown input type: ${type}`);
+        err = new TypeError(`Unknown input type: ${type}`);
     }
     
     callback({
-        result: res,                     // Result
-        error: (!res ? typeErr : null),  // Error
-        value: obj,                      // Original value
-        type: type                       // Expected type
+        result: res,                 // Result
+        error: (!res ? err : null),  // Error
+        value: obj,                  // Original value
+        type: type                   // Expected type
     });
 }
 
@@ -281,8 +260,7 @@ function typeCheckerAsync(obj: unknown,
  */
 function resolve(type: string,
                  data: SassConfig,
-                 useDefault?: boolean
-): SassOptions<'sync'> {
+                 useDefault?: boolean): SassOptions<'sync'> {
     // => Sass
     if (/^s[a|c]ss$/i.test(type)) {
         // Return the default configuration if useDefault is `true`

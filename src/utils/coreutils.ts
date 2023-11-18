@@ -16,7 +16,7 @@
 import * as path from 'path';     // Path module
 import * as fs from 'fs';         // File System module
 import * as dir from 'node-dir';  // Node-dir module
-import { isError } from 'util';   // Utilities module
+import { isNullOrUndefined } from 'util';   // Utilities module
 
 
 /**
@@ -130,7 +130,7 @@ const serverPaths: ServerPaths = {
  *        A regular expression to exclude files based on
  *        their paths. Default excludes hidden files
  *        (excludes directory that startswith `.`).
- * @param {boolean} [options.baseName]
+ * @param {boolean} [options.basename]
  *        Option to include only base filenames without their paths.
  *        Default is `false`.
  * @param {!Function} callback
@@ -169,66 +169,72 @@ const serverPaths: ServerPaths = {
  * @function
  * @author   Ryuu Mitsuki
  * @since    0.1.0
- * @version  0.2
+ * @version  0.3
  */
 function lsFiles(dirpath: StringPath,
                  options: LsFilesOptions | null,
                  callback: LsFilesCallback): void {
     // This will create a new object storing user-defined options,
     // and fixing some undefined or null options with their default values.
-    const opts: LsFilesOptions = {
+    const opts: Omit<LsFilesOptions, 'baseName'> = {
         match: options?.match || /.*/,
         exclude: options?.exclude || /(^|\/)+\./,
-        baseName: options?.baseName || false
+        basename: isNullOrUndefined(options)
+            ? false : isNullOrUndefined(options.baseName)
+                ? options.baseName : isNullOrUndefined(options.basename)
+                    ? options.basename : false
     };
     
-    try {
-        dir.files(dirpath, function (err?: NodeJS.ErrnoException,
-                                     entries?: Array<string> | null): void {
-            let isNotDir: boolean = false;
-            if (err!) {
-                if (err!.code === 'ENOTDIR') {
-                    isNotDir = true;
-                } else {
-                    throw <Error>err!;
+    dir.files(dirpath, function (err?: NodeJS.ErrnoException,
+                                 entries?: Array<string> | null): void {
+        let isNotDir: boolean = false;
+        if (err!) {
+            if (err!.code === 'ENOTDIR') {
+                isNotDir = true;
+            } else {
+                callback(err!, null);
+                return;
+            }
+        }
+        
+        // These expression will take care the error of 'ENOTDIR'
+        // (no such a directory, but this can be a regular file)
+        // by checking whether the given path is refer to a regular file.
+        if (isNotDir) {
+            // Check whether the given path is a regular file
+            fs.stat(dirpath, function (errStat?: NodeJS.ErrnoException | null,
+                                       stats?: fs.Stats | null): void {
+                if (errStat!) {
+                    callback(errStat!, null);
+                    return;
                 }
+                
+                // Immediately return the given input path as an array,
+                // if the path is refer to a regular file.
+                if (!stats!.isDirectory()) {
+                    if (opts.basename!) dirpath = path.basename(dirpath);
+                    callback(null, [ dirpath ]);
+                    return;
+                }
+            });
+        } else {
+            // Filter the entries with several checks from options
+            entries = entries!.filter(function (entry: string): boolean {
+                return opts.match!.test(entry) &&
+                       !opts.exclude!.test(entry);
+            });
+            
+            // Trim the paths, if the basename option is true
+            if (opts.basename) {
+                entries = entries!.map(function (entry: string): string {
+                    return path.basename(entry)
+                });
             }
             
-            // These expression will take care the error of 'ENOTDIR'
-            // (no such a directory, but this can be a regular file)
-            // by checking whether the given path is refer to a regular file.
-            if (isNotDir) {
-                // Check whether the given path is a regular file
-                fs.stat(dirpath, function (errStat?: Error | null,
-                                           stats?: fs.Stats | null): void {
-                    if (errStat!) throw errStat!;
-                    
-                    // Immediately return the given input path as an array,
-                    // if the path is refer to a regular file.
-                    if (stats!.isFile()) callback(null, [ dirpath ]);
-                });
-            } else {
-                // Filter the entries with several checks from options
-                entries = entries!.filter(function (entry: string): boolean {
-                    return opts.match!.test(entry) &&
-                           !opts.exclude!.test(entry);
-                });
-                
-                // Trim the paths, if the baseName option is true
-                if (opts.baseName) {
-                    entries = entries!.map(function (entry: string): string {
-                        return path.basename(entry)
-                    });
-                }
-                
-                // Pass the entries to callback
-                callback(null, entries);
-            }
-        });
-    } catch (error: unknown) {
-        // Pass the errors to callback
-        callback(isError(error) ? error : <Error>error, null);
-    }
+            // Pass the entries to callback
+            callback(null, entries);
+        }
+    });
 }
 
 export { rootDir, clientPaths, serverPaths, lsFiles };
