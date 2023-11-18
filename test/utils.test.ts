@@ -156,6 +156,18 @@ describe("Module: 'utils/config'", function (): void {
             expect(result).not.toBeNull();
             expect(result).toStrictEqual(expectedResult);
         });
+        
+        test('give unknown type then returns back the given configuration', function (): void {
+            const config: SassConfig = {
+                charset: false,
+                style: 'compressed',
+                verbose: true
+            };
+            
+            const result: SassOptions<'sync'> = resolve('css', config);
+            expect(result).not.toBeNull();
+            expect(result).toStrictEqual(config);
+        });
     });
 });
 
