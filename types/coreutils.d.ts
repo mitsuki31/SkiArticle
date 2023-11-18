@@ -31,12 +31,13 @@ declare interface ServerPaths {
 }
 
 declare type LsFilesCallback = (
-    error?: Error | null,
-    entries?: Array<string> | null
+    error: NodeJS.ErrnoException | null,
+    entries: Array<string> | null
 ) => void;
 
 declare interface LsFilesOptions {
     match?: RegExp,
     exclude?: RegExp,
+    basename?: boolean,
     baseName?: boolean
 }
