@@ -16,8 +16,6 @@
 import * as path from 'path';     // Path module
 import * as fs from 'fs';         // File System module
 import * as dir from 'node-dir';  // Node-dir module
-import { isNullOrUndefined } from 'util';   // Utilities module
-
 
 /**
  * Path that references to the project's root directory.
@@ -179,10 +177,7 @@ function lsFiles(dirpath: StringPath,
     const opts: Omit<LsFilesOptions, 'baseName'> = {
         match: options?.match || /.*/,
         exclude: options?.exclude || /(^|\/)+\./,
-        basename: isNullOrUndefined(options)
-            ? false : isNullOrUndefined(options.baseName)
-                ? options.baseName : isNullOrUndefined(options.basename)
-                    ? options.basename : false
+        basename: options?.baseName || options?.basename || false
     };
     
     dir.files(dirpath, function (err?: NodeJS.ErrnoException,
