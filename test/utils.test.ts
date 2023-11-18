@@ -52,6 +52,11 @@ describe("Module: 'utils/config'", function (): void {
         test('function test', function (): void {
             expect(typeChecker(testFunction, 'function')).toBeTruthy();
         });
+        
+        test.failing('give an ambiguous string as expected type then throws `TypeError`',
+                function (): void {
+            expect(typeChecker(testObject, 'fooType')).toThrowError(TypeError);
+        });
     });
     
     // config#typeCheckerAsync function
@@ -64,6 +69,7 @@ describe("Module: 'utils/config'", function (): void {
                 expect(response.type).toEqual('string');
             });
         });
+        
         test('number test', function (): void {
             typeCheckerAsync(testNumber, 'number', function (response: TypeCheckerResponse): void {
                 expect(response.error).toBeNull();
@@ -72,6 +78,7 @@ describe("Module: 'utils/config'", function (): void {
                 expect(response.type).toEqual('number');
             });
         });
+        
         test('boolean test', function (): void {
             typeCheckerAsync(testBoolean, 'boolean', function (response: TypeCheckerResponse): void {
                 expect(response.error).toBeNull();
@@ -80,6 +87,7 @@ describe("Module: 'utils/config'", function (): void {
                 expect(response.type).toEqual('boolean');
             });
         });
+        
         test('array test', function (): void {
             typeCheckerAsync(testArray, 'array', function (response: TypeCheckerResponse): void {
                 expect(response.error).toBeNull();
@@ -88,6 +96,7 @@ describe("Module: 'utils/config'", function (): void {
                 expect(response.type).toEqual('array');
             });
         });
+        
         test('object test', function (): void {
             typeCheckerAsync(testObject, 'object', function (response: TypeCheckerResponse): void {
                 expect(response.error).toBeNull();
@@ -96,12 +105,28 @@ describe("Module: 'utils/config'", function (): void {
                 expect(response.type).toEqual('object');
             });
         });
+        
         test('function test', function (): void {
             typeCheckerAsync(testFunction, 'function', function (response: TypeCheckerResponse): void {
                 expect(response.error).toBeNull();
                 expect(response.result).toBeTruthy();
                 expect(response.value).toEqual(testFunction);
                 expect(response.type).toEqual('function');
+            });
+        });
+        
+        test.failing('give undefined value at first argument then throws `Error`', function (): void {
+            typeCheckerAsync(undefined, 'object', function (response: TypeCheckerResponse): void {
+                expect(response.error).toThrowError(Error);
+                expect(response.result).toBeTruthy();
+            });
+        });
+        
+        test.failing('give an ambiguous string as expected type then throws `TypeError`',
+                function (): void {
+            typeCheckerAsync(testObject, 'fooType', function (response: TypeCheckerResponse): void {
+                expect(response.error).toThrowError(TypeError);
+                expect(response.result).toBeTruthy();
             });
         });
     });
