@@ -199,16 +199,11 @@ function lsFiles(dirpath: StringPath,
             // Check whether the given path is a regular file
             fs.stat(dirpath, function (errStat?: NodeJS.ErrnoException | null,
                                        stats?: fs.Stats | null): void {
-                if (errStat!) {
-                    callback(errStat!, null);
-                    return;
-                }
-                
                 // Immediately return the given input path as an array,
                 // if the path is refer to a regular file.
                 if (!stats!.isDirectory()) {
                     if (opts.basename!) dirpath = path.basename(dirpath);
-                    callback(null, [ dirpath ]);
+                    callback(errStat! ? errStat! : null, !errStat! ? [ dirpath ] : null);
                     return;
                 }
             });
