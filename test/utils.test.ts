@@ -192,7 +192,7 @@ describe("Module: 'utils/coreutils'", function (): void {
               curdirBase: StringPath = path.basename(__dirname);
         
         let options: LsFilesOptions = {
-            baseName: true
+            basename: true
         };
         
         test(`search for '${expectedFile}' in ${curdirBase} directory with \`match\` search`,
@@ -203,8 +203,8 @@ describe("Module: 'utils/coreutils'", function (): void {
                 value: new RegExp(expectedFile)
             });
             
-            lsFiles(dirpath, options, function (err?: Error | null,
-                                                entries?: Array<string> | null): void {
+            lsFiles(dirpath, options, function (err: NodeJS.ErrnoException | null,
+                                                entries: Array<string> | null): void {
                 if (err!) {
                     done(err!);
                     return;
@@ -225,8 +225,8 @@ describe("Module: 'utils/coreutils'", function (): void {
         
         test(`search for '${expectedFile}' in ${curdirBase} directory without \`match\` search`,
                 function (done: jest.DoneCallback): void {
-            lsFiles(path.join(dirpath, expectedFile), null, function (err?: Error | null,
-                                                                      entries?: Array<string> | null): void {
+            lsFiles(path.join(dirpath, expectedFile), null, function (err: NodeJS.ErrnoException | null,
+                                                                      entries: Array<string> | null): void {
                 if (err!) {
                     done(err!);
                     return;
@@ -245,14 +245,14 @@ describe("Module: 'utils/coreutils'", function (): void {
             });
         });
         
-        // FIXME
-        test.skip('error no such file test', function (done: jest.DoneCallback) {
+        test('give non-existing file path then throws `Error`', function (done: jest.DoneCallback) {
             lsFiles(path.join(__dirname, `unknown-${Math.random() * 4300}.jsx`), null,
-                    function (err?: Error | null, entries?: Array<string> | null): void {
+                    function (err: NodeJS.ErrnoException | null, entries: Array<string> | null): void {
                 expect(err!).not.toBeNull();
-                expect(err!).toBeInstanceOf(Error);
+                expect(err!.code).toEqual('ENOENT');
+                expect(err!.errno).toEqual(-2);  // Error no. -2 always means 'No such file or directory'
                 expect(entries!).toBeNull();
-                done(err!);
+                done();
             });
         });
     });
