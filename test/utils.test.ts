@@ -25,6 +25,7 @@ describe("Module: 'utils/config'", function (): void {
         b: '2',
         j: [ { a: 'false', b: 'bar' }, 'foo' ]
     };
+    const testRegex: RegExp = /^hello\sworld$/i;
     function testFunction(): number { return 0; }
     
     // config#typeChecker function
@@ -51,6 +52,10 @@ describe("Module: 'utils/config'", function (): void {
         
         test('function test', function (): void {
             expect(typeChecker(testFunction, 'function')).toBeTruthy();
+        });
+        
+        test('regular expression test', function (): void {
+            expect(typeChecker(testRegex, 'regexp')).toBeTruthy();
         });
         
         test.failing('give an ambiguous string as expected type then throws `TypeError`',
@@ -115,10 +120,12 @@ describe("Module: 'utils/config'", function (): void {
             });
         });
         
-        test.failing('give undefined value at first argument then throws `Error`', function (): void {
-            typeCheckerAsync(undefined, 'object', function (response: TypeCheckerResponse): void {
-                expect(response.error).toThrowError(Error);
+        test('regular expression test', function (): void {
+            typeCheckerAsync(testRegex, 'regexp', function (response: TypeCheckerResponse): void {
+                expect(response.error).toBeNull();
                 expect(response.result).toBeTruthy();
+                expect(response.value).toEqual(testRegex);
+                expect(response.type).toEqual('regexp');
             });
         });
         
