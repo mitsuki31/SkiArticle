@@ -10,7 +10,8 @@ import { Options as SassOptions } from 'sass/types';
 import {
     typeChecker,
     typeCheckerAsync,
-    resolve
+    resolve,
+    defaultConfig
 } from '../src/utils/config';
 import { lsFiles } from '../src/utils/coreutils';
 
@@ -174,6 +175,12 @@ describe("Module: 'utils/config'", function (): void {
             const result: SassOptions<'sync'> = resolve('css', config);
             expect(result).not.toBeNull();
             expect(result).toStrictEqual(config);
+        });
+        
+        test('give an empty configuration then returns the default configuration', function (): void {
+            const result: SassOptions<'sync'> = resolve('sass', {});
+            expect(result).not.toBeNull();
+            expect(result).toStrictEqual(defaultConfig.sass);
         });
     });
 });
