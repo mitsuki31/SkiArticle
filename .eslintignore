@@ -16,3 +16,9 @@ public/**/*.js
 
 # Jest configuration file
 jest.config.*
+
+# Test suites
+test/
+
+# Coverage output
+coverage/
