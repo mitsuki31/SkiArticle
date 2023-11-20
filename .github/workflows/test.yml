@@ -1,6 +1,10 @@
 name: Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+  pull_request:
+
 jobs:
   test:
     name: Ubuntu / ${{ matrix.node-ver }}
@@ -21,11 +25,5 @@ jobs:
         cache: 'npm'
     - name: Install dependencies
       run: npm install
-    - name: Build the project
-      id: build
-      run: npm run compile
     - name: Test the project
       run: npm test -- --coverage false
-    - name: Clean the project
-      needs: build
-      run: rm --recursive build --verbose
