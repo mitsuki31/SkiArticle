@@ -109,3 +109,12 @@ document.addEventListener("keydown", (event) => {
         toggleNavBar();
     }
 });
+
+
+// Listen for click event on socials sub menu
+document.querySelector('.nav-menu .menu-contents .menu__socials')
+        .addEventListener('click', () => {
+    const submenuSocials = document.querySelector('.nav-menu .menu-contents .submenu__socials');
+    
+    submenuSocials.classList.toggle('active');  // Toggle the 'active' class
+});

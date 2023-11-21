@@ -221,10 +221,6 @@
         position: relative;
         top: navbar-base.$navbtn-top + 2.5px;
         left: navbar-base.$navbtn-left;
-        padding: 0 1px;
-        
-        // Button coloring
-        background-color: #0c3963cc;
         
         // Other attributes
         cursor: pointer;
@@ -384,13 +380,18 @@
 /// @since   0.1.0
 ///
 @mixin navbar-menu-contents-layout {
+    $-icon-offset: 15px;
+    $-icon-spaces: 10px;
+    $-icon-size: 1.5em;
+    $-letter-space: 2.55px;
+    
     @include reset.re-list;  // Reset list styles
     
     position: fixed;
     padding: 0;
     width: 0;  // Initial width (hidden)
     display: block;
-    margin-top: 2.2rem;
+    margin-top: 1.8rem;
     
     @include mixin.mtransform(translateX(-300px));
     visibility: hidden;
@@ -400,11 +401,6 @@
     );
     
     li {
-        $-icon-offset: 15px;
-        $-icon-spaces: 10px;
-        $-icon-size: 1.5em;
-        $-letter-space: 2.55px;
-        
         display: inherit;
         letter-spacing: $-letter-space;
         text-align: center;
@@ -426,12 +422,37 @@
             color: navbar-base.$navcolor;
             cursor: pointer;
             font-size: navbar-base.$navitems-size;
-            padding: 20px 0;
+            padding: 15px 0;
             padding-right: 20px;
         }
         
         &:hover, &:focus {
             background-color: navbar-base.$navbgcolor-hover;
+        }
+    }
+    
+    // Settings for sub menu contents (Socials)
+    .submenu__socials {
+        li a {
+            vertical-align: middle;
+            
+            & > i {
+                font-size: $-icon-size;
+                margin-right: $-icon-spaces;
+            }
+            
+            &:not(i) {
+                // Full width to its parent container
+                padding-left: 20px;
+            }
+            
+        }
+        padding: 0;
+        display: none;
+        
+        // When active i.e. being clicked by user
+        &.active {
+            display: inherit;
         }
     }
 }
