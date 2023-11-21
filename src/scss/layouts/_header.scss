@@ -82,7 +82,6 @@
     left: 0;
     right: 0;
     position: fixed;
-    text-align: center;
     color: global.$clr-title;
     background-color: global.$clr-container;
     z-index: global.$fixed-z;
@@ -99,13 +98,18 @@
         color: global.$clr-title;
         font-weight: global.$ft-bold-weight;
         font-size: global.$ft-big-size;
+        text-align: center;
+        padding: 0 25px;  // Make the text not too off to the side
         
         @include mixin.mtransition-all(global.$trans-fontsize);
     }
     
-    // Settings for the header description element
-    .header-description {
+    // Settings for the header description
+    p.header-description {
         font-size: global.$ft-medium-size;
+        text-align: justify;
+        text-justify: inter-word;
+        padding: 0 25px;  // Make the text not too off to the side
         @include mixin.mtransition-all(global.$trans-fontsize);
     }
     
