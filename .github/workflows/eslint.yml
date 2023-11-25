@@ -27,6 +27,4 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: Lint the project
-      run: npm run ci-lint
-    - name: Clean the project
-      run: rm --recursive cache --verbose
+      run: npm run lint:fix
