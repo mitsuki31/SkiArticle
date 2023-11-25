@@ -3,7 +3,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(/static/fonts/poppins_400.ttf) format('truetype');
+  src: url(../fonts/poppins_400.ttf) format('truetype');
 }
 
 @font-face {
@@ -11,7 +11,7 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(/static/fonts/poppins_500.ttf) format('truetype');
+  src: url(../fonts/poppins_500.ttf) format('truetype');
 }
 
 @font-face {
@@ -19,5 +19,5 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(/static/fonts/poppins_600.ttf) format('truetype');
+  src: url(../fonts/poppins_600.ttf) format('truetype');
 }

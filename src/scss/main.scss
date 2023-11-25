@@ -13,7 +13,7 @@
 @use 'allstyles' as *;
 
 // Import the Poppins font (CSS)
-@use '../../public/static/css/poppins';
+@use '../../static/css/poppins';
 
 html, ::before, ::after {
     // Change the box size to `border-box`
