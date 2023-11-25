@@ -1,15 +1,17 @@
 {
     "name": "SkiArticle",
     "version": "0.1.0-alpha",
-    "description": "Private module for handling server-side logic and client-side scripts.",
+    "description": "Private module for handling server-side logic and client-side of SkiArticle.",
     "private": true,
     "scripts": {
         "start": "nodemon build/src/server/server.js",
-        "precompile": "tsc",
-        "compile": "node build/src/build.js sass",
-        "build-docs": "jsdoc -c config/jsdoc.json",
+        "build": "npm run build:js && npm run build:sass",
+        "build:js": "tsc",
+        "build:sass": "node build/src/build.js sass",
+        "build:docs": "jsdoc -c config/jsdoc.json",
         "lint": "eslint .",
-        "ci-lint": "eslint . --cache --cache-location cache/.eslintcache",
+        "lint:fix": "eslint . --fix",
+        "lint:ci": "eslint . --cache --cache-location cache/.eslintcache",
         "test": "jest"
     },
     "author": {
