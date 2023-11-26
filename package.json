@@ -5,9 +5,9 @@
     "private": true,
     "scripts": {
         "start": "nodemon build/src/server/server.js",
-        "build": "npm run build:js && npm run build:sass",
+        "build": "npm run build:js && npm run build:css",
         "build:js": "tsc",
-        "build:sass": "node build/src/build.js sass",
+        "build:css": "node build/src/build.js sass",
         "build:docs": "jsdoc -c config/jsdoc.json",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
