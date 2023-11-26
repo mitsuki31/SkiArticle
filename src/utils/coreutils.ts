@@ -16,6 +16,7 @@
 import * as path from 'path';     // Path module
 import * as fs from 'fs';         // File System module
 import * as dir from 'node-dir';  // Node-dir module
+import * as util from 'util';     // Util module
 
 /**
  * Path that references to the project's root directory.
@@ -227,4 +228,11 @@ function lsFiles(dirpath: StringPath,
     });
 }
 
-export { rootDir, clientPaths, serverPaths, lsFiles };
+
+function isObject(value: any): value is Record<string, any> | Object {
+    return value && typeof value === 'object' && !Array.isArray(value)
+        && util.types.isRegExp(value);
+}
+
+
+export { rootDir, clientPaths, serverPaths, lsFiles, isObject };
