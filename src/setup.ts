@@ -8,23 +8,12 @@ import * as fs from 'fs';
 import * as util from 'util';
 import * as path from 'path';
 
-import { clientPaths, serverPaths, lsFiles } from './utils/coreutils';
-
-async function copyFile(src: StringPath,
-                        dest: StringPath): Promise<void> {
-    try {
-        await fs.promises.copyFile(src, dest);
-    } catch (error: unknown) {
-        // Unsafe type casting
-        const nError: NodeJS.ErrnoException = <NodeJS.ErrnoException>error,
-              err: Error = new Error(
-                  `Error copyFile: ${nError.message}`,
-                  // In ECMAScript 2020 and earlier, only the first argument will be used
-                  // as the error message, and the rest will be ignored.
-                  { cause: nError });
-        throw err;
-    }
-}
+import {
+    clientPaths,
+    serverPaths,
+    lsFiles,
+    copyFile
+} from './utils/coreutils';
 
 
 export default async function setup(): Promise<void> {
