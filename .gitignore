@@ -134,3 +134,5 @@ docs/
 
 # Environments built by the server-side (e.g. compiled CSS files)
 build/
+
+public/assets/css/
