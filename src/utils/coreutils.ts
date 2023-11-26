@@ -229,10 +229,12 @@ function lsFiles(dirpath: StringPath,
 }
 
 
-function isObject(value: any): value is Record<string, any> | Object {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isObject(value: any): value is Record<string, any> | object {
     return value && typeof value === 'object' && !Array.isArray(value)
         && util.types.isRegExp(value);
 }
+
 
 async function copyFile(src: StringPath,
                         dest: StringPath): Promise<void> {
