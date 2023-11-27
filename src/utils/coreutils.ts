@@ -255,7 +255,48 @@ async function copyFile(src: StringPath,
 }
 
 
+async function exists(target: NonNullable<StringPath>): Promise<void> {
+    const pathAbs: StringPath = path.resolve(target);
+    const perm: number = fs.constants.F_OK  // Exists
+        | fs.constants.R_OK                 // Read permission
+        | fs.constants.W_OK;                // Write permission
+    
+    return new Promise(function (
+        resolve: () => void,
+        reject: (reason: NodeJS.ErrnoException) => void
+    ): void {
+        // Check for a directory
+        fs.promises.stat(pathAbs)
+            .then(function (stats?: fs.Stats | null): void {
+                const isDir: boolean = stats?.isDirectory() || false,
+                      isFile: boolean = stats?.isFile() || false;
+                
+                if (isDir && !isFile) {
+                    resolve();  // Directory detected
+                    return;
+                }
+                
+                if (!isDir && isFile) {
+                    // Check for a regular file with R/W permission
+                    fs.access(pathAbs, perm, function (err: NodeJS.ErrnoException | null): void {
+                        if (err) { reject(err); return }
+                    });
+                    resolve();  // Regular file detected
+                } else if (!(isDir && isFile)) {
+                    reject(new Error(
+                        `No such regular file or directory: ${pathAbs}`
+                    ));
+                    return;
+                }
+            })
+            .catch(function (err: NodeJS.ErrnoException): void {
+                if (err) reject(err);
+            });
+    });
+}
+
+
 export {
     rootDir, clientPaths, serverPaths,
-    lsFiles, isObject, copyFile
+    lsFiles, isObject, copyFile, exists
 };
