@@ -6,6 +6,7 @@
  * @requires  module:path
  * @requires  module:fs
  * @requires  module:node-dir
+ * @requires  module:util
  * @author    Ryuu Mitsuki
  * @since     0.1.0
  * @version   0.2
@@ -257,9 +258,6 @@ async function copyFile(src: StringPath,
 
 async function exists(target: NonNullable<StringPath>): Promise<void> {
     const pathAbs: StringPath = path.resolve(target);
-    const perm: number = fs.constants.F_OK  // Exists
-        | fs.constants.R_OK                 // Read permission
-        | fs.constants.W_OK;                // Write permission
     
     return new Promise(function (
         resolve: () => void,
@@ -268,8 +266,8 @@ async function exists(target: NonNullable<StringPath>): Promise<void> {
         // Check for a directory
         fs.promises.stat(pathAbs)
             .then(function (stats?: fs.Stats | null): void {
-                const isDir: boolean = stats?.isDirectory() || false,
-                      isFile: boolean = stats?.isFile() || false;
+                const isDir: boolean = stats!.isDirectory(),
+                      isFile: boolean = stats!.isFile();
                 
                 if (isDir && !isFile) {
                     resolve();  // Directory detected
@@ -277,11 +275,23 @@ async function exists(target: NonNullable<StringPath>): Promise<void> {
                 }
                 
                 if (!isDir && isFile) {
+                    const perm: number = stats!.mode & 0o777,  // Extract file permissions
+                          readPerm: number = perm & 0o400,    // Read permission
+                          writePerm: number = perm & 0o200;   // Write permission
+                    
                     // Check for a regular file with R/W permission
-                    fs.access(pathAbs, perm, function (err: NodeJS.ErrnoException | null): void {
-                        if (err) { reject(err); return }
-                    });
-                    resolve();  // Regular file detected
+                    // if not have one of permissions above, return an error
+                    let permErr: Error | null = null;
+                    if (!readPerm && writePerm) {
+                        permErr = new Error(`Read operation are not permitted: ${pathAbs}`);
+                    } else if (readPerm && !writePerm) {
+                        permErr = new Error(`Write operation are not permitted: ${pathAbs}`);
+                    } else if (!readPerm && !writePerm) {
+                        permErr = new Error(`Read and write operation are not permitted: ${pathAbs}`);
+                    }
+                    
+                    if (permErr) { reject(permErr); return }
+                    else resolve();  // Regular file detected
                 } else if (!(isDir && isFile)) {
                     reject(new Error(
                         `No such regular file or directory: ${pathAbs}`
