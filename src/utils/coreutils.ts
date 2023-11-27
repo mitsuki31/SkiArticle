@@ -240,12 +240,12 @@ async function copyFile(src: StringPath,
                         dest: StringPath): Promise<void> {
     return new Promise(function (
         resolve: () => void, reject: (reason?: Error) => void
-    ): Promise<void> {
+    ): void {
         fs.promises.copyFile(src, dest)
             .then(() => resolve())
             .catch(function (errCopy: NodeJS.ErrnoException) {
                 const err: Error = new Error(
-                    `Error copyFile: ${nError.message}`,
+                    `Error copyFile: ${errCopy.message}`,
                     // In ECMAScript 2020 and earlier, only the first argument will be used
                     // as the error message, and the rest will be ignored.
                     { cause: errCopy });
