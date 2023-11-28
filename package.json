@@ -5,6 +5,7 @@
     "private": true,
     "scripts": {
         "start": "nodemon build/src/server/server.js",
+        "start:dry": "node build/src/server/server.js --dry-run",
         "build": "npm run build:js && npm run build:css",
         "build:js": "tsc",
         "build:css": "node build/src/build.js sass",
