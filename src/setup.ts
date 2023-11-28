@@ -1,7 +1,16 @@
 /**
  * Setup module.
- * @module setup
- * @author Ryuu Mitsuki
+ * @module   setup
+ * @requires module:utils/coreutils.clientPaths
+ * @requires module:utils/coreutils.serverPaths
+ * @requires module:utils/coreutils.lsFiles
+ * @requires module:utils/coreutils.copyFile
+ * @requires module:utils/coreutils.exists
+ * @author    Ryuu Mitsuki
+ * @since     0.1.0
+ * @version   0.1
+ * @copyright 2023 CV. DR2E
+ * @license   MIT
  */
 
 import * as fs from 'fs';
@@ -17,6 +26,20 @@ import {
 } from './utils/coreutils';
 
 
+/**
+ * Sets up necessary configurations for the client-side to ensure the website runs as expected.
+ *
+ * Currently, this function copies the built main CSS file from the server-side to the client-side.
+ *
+ * @public
+ * @async
+ * @function
+ * @returns {Promise<void>} A promise that resolves when the setup is complete or rejects with an error.
+ * @throws {Error} Throws an error if the main CSS file is not found or if there's an issue during the setup process.
+ * @author  Ryuu Mitsuki
+ * @since   0.1.0
+ * @version 0.1
+ */
 export default async function setup(): Promise<void> {
     return new Promise(function (
         resolve: () => void, reject: (reason?: Error) => void
@@ -31,13 +54,13 @@ export default async function setup(): Promise<void> {
                 
                 // Throw an error if the main CSS cannot be found
                 if (!mainCSS && !res?.length) {
-                    reject(new Error("Cannot found 'main.css' file in " +
-                        serverPaths.build + '.\nBuild the CSS file using command: ' +
-                        "'npm run build:css'"
+                    reject(new Error(`Cannot find 'main.css' file in ${serverPaths.build}.` +
+                        "\nBuild the CSS file using command: 'npm run build:css'"
                     ));
                     return;  // Exit the function
                 }
                 
+                // Set the destination path for the main CSS file on the client-side
                 const outMainCSS: StringPath = path.join(
                     clientPaths.assets.css, path.basename(mainCSS));
                 
