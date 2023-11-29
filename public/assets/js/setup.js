@@ -57,10 +57,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         .then((response) => {
             // Throw an error if there is a response issue.
             if (!response.ok) {
-                throw new Error(`HTTP fetch bad response: ${response.status}`);
+                // Reject the process if the response is not OK
+                return Promise.reject(
+                    new Error(`HTTP fetch bad response: ${response.status}`));
             }
             
-            return response.json();
+            return Promise.resolve(response.json());
         })
         .then((jsonData) => {
             // Extract keys from JSON data
@@ -78,6 +80,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 for (const element of elements) {
                     if (element && element.nodeName === "A") {
                         element.href = jsonData[key] || "#";
+                        // Remove the class after patched the URL
+                        element.classList.remove(prefix.concat(key));
                     }
                 }
             }
@@ -88,6 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         })
         .catch((error) => {
             console.error(`ERROR - Failed to fetch URLs: ${error.message}`);
+            console.error(error);  // Trace the occured error for debugging
         });
 }, {
     // Remove the event listener after executed once
