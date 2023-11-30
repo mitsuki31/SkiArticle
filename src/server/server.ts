@@ -83,7 +83,7 @@ const defaultAddress: ServerAddress = {
  */
 function run(opts?: ServerOptions): void {
     let address: ServerAddress;
-    if (isObject(opts) && !Object.keys(opts).length) {
+    if (isObject(opts) && Object.keys(opts).length) {
         // Use host or IP address and port from given options.
         // If not specified, use the default address instead.
         address = {

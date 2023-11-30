@@ -233,7 +233,7 @@ function lsFiles(dirpath: StringPath,
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isObject(value: any): value is Record<string, any> | object {
     return value && typeof value === 'object' && !Array.isArray(value)
-        && util.types.isRegExp(value);
+        && !util.types.isRegExp(value);
 }
 
 
