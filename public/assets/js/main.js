@@ -80,10 +80,13 @@ const toggleNavBar = () => {
     navbar.menu.classList.toggle("active");
     navbar.button.classList.toggle("active");
     document.querySelector(".overlay").classList.toggle("active");
+    
+    // Disable scrolling on page when the navigation menu is active
+    document.body.style.overflow = navbar.menu.classList.contains('active')
+        ? 'hidden'
+        : 'auto';
 };
 
-// Print user's connection status
-console.log(`INFO - Connection status: ${navigator.onLine ? "ONLINE" : "OFFLINE"}`);
 
 // Toggle navigation menu on click event of navigation button
 navbar.button.addEventListener("click", toggleNavBar);
