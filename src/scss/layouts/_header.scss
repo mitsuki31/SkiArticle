@@ -78,44 +78,35 @@
 /// @since   0.1.0
 ///
 @mixin header-layout {
-    top: 0;
-    left: 0;
-    right: 0;
-    position: fixed;
-    color: global.$clr-title;
-    background-color: global.$clr-container;
     z-index: global.$fixed-z;
     justify-content: space-between;
+    background-color: global.$clr-container;
+    margin-bottom: 10px;
+    margin-top: 53px;  // Prevent conflicting with navigation bar
+    padding: 0.1px;
     
     // Setting the box shadow using predefined helper mixin
-    @include mixin.mbox-shadow(0 1px 0.4rem rgba(22, 8, 43, 0.15));
-    
-    // Give some spaces between navigation bar and header
-    margin-top: navbar-base.$navheight;
+    @include mixin.mbox-shadow(global.$shadow-container);
     
     // Settings for the header title element
     .header-title {
         color: global.$clr-title;
-        font-weight: global.$ft-bold-weight;
-        font-size: global.$ft-big-size;
+        font-size: global.$ft-big-size + 0.7rem;
         text-align: center;
-        padding: 0 25px;  // Make the text not too off to the side
+        padding: 0 25px;
         
         @include mixin.mtransition-all(global.$trans-fontsize);
     }
     
     // Settings for the header description
-    p.header-description {
+    .header-description {
         font-size: global.$ft-medium-size;
-        text-align: justify;
-        text-justify: inter-word;
-        padding: 0 25px;  // Make the text not too off to the side
         @include mixin.mtransition-all(global.$trans-fontsize);
     }
     
     // Settings for larger devices
     @media screen and (min-width: 768px) {
-        margin-top: navbar-base.$navheight + 10px;
+        margin-top: 53px;
         
         .header-title {
             font-size: global.$ft-big-size-720;
@@ -142,7 +133,9 @@
 /// @since   0.1.0
 ///
 @mixin navbar-layout {
-    padding-bottom: navbar-base.$navheight;
+    position: fixed;
+    top: 0;  // Keep on the top
+    padding: 27.2px 100%;
     background-color: navbar-base.$navbgcolor;
 }
 
@@ -222,7 +215,7 @@
         height: $height-size;
         
         // Button position
-        position: relative;
+        position: fixed;
         top: navbar-base.$navbtn-top + 2.5px;
         left: navbar-base.$navbtn-left;
         
@@ -419,7 +412,8 @@
             }
         }
         
-        a:not(i) {
+        a:not(i),
+        &.menu__socials {
             display: flex;
             text-decoration: none;
             font-weight: global.$ft-bold-weight;
@@ -430,22 +424,30 @@
             padding-right: 20px;
         }
         
-        &:hover, &:focus {
+        &.menu__socials > i {
+            font-size: $-icon-size;
+            margin-left: $-icon-offset;
+            margin-right: $-icon-spaces;
+        }
+        
+        &:hover,
+        &:focus,
+        a:hover,
+        a:focus {
+            color: #b42a2a;
             background-color: navbar-base.$navbgcolor-hover;
         }
     }
     
     // Settings for sub menu contents (Socials)
     .submenu__socials {
-        li a {
+        li {
             vertical-align: middle;
             
-            & > i {
+            i {
                 font-size: $-icon-size;
                 margin-right: $-icon-spaces;
-            }
-            
-            &:not(i) {
+                
                 // Full width to its parent container
                 padding-left: 20px;
             }
