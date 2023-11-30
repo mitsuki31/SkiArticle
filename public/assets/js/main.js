@@ -87,6 +87,11 @@ const toggleNavBar = () => {
         : 'auto';
 };
 
+const convertHtmlEntitiesToCharacters = (htmlString) => {
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = htmlString;
+    return tempElement.textContent || tempElement.innerText || "";
+};
 
 // Toggle navigation menu on click event of navigation button
 navbar.button.addEventListener("click", toggleNavBar);
@@ -120,4 +125,8 @@ document.querySelector('.nav-menu .menu-contents .menu__socials')
     const submenuSocials = document.querySelector('.nav-menu .menu-contents .submenu__socials');
     
     submenuSocials.classList.toggle('active');  // Toggle the 'active' class
+    document.querySelector('.nav-menu .menu-contents .menu__socials span.inner')
+            .innerHTML = submenuSocials.classList.contains('active')
+                ? convertHtmlEntitiesToCharacters('&#9650;')
+                : convertHtmlEntitiesToCharacters('&#9660;');
 });
