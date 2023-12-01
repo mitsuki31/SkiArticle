@@ -109,6 +109,14 @@ img {
     @include dr2e--container-layout;
 }
 
+.toc-head {
+    @include dr2e--toc-head-layout;
+}
+
+.toc {
+    @include dr2e--toc-layout;
+}
+
 .footer {
     display: block;
     padding: 20px 0;   // Footer size (note: it is block displayed)

@@ -610,3 +610,72 @@
         }
     }
 }
+
+@mixin toc-head-layout {
+    display: block;
+    z-index: global.$fixed-z;  // Prevent conflicting with navigation menus
+    
+    background-color: navbar-base.$navbgcolor;
+    @include mixin.mbox-shadow(0 1px 0.4rem rgba(3, 5, 43, 0.34));
+    
+    padding: 12px 0;
+    margin: 20px 30px;
+    border-radius: 10px;
+    
+    h4 {
+        letter-spacing: 1.8px;
+        color: #eee;
+        margin: 0 22px;
+        
+        & > i {
+            font-size: 13.5px;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+    }
+    
+    &.active {
+        // Change the bottom margin value to zero (0) when active
+        margin-bottom: 0;
+        padding-bottom: 27px;
+        background-color: navbar-base.$navbgcolor-hover;
+    }
+}
+
+@mixin toc-layout {
+    // Hide the table of contents when not active
+    visibility: hidden;
+    display: none;
+    
+    background-color: navbar-base.$navbgcolor;
+    @include mixin.mbox-shadow(0 1px 0.4rem rgba(3, 5, 43, 0.34));
+    
+    padding: 5px 0;
+    margin: 0 30px 30px 30px;
+    border-radius: 10px;
+    
+    .toc-list li {
+        color: #eee;  // Font color
+        margin: 0 22px;
+        
+        font-size: 13px;  // Size for each list
+        margin: 7px 0;
+        
+        // Fix margin on sub-sections
+        ul,
+        ol {
+            margin: 0 15px;
+        }
+        
+        &:hover,
+        &:focus {
+            color: #b42a2a;
+        }
+    }
+    
+    &.active {
+        visibility: visible;
+        display: block;
+        margin-top: -17px;
+    }
+}
