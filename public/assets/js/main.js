@@ -143,3 +143,21 @@ document.querySelector('.nav-menu .menu-contents .menu__socials')
                 ? convertHtmlEntitiesToCharacters('&#9650;')
                 : convertHtmlEntitiesToCharacters('&#9660;');
 });
+
+// Toggle the table of contents
+document.getElementById('toc-head').addEventListener('click', () => {
+    const toc = document.getElementById('toc'),
+          tocHead = document.getElementById('toc-head'),
+          tocTitle = document.querySelector('.header .toc-head#toc-head h4 > i');
+    
+    toc.classList.toggle('active');
+    tocHead.classList.toggle('active');
+    
+    if (toc.classList.contains('active')) {
+        tocTitle.classList.remove('bx-chevron-right');
+        tocTitle.classList.add('bx-chevron-down');
+    } else {
+        tocTitle.classList.add('bx-chevron-right');
+        tocTitle.classList.remove('bx-chevron-down');
+    }
+});
