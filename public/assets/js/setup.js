@@ -80,7 +80,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 for (const element of elements) {
                     if (element && element.nodeName === "A") {
                         element.href = jsonData[key] || "#";
-                        // Remove the class after patched the URL
+                    }
+                }
+                
+                // Remove the class after patched the URL
+                for (const element of elements) {
+                    // This if statement protect misbehave during removal
+                    if (element.classList.contains(prefix.concat(key))) {
                         element.classList.remove(prefix.concat(key));
                     }
                 }
