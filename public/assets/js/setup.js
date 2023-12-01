@@ -9,8 +9,8 @@
  * @author    Ryuu Mitsuki
  * @author    Nuryadani
  * @since     0.1.0
- * @version   0.1.7-prototype
- * @copyright CV. DR2E 2023
+ * @version   0.1.0
+ * @copyright 2023 CV. DR2E
  * @license   MIT
  */
 

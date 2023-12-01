@@ -7,8 +7,8 @@
  * @author    Ryuu Mitsuki
  * @author    Nuryadani
  * @since     0.1.0
- * @version   0.18.5-prototype
- * @copyright CV. DR2E 2023
+ * @version   0.1.0
+ * @copyright 2023 CV. DR2E
  * @license   MIT
  */
 
@@ -82,9 +82,22 @@ const toggleNavBar = () => {
     document.querySelector(".overlay").classList.toggle("active");
     
     // Disable scrolling on page when the navigation menu is active
-    document.body.style.overflow = navbar.menu.classList.contains('active')
+    document.body.style.overflow = navbar.isActive()
         ? 'hidden'
         : 'auto';
+    
+    // Change the navigation bar button
+    if (navbar.isActive()) {
+        document.querySelector('.navbar-section .nav-btn-out .bar')
+                .classList.remove('bx-menu');
+        document.querySelector('.navbar-section .nav-btn-out .bar')
+                .classList.add('bx-x');
+    } else {
+        document.querySelector('.navbar-section .nav-btn-out .bar')
+                .classList.add('bx-menu');
+        document.querySelector('.navbar-section .nav-btn-out .bar')
+                .classList.remove('bx-x');
+    }
 };
 
 const convertHtmlEntitiesToCharacters = (htmlString) => {
