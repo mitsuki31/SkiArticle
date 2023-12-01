@@ -74,7 +74,7 @@ img {
     }
     
     @media screen and (max-width: 767px) {
-        @include dr2e--navbar-button-layout;
+        @include dr2e--navbar-button-layout-v2;
         
         .nav-menu {
             @include dr2e--navbar-menu-layout;
