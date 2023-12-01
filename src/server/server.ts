@@ -17,8 +17,8 @@
  *
  * @module      server/server
  * @requires    module:utils/coreutils.clientPaths
- * @requires    module:utils/coreutils.serverPaths
- * @requires    module:path
+ * @requires    module:utils/coreutils.isObject
+ * @requires    module:setup.setup
  * @requires    module:express
  * @author      Ryuu Mitsuki
  * @since       0.1.0
@@ -27,13 +27,10 @@
  * @license     MIT
  */
 
-import * as path from 'path';
 import * as express from 'express';
 
-import {
-    serverPaths,
-    clientPaths
-} from '../utils/coreutils';
+import { clientPaths, isObject } from '../utils/coreutils';
+import setup from '../setup';
 
 const app: express.Express = express();
 
@@ -78,31 +75,26 @@ const defaultAddress: ServerAddress = {
  * port either from command line arguments or environment
  * variables.
  *
+ * @public
  * @function
- * @name    run
  * @author  Ryuu Mitsuki
  * @since   0.1.0
- * @version 0.2
+ * @version 0.3
  */
-(function (opts?: ServerOptions): void {
-    // Use host or IP address and port from input arguments.
-    // If not specified, use the default address instead.
+function run(opts?: ServerOptions): void {
     let address: ServerAddress;
-    if (Object.keys(opts!).length > 0) {
+    if (isObject(opts) && Object.keys(opts).length) {
+        // Use host or IP address and port from given options.
+        // If not specified, use the default address instead.
         address = {
             // Host address
-            host: opts!.host || defaultAddress.host,
+            host: opts.host! || defaultAddress.host,
             // Port
-            port: opts!.port || defaultAddress.port
+            port: opts.port! || defaultAddress.port
         };
     } else {
         address = defaultAddress;  // Copy
     }
-    
-    // Path reference to the compiled main CSS file
-    // ==> .../build/css/main.css
-    const mainCss: StringPath =
-        path.join(serverPaths.build, 'css', 'main.css');
     
     // Logging some requested stuff like URL, HTTP method, etc
     app.use(function (req: express.Request,
@@ -115,19 +107,10 @@ const defaultAddress: ServerAddress = {
         next();  // Continue to next middleware
     });
     
-    // In this case, when users on root URL address,
-    // it will immediately send necessary stuff
-    app.use('/', express.static(
+    // Serve the clients with all files within `public` directory
+    app.use(express.static(
         clientPaths.root, { index: 'index.html' }
     ));
-    
-    // Listen the request to get the main CSS from client-side
-    app.get('/assets/css/main.css',
-        function (req: express.Request,
-                  res: express.Response): void {
-        // Send the requested file
-        res.sendFile(mainCss);
-    });
     
     // Run the server
     app.listen(address.port, address.host, function (): void {
@@ -138,16 +121,36 @@ const defaultAddress: ServerAddress = {
         console.log(`Server is running at 'http://${
                 address.host}:${address.port}'\n`);
     });
-})((function (): ServerOptions {
-    const args: Array<string> = process.argv.slice(2);
+}
+
+// Run as main module
+if (require.main === module) {
+    let args: Array<string> = process.argv.slice(2),
+        dryRun: boolean = false;
     
-    const host: string = args.length > 0
-        ? args[0] : process.env.HOST!;
-    const port: number = Number.parseInt(
-        args.length > 1 ? args[1] : process.env.PORT!);
+    // Filter the dry run option from arguments list
+    args = args.filter(function (arg: string): boolean {
+        const dryRunArgs: Array<string> = ['-n', '--dry-run'];
+        if (dryRunArgs.includes(arg)) {
+            dryRun = true;  // Enable the dry run option
+            return false;   // Exclude this argument from arguments list
+        }
+        
+        return true;  // Include other arguments
+    });
     
-    return {
-        host: host || null,
-        port: port
-    };
-})());
+    if (dryRun) console.info(new Date().toISOString(), '- Dry run enabled')
+    
+    setup()
+        .then(function (): void {
+            // Run the server if the dry run option turned off
+            if (dryRun) return;
+            run({
+                host: (args.length > 0) ? args[0] : process.env.HOST!,
+                port: parseInt((args.length > 1) ? args[1] : process.env.PORT!)
+            });
+        })
+        .catch(function (err: Error): void {
+            throw err;
+        });
+}

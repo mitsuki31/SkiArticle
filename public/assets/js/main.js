@@ -7,8 +7,8 @@
  * @author    Ryuu Mitsuki
  * @author    Nuryadani
  * @since     0.1.0
- * @version   0.18.5-prototype
- * @copyright CV. DR2E 2023
+ * @version   0.1.0
+ * @copyright 2023 CV. DR2E
  * @license   MIT
  */
 
@@ -80,10 +80,31 @@ const toggleNavBar = () => {
     navbar.menu.classList.toggle("active");
     navbar.button.classList.toggle("active");
     document.querySelector(".overlay").classList.toggle("active");
+    
+    // Disable scrolling on page when the navigation menu is active
+    document.body.style.overflow = navbar.isActive()
+        ? 'hidden'
+        : 'auto';
+    
+    // Change the navigation bar button
+    if (navbar.isActive()) {
+        document.querySelector('.navbar-section .nav-btn-out .bar')
+                .classList.remove('bx-menu');
+        document.querySelector('.navbar-section .nav-btn-out .bar')
+                .classList.add('bx-x');
+    } else {
+        document.querySelector('.navbar-section .nav-btn-out .bar')
+                .classList.add('bx-menu');
+        document.querySelector('.navbar-section .nav-btn-out .bar')
+                .classList.remove('bx-x');
+    }
 };
 
-// Print user's connection status
-console.log(`INFO - Connection status: ${navigator.onLine ? "ONLINE" : "OFFLINE"}`);
+const convertHtmlEntitiesToCharacters = (htmlString) => {
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = htmlString;
+    return tempElement.textContent || tempElement.innerText || "";
+};
 
 // Toggle navigation menu on click event of navigation button
 navbar.button.addEventListener("click", toggleNavBar);
@@ -117,4 +138,32 @@ document.querySelector('.nav-menu .menu-contents .menu__socials')
     const submenuSocials = document.querySelector('.nav-menu .menu-contents .submenu__socials');
     
     submenuSocials.classList.toggle('active');  // Toggle the 'active' class
+    document.querySelector('.nav-menu .menu-contents .menu__socials span.inner')
+            .innerHTML = submenuSocials.classList.contains('active')
+                ? convertHtmlEntitiesToCharacters('&#9650;')
+                : convertHtmlEntitiesToCharacters('&#9660;');
+});
+
+// Toggle the table of contents
+document.getElementById('toc-head').addEventListener('click', () => {
+    const toc = document.getElementById('toc'),
+          tocHead = document.getElementById('toc-head'),
+          tocTitle = document.querySelector('.header .toc-head#toc-head h4 > i');
+    
+    toc.classList.toggle('active');
+    tocHead.classList.toggle('active');
+    
+    if (toc.classList.contains('active')) {
+        tocTitle.classList.remove('bx-chevron-right');
+        tocTitle.classList.add('bx-chevron-down');
+    } else {
+        tocTitle.classList.add('bx-chevron-right');
+        tocTitle.classList.remove('bx-chevron-down');
+    }
+});
+
+document.querySelector('.navbar-section .nav-menu .menu__about')
+        .addEventListener('click', (event) => {
+    event.preventDefault();
+    alert('Still in development stage ;)\n-----\nSedang dalam tahap pengembangan ;)');
 });

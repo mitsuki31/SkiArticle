@@ -9,8 +9,8 @@
  * @author    Ryuu Mitsuki
  * @author    Nuryadani
  * @since     0.1.0
- * @version   0.1.7-prototype
- * @copyright CV. DR2E 2023
+ * @version   0.1.0
+ * @copyright 2023 CV. DR2E
  * @license   MIT
  */
 
@@ -57,10 +57,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         .then((response) => {
             // Throw an error if there is a response issue.
             if (!response.ok) {
-                throw new Error(`HTTP fetch bad response: ${response.status}`);
+                // Reject the process if the response is not OK
+                return Promise.reject(
+                    new Error(`HTTP fetch bad response: ${response.status}`));
             }
             
-            return response.json();
+            return Promise.resolve(response.json());
         })
         .then((jsonData) => {
             // Extract keys from JSON data
@@ -80,6 +82,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                         element.href = jsonData[key] || "#";
                     }
                 }
+                
+                // Remove the class after patched the URL
+                for (const element of elements) {
+                    // This if statement protect misbehave during removal
+                    if (element.classList.contains(prefix.concat(key))) {
+                        element.classList.remove(prefix.concat(key));
+                    }
+                }
             }
             
             console.info(
@@ -88,6 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         })
         .catch((error) => {
             console.error(`ERROR - Failed to fetch URLs: ${error.message}`);
+            console.error(error);  // Trace the occured error for debugging
         });
 }, {
     // Remove the event listener after executed once

@@ -78,44 +78,35 @@
 /// @since   0.1.0
 ///
 @mixin header-layout {
-    top: 0;
-    left: 0;
-    right: 0;
-    position: fixed;
-    color: global.$clr-title;
-    background-color: global.$clr-container;
     z-index: global.$fixed-z;
     justify-content: space-between;
+    background-color: global.$clr-container;
+    margin-bottom: 10px;
+    margin-top: 53px;  // Prevent conflicting with navigation bar
+    padding: 0.1px;
     
     // Setting the box shadow using predefined helper mixin
-    @include mixin.mbox-shadow(0 1px 0.4rem rgba(22, 8, 43, 0.15));
-    
-    // Give some spaces between navigation bar and header
-    margin-top: navbar-base.$navheight;
+    @include mixin.mbox-shadow(global.$shadow-container);
     
     // Settings for the header title element
     .header-title {
         color: global.$clr-title;
-        font-weight: global.$ft-bold-weight;
-        font-size: global.$ft-big-size;
+        font-size: global.$ft-big-size + 0.7rem;
         text-align: center;
-        padding: 0 25px;  // Make the text not too off to the side
+        padding: 0 25px;
         
         @include mixin.mtransition-all(global.$trans-fontsize);
     }
     
     // Settings for the header description
-    p.header-description {
+    .header-description {
         font-size: global.$ft-medium-size;
-        text-align: justify;
-        text-justify: inter-word;
-        padding: 0 25px;  // Make the text not too off to the side
         @include mixin.mtransition-all(global.$trans-fontsize);
     }
     
     // Settings for larger devices
     @media screen and (min-width: 768px) {
-        margin-top: navbar-base.$navheight + 10px;
+        margin-top: 53px;
         
         .header-title {
             font-size: global.$ft-big-size-720;
@@ -142,7 +133,9 @@
 /// @since   0.1.0
 ///
 @mixin navbar-layout {
-    padding-bottom: navbar-base.$navheight;
+    position: fixed;
+    top: 0;  // Keep on the top
+    padding: 27.2px 100%;
     background-color: navbar-base.$navbgcolor;
 }
 
@@ -222,7 +215,7 @@
         height: $height-size;
         
         // Button position
-        position: relative;
+        position: fixed;
         top: navbar-base.$navbtn-top + 2.5px;
         left: navbar-base.$navbtn-left;
         
@@ -299,6 +292,37 @@
                 }
             }
         }
+    }
+}
+
+
+@mixin navbar-button-layout-v2 {
+    .nav-btn-out {
+        position: fixed;
+        z-index: navbar-base.$navfixed-z + 2;
+        top: navbar-base.$navbtn-top + 4.5px;
+        left: navbar-base.$navbtn-left;
+        
+        // Sizes
+        width: 27px;
+        height: 25.5px;
+    }
+    
+    .bar {
+        display: flex;
+        border: none;
+        background-color: inherit;
+        width: 100%;
+        height: 100%;
+        
+        // Button size and alignment
+        font-size: 30px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        
+        // Color
+        color: navbar-base.$navcolor;
     }
 }
 
@@ -419,7 +443,8 @@
             }
         }
         
-        a:not(i) {
+        a:not(i),
+        &.menu__socials {
             display: flex;
             text-decoration: none;
             font-weight: global.$ft-bold-weight;
@@ -430,22 +455,30 @@
             padding-right: 20px;
         }
         
-        &:hover, &:focus {
+        &.menu__socials > i {
+            font-size: $-icon-size;
+            margin-left: $-icon-offset;
+            margin-right: $-icon-spaces;
+        }
+        
+        &:hover,
+        &:focus,
+        a:hover,
+        a:focus {
+            color: #b42a2a;
             background-color: navbar-base.$navbgcolor-hover;
         }
     }
     
     // Settings for sub menu contents (Socials)
     .submenu__socials {
-        li a {
+        li {
             vertical-align: middle;
             
-            & > i {
+            i {
                 font-size: $-icon-size;
                 margin-right: $-icon-spaces;
-            }
-            
-            &:not(i) {
+                
                 // Full width to its parent container
                 padding-left: 20px;
             }
@@ -543,6 +576,16 @@
 @mixin logo-layout {
     .logo {
         margin: 0 navbar-base.$navlogo-spaces;
+        
+        &:focus,
+        &:hover {
+            color: #b42a2a;
+        }
+        
+        @media screen and (min-width: 768px) {
+            margin: 0 navbar-base.$navlogo-spaces + 5px;
+            cursor: none;
+        }
     }
     
     .logo i {
@@ -551,9 +594,88 @@
         color: global.$clr-title;
         width: fit-content;
         height: 100%;
+    }
+    
+    img.logo[src='assets/images/icon_ski.png'] {
+        position: relative;
+        width: 6.25%;
+        height: 6.25%;
+        cursor: none;
+        pointer-events: none;
         
         @media screen and (min-width: 768px) {
-            font-size: global.$ft-big-size-720 + 0.20rem;
+            width: 3.85%;
+            height: 3.85%;
+            margin-right: 4.45px;
         }
+    }
+}
+
+@mixin toc-head-layout {
+    display: block;
+    z-index: global.$fixed-z;  // Prevent conflicting with navigation menus
+    
+    background-color: navbar-base.$navbgcolor;
+    @include mixin.mbox-shadow(0 1px 0.4rem rgba(3, 5, 43, 0.34));
+    
+    padding: 12px 0;
+    margin: 20px 30px;
+    border-radius: 10px;
+    
+    h4 {
+        letter-spacing: 1.8px;
+        color: #eee;
+        margin: 0 22px;
+        
+        & > i {
+            font-size: 13.5px;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+    }
+    
+    &.active {
+        // Change the bottom margin value to zero (0) when active
+        margin-bottom: 0;
+        padding-bottom: 27px;
+        background-color: navbar-base.$navbgcolor-hover;
+    }
+}
+
+@mixin toc-layout {
+    // Hide the table of contents when not active
+    visibility: hidden;
+    display: none;
+    
+    background-color: navbar-base.$navbgcolor;
+    @include mixin.mbox-shadow(0 1px 0.4rem rgba(3, 5, 43, 0.34));
+    
+    padding: 5px 0;
+    margin: 0 30px 30px 30px;
+    border-radius: 10px;
+    
+    .toc-list li {
+        color: #eee;  // Font color
+        margin: 0 22px;
+        
+        font-size: 13px;  // Size for each list
+        margin: 7px 0;
+        
+        // Fix margin on sub-sections
+        ul,
+        ol {
+            margin: 0 15px;
+        }
+        
+        &:hover,
+        &:focus {
+            color: #b42a2a;
+        }
+    }
+    
+    &.active {
+        visibility: visible;
+        display: block;
+        margin-top: -17px;
     }
 }

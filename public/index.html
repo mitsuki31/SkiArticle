@@ -1,7 +1,7 @@
 <!--
     Copyright (c) 2023 CV. DR2E
 
-    Version: 0.4-prototype, 21 November 2023
+    Version: 0.7-prototype, 30 November 2023
     Authors: Ryuu Mitsuki, Nuryadani
 -->
 
@@ -10,20 +10,17 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="Cache-Control" content="public, max-age=3600" />
+        <meta http-equiv="Cache-Control" content="public, max-age=86400" />
 
         <!--::::  Webpage Title  ::::-->
         <title>Artikel SMK Sukamandi</title>
         
         <!--::::  Web Icon  ::::-->
         <!-- For the time being, we are using this as our website icon -->
-        <link rel="icon" href="/assets/images/logo_ski.png" type="image/png" />
-
-        <!--::::  Fonts  ::::-->
-        <link rel="stylesheet" type="text/css" href="/static/css/poppins.css" />
+        <link rel="icon" type="image/png" href="assets/images/logo_ski.png" />
 
         <!--::::  CSS / Styles  ::::-->
-        <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 
         <!--::::  BoxIcons  ::::-->
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
@@ -32,46 +29,160 @@
     <body>
         <header class="header">
             <div class="navbar-section">
-                <img class="nav-logo" src="/assets/images/logo_ski.png"/>
+                <img class="nav-logo" src="assets/images/logo_ski.png"/>
                 <div id="navbar-button" class="nav-btn-out">
-                    <div class="nav-btn-in">
-                        <span class="bar"></span>
-                    </div>
+                    <button class="bar bx bx-menu" type="checkbox"></button>
                 </div>
                 <nav>
                     <div id="navbar-menu" class="nav-menu">
                         <ul class="menu-contents">
-                            <li class="menu__socials"><a href="#"><i class="bx bxs-group"></i>Socials&nbsp;<span>&#9660;</span></a></li><!-- &#9650; for up arrow -->
+                            <li class="menu__socials"><i class="bx bxs-group"></i><span class="outer">Akun&nbsp;<span class="inner">&#9660;</span></span></li><!-- &#9650; for up arrow -->
                             <ul class="submenu__socials">
-                                <li class="socials__youtube"><a class="logo wrap-link dr2e--instagram" href="#" alt="Instagram SMK Sukamandi" target="_blank"><i class="bx bxl-instagram-alt"></i>Instagram</a></li>
-                                <li class="socials__instagram"><a class="logo wrap-link dr2e--youtube" href="#" alt="YouTube SMK Sukamandi" target="_blank"><i class="bx bxl-youtube"></i>YouTube</a></li>
+                                <li class="socials__youtube"><a class="dr2e--instagram" href="#" alt="Instagram SMK Sukamandi" target="_blank"><i class="bx bxl-instagram-alt"></i>Instagram</a></li>
+                                <li class="socials__instagram"><a class="dr2e--youtube" href="#" alt="YouTube SMK Sukamandi" target="_blank"><i class="bx bxl-youtube"></i>YouTube</a></li>
                             </ul>
-                            <li class="menu__about"><a href="#"><i class="bx bx-info-circle"></i>About</a></li>
-                            <li class="menu__contact"><a href="#"><i class="bx bx-envelope"></i>Contact</a></li>
+                            <li class="menu__repo"><a class="dr2e--github-repo" alt="GitHub Repo" target="_blank"><i class="bx bx-code-alt"></i>Kode Sumber</a></li>
+                            <li class="menu__about"><a href="#"><i class="bx bx-info-circle"></i>Tentang</a></li>
                         </ul>
                     </div>
                 </nav>
             </div>
-
             <div class="header-section">
-                <div class="header-contents">
-                    <h2 class="header-title">
-                       <a class="dr2e--main_web" href="#" alt="SMK Sukamandi">SMK Sukamandi</a>
-                    </h2>
-                    <p class="header-description">
-                        <strong>Sekolah Menengah Kejuruan (SMK) Sukamandi</strong> adalah lembaga pendidikan yang memiliki komitmen tinggi dalam memberikan
-                        pendidikan berkualitas di bidang kejuruan.<br/><br/>Berlokasi di Jl. Ampera Gg. 01B, Sukamandi Subang, Sukamandijaya, Kec. Ciasem,
-                        Kab. Subang, Prov. Jawa Barat, sekolah ini telah berdiri sejak tahun 1972 dan telah menjadi pusat pendidikan unggulan di daerah tersebut.
-                    </p>
-                </div>
+                <h1 class="header-title">
+                   <a class="dr2e--main_web" href="#" alt="SMK Sukamandi">SMK Sukamandi</a>
+                </h1>
+            </div>
+            <div id="toc-head" class="toc-head">
+                <h4><i class="bx bx-chevron-right"></i>Daftar Isi</h4>
+            </div>
+            <div id="toc" class="toc">
+                <ul class="toc-list">
+                    <li><a href="#profil_sekolah">Profil Sekolah</a></li>
+                    <li><a href="#sejarah_singkat">Sejarah Singkat</a></li>
+                    <li><a href="#visi_misi">Visi &amp; Misi</a></li>
+                    <li><a href="#program_kejuruan">Program Kejuruan</a></li>
+                    <ol>
+                        <li><a href="#teknik_permesinan">Teknik Permesinan</a></li>
+                        <li><a href="#teknik_kendaraan_ringan">Teknik Kendaraan Ringan (Otomotif)</a></li>
+                        <li><a href="#teknik_komputer_jaringan">Teknik Komputer dan Jaringan</a></li>
+                    </ol>
+                    <li><a href="#kerjasama_industri">Kerjasama Industri</a></li>
+                    <li><a href="#sarana_prasarana">Sarana &amp; Prasarana</a></li>
+                    <li><a href="#kegiatan_ekstrakurikuler">Kegiatan Ekstrakurikuler</a></li>
+                    <li><a href="#kesimpulan">Kesimpulan</a></li>
+                </ul>
             </div>
         </header>
+        <main id="main">
+            <section id="profil_sekolah" class="container">
+                <h3 class="title">PROFIL SEKOLAH</h3>
+                <article class="article">
+                    <strong>Sekolah Menengah Kejuruan (SMK) Sukamandi</strong> adalah lembaga pendidikan yang memiliki komitmen tinggi dalam memberikan
+                    pendidikan berkualitas di bidang kejuruan.<br/><br/>Berlokasi di Jl. Ampera Gg. 01B, Sukamandi Subang, Sukamandijaya, Kec. Ciasem,
+                    Kab. Subang, Prov. Jawa Barat, sekolah ini telah berdiri sejak tahun 1972 dan telah menjadi pusat pendidikan unggulan di daerah tersebut.
+                </article>
+            </section>
+            <section id="sejarah_singkat" class="container">
+                <h3 class="title">SEJARAH SINGKAT</h3>
+                <article class="article">
+                    SMK Sukamandi didirikan pada tahun 1972 dengan tekad kuat untuk memberikan pendidikan berkualitas dalam bidang kejuruan kepada generasi muda.
+                    Sejak awal berdiri, sekolah ini telah berkomitmen untuk menjembatani kesenjangan antara dunia pendidikan dan industri. Dengan semangat inovasi yang
+                    terus berkobar, SMK Sukamandi telah tumbuh menjadi lembaga pendidikan yang dihormati dan diakui secara nasional.
+                </article>
+            </section>
+            <section id="visi_misi" class="container">
+                <h3 class="title">VISI &amp; MISI</h3>
+                <article class="article">
+                    Visi SMK Sukamandi adalah <em>&ldquo;Menjadi SMK unggulan yang menghasilkan lulusan berkompeten di bidang kejuruan dan memiliki budi pekerti luhur&rdquo;</em>.
+                    Adapun misi sekolah ini adalah:
+                    <ol>
+                        <li>Menyelenggarakan pembelajaran berbasis kejuruan yang sesuai dengan perkembangan teknologi dan industri.</li>
+                        <li>Mengembangkan budaya kerja, kreativitas, dan inovasi dalam rangka menghasilkan lulusan yang siap bersaing di dunia kerja.</li>
+                        <li>Mendorong pengembangan karakter positif dan budi pekerti yang baik pada setiap siswa.</li>
+                    </ol>
+                </article>
+            </section>
+            <section id="program_kejuruan" class="container">
+                <h3 class="title">PROGRAM KEJURUAN</h3>
+                <article class="article">
+                    SMK Sukamandi menawarkan beragam program kejuruan yang sesuai dengan kebutuhan industri saat ini. Beberapa program kejuruan yang ditawarkan antara lain:
+                    <section id="teknik_permesinan" class="child-container">
+                        <h4 class="title">Teknik Permesinan</h4>
+                        <article class="article">
+                            Jurusan Teknik Permesinan membekali siswa dengan pengetahuan dan keterampilan dalam merancang, membuat, dan memelihara berbagai komponen dan peralatan mekanik.
+                            Siswa akan belajar tentang prinsip-prinsip mekanika, material, dan teknik produksi. Mereka juga akan diperkenalkan pada mesin-mesin industri, alat-alat presisi,
+                            dan teknologi terkini dalam manufaktur. Jurusan ini membuka peluang untuk bekerja di industri manufaktur, permesinan, dan rekayasa.
+                        </article>
+                    </section>
+                    <hr class="linespace"/>
+                    <section id="teknik_kendaraan_ringan" class="child-container">
+                        <h4 class="title">Teknik Kendaraan Ringan (Otomotif)</h4>
+                        <article class="article">
+                            Jurusan Teknik Kendaraan Ringan atau Otomotif mempersiapkan siswa untuk menjadi ahli dalam merawat, memperbaiki, dan melakukan perawatan pada kendaraan bermotor.
+                            Siswa akan mempelajari sistem-sistem kendaraan seperti mesin, transmisi, sistem rem, dan elektronik otomotif. Mereka akan dilatih untuk mendiagnosis masalah dan melakukan
+                            perbaikan pada berbagai jenis kendaraan, seperti mobil dan sepeda motor. Lulusan jurusan ini dapat bekerja di bengkel otomotif, perusahaan manufaktur kendaraan, dan layanan purna jual.
+                        </article>
+                    </section>
+                    <hr class="linespace"/>
+                    <section id="teknik_komputer_jaringan" class="child-container">
+                        <h4 class="title">Teknik Komputer dan Jaringan</h4>
+                        <article class="article">
+                            Jurusan Teknik Komputer dan Jaringan memfokuskan pada pembelajaran tentang perangkat keras dan perangkat lunak komputer, serta cara merancang, mengelola,
+                            dan memelihara jaringan komputer. Siswa akan belajar tentang instalasi sistem operasi, perakitan dan perbaikan komputer, pemrograman dasar, keamanan jaringan,
+                            dan administrasi sistem. Lulusan jurusan ini dapat bekerja di bidang IT dan teknologi, menjadi administrator jaringan, teknisi komputer, atau pengembang perangkat lunak.
+                        </article>
+                    </section>
+                </article>
+            </section>
+            <section id="kerjasama_industri" class="container">
+                <h3 class="title">KERJASAMA INDUSTRI</h3>
+                <article class="article">
+                    Sekolah ini menjalin kerjasama erat dengan berbagai perusahaan dan industri terkemuka di wilayahnya. Kerjasama ini memungkinkan siswa untuk mengikuti program magang,
+                    praktek kerja, dan kunjungan industri, sehingga mereka dapat mengalami dunia kerja secara nyata sebelum lulus.
+                </article>
+            </section>
+            <section id="sarana_prasarana" class="container">
+                <h3 class="title">SARANA &amp; PRASARANA</h3>
+                <article class="article">
+                    SMK Sukamandi dilengkapi dengan fasilitas modern yang mendukung proses pembelajaran. Fasilitas tersebut termasuk laboratorium, perpustakaan,
+                    ruang komputer, dan area olahraga.<br/><br/>
+                    Sekolah Menengah Kejuruan Sukamandi terus berkomitmen untuk menghasilkan lulusan yang siap bersaing di dunia kerja dan memiliki integritas
+                    serta kompetensi unggul di bidang kejuruan. Dengan dukungan program kejuruan yang terus diperbaharui dan fasilitas yang memadai,
+                    SMK Sukamandi adalah tempat yang ideal bagi siswa yang ingin mempersiapkan diri untuk masa depan yang cerah di dunia industri.
+                </article>
+            </section>
+            <section id="kegiatan_ekstrakurikuler" class="container">
+                <h3 class="title">KEGIATAN EKSTRAKURIKULER</h3>
+                <article class="article">
+                    Selain pendidikan formal, SMK Sukamandi juga mendorong siswa untuk mengembangkan diri melalui kegiatan ekstrakurikuler yang beragam.
+                    Futsal, Basket, Badminton, Kesenian, Ekskul Mengemudi, Paskibra, Pramuka, dan PMR adalah beberapa pilihan yang dapat membantu siswa
+                    mengasah keterampilan di luar ruang kelas.
+                </article>
+            </section>
+            <section id="kesimpulan" class="container">
+                <h3 class="title">KESIMPULAN</h3>
+                <article class="article">
+                    Sekolah Menengah Kejuruan (SMK) Sukamandi bukan hanya sekadar lembaga pendidikan, tetapi juga tempat di mana bakat dan potensi dikembangkan
+                    menjadi kemampuan yang mendukung masa depan yang cerah. Dengan sejarah yang kuat, program unggulan, fasilitas modern, dan prestasi siswa yang
+                    membanggakan, SMK Sukamandi terus berkomitmen untuk memberikan pendidikan berkualitas dan mempersiapkan generasi muda untuk menghadapi tantangan global.
+                </article>
+            </section>
+        </main>
+        
+        <footer id="footer" class="footer">
+            <div class="logo-section">
+                <img class="logo" src="assets/images/icon_ski.png" />
+                <a class="logo dr2e--instagram" alt="Instagram SMK Sukamandi" target="_blank"><i class="bx bxl-instagram"></i></a>
+                <a class="logo dr2e--youtube" alt="YouTube SMK Sukamandi" target="_blank"><i class="bx bxl-youtube"></i></a>
+            </div>
+            <p>Hak cipta &copy; 2023 CV. DR2E dan <a class="dr2e--instagram">SMK Sukamandi</a>. Seluruh hak cipta dilindungi undang-undang.</p>
+        </footer>
 
         <!-- Overlay -->
         <div class="overlay"></div>
 
         <!--::::  JavaScript  ::::-->
-        <script type="text/javascript" src="/assets/js/setup.js" charset="UTF-8"></script>
-        <script type="text/javascript" src="/assets/js/main.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="assets/js/setup.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="assets/js/main.js" charset="UTF-8"></script>
     </body>
 </html>

@@ -6,6 +6,7 @@
  * @requires  module:path
  * @requires  module:fs
  * @requires  module:node-dir
+ * @requires  module:util
  * @author    Ryuu Mitsuki
  * @since     0.1.0
  * @version   0.2
@@ -16,6 +17,7 @@
 import * as path from 'path';     // Path module
 import * as fs from 'fs';         // File System module
 import * as dir from 'node-dir';  // Node-dir module
+import * as util from 'util';     // Util module
 
 /**
  * Path that references to the project's root directory.
@@ -227,4 +229,84 @@ function lsFiles(dirpath: StringPath,
     });
 }
 
-export { rootDir, clientPaths, serverPaths, lsFiles };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isObject(value: any): value is Record<string, any> | object {
+    return value && typeof value === 'object' && !Array.isArray(value)
+        && !util.types.isRegExp(value);
+}
+
+
+async function copyFile(src: StringPath,
+                        dest: StringPath): Promise<void> {
+    return new Promise(function (
+        resolve: () => void, reject: (reason?: Error) => void
+    ): void {
+        fs.promises.copyFile(src, dest)
+            .then(() => resolve())
+            .catch(function (errCopy: NodeJS.ErrnoException) {
+                const err: Error = new Error(
+                    `Error copyFile: ${errCopy.message}`,
+                    // In ECMAScript 2020 and earlier, only the first argument will be used
+                    // as the error message, and the rest will be ignored.
+                    { cause: errCopy });
+                reject(err);
+            });
+    });
+}
+
+
+async function exists(target: NonNullable<StringPath>): Promise<void> {
+    const pathAbs: StringPath = path.resolve(target);
+    
+    return new Promise(function (
+        resolve: () => void,
+        reject: (reason: NodeJS.ErrnoException) => void
+    ): void {
+        // Check for a directory
+        fs.promises.stat(pathAbs)
+            .then(function (stats?: fs.Stats | null): void {
+                const isDir: boolean = stats!.isDirectory(),
+                      isFile: boolean = stats!.isFile();
+                
+                if (isDir && !isFile) {
+                    resolve();  // Directory detected
+                    return;
+                }
+                
+                if (!isDir && isFile) {
+                    const perm: number = stats!.mode & 0o777,  // Extract file permissions
+                          readPerm: number = perm & 0o400,    // Read permission
+                          writePerm: number = perm & 0o200;   // Write permission
+                    
+                    // Check for a regular file with R/W permission
+                    // if not have one of permissions above, return an error
+                    let permErr: Error | null = null;
+                    if (!readPerm && writePerm) {
+                        permErr = new Error(`Read operation are not permitted: ${pathAbs}`);
+                    } else if (readPerm && !writePerm) {
+                        permErr = new Error(`Write operation are not permitted: ${pathAbs}`);
+                    } else if (!readPerm && !writePerm) {
+                        permErr = new Error(`Read and write operation are not permitted: ${pathAbs}`);
+                    }
+                    
+                    if (permErr) { reject(permErr); return }
+                    else resolve();  // Regular file detected
+                } else if (!(isDir && isFile)) {
+                    reject(new Error(
+                        `No such regular file or directory: ${pathAbs}`
+                    ));
+                    return;
+                }
+            })
+            .catch(function (err: NodeJS.ErrnoException): void {
+                if (err) reject(err);
+            });
+    });
+}
+
+
+export {
+    rootDir, clientPaths, serverPaths,
+    lsFiles, isObject, copyFile, exists
+};
