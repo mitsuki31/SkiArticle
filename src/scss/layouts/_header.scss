@@ -576,6 +576,16 @@
 @mixin logo-layout {
     .logo {
         margin: 0 navbar-base.$navlogo-spaces;
+        
+        &:focus,
+        &:hover {
+            color: #b42a2a;
+        }
+        
+        @media screen and (min-width: 768px) {
+            margin: 0 navbar-base.$navlogo-spaces + 5px;
+            cursor: none;
+        }
     }
     
     .logo i {
@@ -584,9 +594,19 @@
         color: global.$clr-title;
         width: fit-content;
         height: 100%;
+    }
+    
+    img.logo[src='assets/images/icon_ski.png'] {
+        position: relative;
+        width: 6.25%;
+        height: 6.25%;
+        cursor: none;
+        pointer-events: none;
         
         @media screen and (min-width: 768px) {
-            font-size: global.$ft-big-size-720 + 0.20rem;
+            width: 3.85%;
+            height: 3.85%;
+            margin-right: 4.45px;
         }
     }
 }
