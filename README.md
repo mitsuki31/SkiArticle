@@ -28,7 +28,7 @@ The organization is comprised of:
 
 The making of this project was also directed by Indra Baskara ([@indrabaskara10][baskara-instragram]), as our teacher, and our friends who supported us in making this project.
 
-## 🚧 Development Usage
+## <a name="development-usage"/> 🚧 Development Usage
 
 > [!IMPORTANT]
 > 
@@ -40,7 +40,7 @@ The making of this project was also directed by Indra Baskara ([@indrabaskara10]
 > - [Git Windows](https://git-scm.com/download/win) (Windows only)
 > - [Node.js](nodejs-homepage) (Min. version 16.20.2)
 
-### 🔑 `npm` Commands
+### <a name="npm-commands"/> 🔑 `npm` Commands
 
 | Name | Description | Requires Command |
 | ---- | ----------- | -------- |
@@ -55,13 +55,13 @@ The making of this project was also directed by Indra Baskara ([@indrabaskara10]
 | `lint:ci` | Invokes the [ESLint][eslint] linter but use cache to speed up linting. | _None_ |
 | `test` | Runs the test by invoking [Jest][jest]. All tests are written in Jest and TypeScript. | _None_ |
 
-### 🧩 Install Necessary Dependencies
+### <a name="install-necessary-dependencies"/> 🧩 Install Necessary Dependencies
   ```bash
   # Make sure your NODE_ENV environment are set to 'development'
   NODE_ENV="development" npm install
   ```
 
-### 🪄 Build the Project
+### <a name="build-the-project"/> 🪄 Build the Project
 
   ```bash
   npm run build
@@ -71,7 +71,7 @@ The making of this project was also directed by Indra Baskara ([@indrabaskara10]
   > This command will transpiles all TypeScript files in 'src' directory and then
   > compiles SCSS files. All of them will be saved in 'build' directory.
 
-### ⚡ Run the Server
+### <a name="run-the-server"/> ⚡ Run the Server
 
   ```bash
   # Not specifying any arguments would run the server
@@ -81,7 +81,7 @@ The making of this project was also directed by Indra Baskara ([@indrabaskara10]
 
 After performing the above steps correctly, the server will run at the specified URL address (this URL address will appear on the terminal screen after running the server). Open a browser and go to the given address to view the web page.
 
-#### 🪛 Setting Up the Server
+#### <a name="setting-up-the-server"/> 🪛 Setting Up the Server
 
 You can also change the host address and port as needed.
 
@@ -114,7 +114,7 @@ npm start 172.15.2.120 7800
 > HOST=172.15.2.120 PORT=7800 npm start
 > ```
 
-### 🧪 Test
+### <a name="test"/> 🧪 Test
 
 Tests are written in [Jest][jest].
 
@@ -122,10 +122,11 @@ Tests are written in [Jest][jest].
 npm test
 ```
 
-## License
+## <a name="license"/> License
 
 Licensed under the [MIT License][mit-license]. For more details about the license, see the [LICENSE](./LICENSE) file.
 
+[↑ Go up](#)
 
 <!-- Links -->
 [mitsuki31]: https://github.com/mitsuki31
