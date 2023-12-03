@@ -28,6 +28,15 @@ The organization is comprised of:
 
 The making of this project was also directed by Indra Baskara ([@indrabaskara10][baskara-instragram]), as our teacher, and our friends who supported us in making this project.
 
+- [🚧 Development Usage](#development-usage)
+  - [🔑 `npm` Commands](#npm-commands)
+  - [🧩 Install Necessary Dependencies](#install-necessary-dependencies)
+  - [🪄 Build the Project](#build-the-project)
+  - [⚡ Run the Server](#run-the-server)
+    - [🪛 Setting Up the Server](#setting-up-the-server)
+  - [🧪 Test](#test)
+- [License](#license)
+
 ## <a name="development-usage"/> 🚧 Development Usage
 
 > [!IMPORTANT]
