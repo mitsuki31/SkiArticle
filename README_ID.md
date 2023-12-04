@@ -5,6 +5,8 @@
 [![ESLint](https://github.com/mitsuki31/SkiArticle/actions/workflows/eslint.yml/badge.svg)](https://github.com/mitsuki31/SkiArticle/actions/workflows/eslint.yml)
 [![Test](https://github.com/mitsuki31/SkiArticle/actions/workflows/test.yml/badge.svg)](https://github.com/mitsuki31/SkiArticle/actions/workflows/test.yml)
 
+[![SkiArticle status](https://img.shields.io/website?style=for-the-badge&up_message=Online&up_color=22bd22&down_message=Offline&down_color=ff2222&url=https%3A%2F%2Fmitsuki31.github.io%2FSkiArticle&logo=Github%20Pages&logoColor=222222&label=SkiArticle&labelColor=white)](https://mitsuki31.github.io/SkiArticle)
+
 
 > [!WARNING]
 > 
