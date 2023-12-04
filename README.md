@@ -5,6 +5,9 @@
 [![ESLint](https://github.com/mitsuki31/SkiArticle/actions/workflows/eslint.yml/badge.svg)](https://github.com/mitsuki31/SkiArticle/actions/workflows/eslint.yml)
 [![Test](https://github.com/mitsuki31/SkiArticle/actions/workflows/test.yml/badge.svg)](https://github.com/mitsuki31/SkiArticle/actions/workflows/test.yml)
 
+[![Indonesian README](https://img.shields.io/badge/indonesian_readme-white?style=for-the-badge&logo=readme&logoColor=white&labelColor=ff2222)](./README_ID.md)
+
+<br/>
 
 > [!WARNING]
 > 
