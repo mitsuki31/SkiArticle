@@ -31,6 +31,8 @@ The organization is comprised of:
 
 The making of this project was also directed by Indra Baskara ([@indrabaskara10][baskara-instragram]), as our teacher, and our friends who supported us in making this project.
 
+### List of Contents
+
 - [🚧 Development Usage](#development-usage)
   - [🔑 `npm` Commands](#npm-commands)
   - [🧩 Install Necessary Dependencies](#install-necessary-dependencies)

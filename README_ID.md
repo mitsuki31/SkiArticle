@@ -28,6 +28,17 @@ Organisasi atau kelompok ini terdiri dari:
 
 Pembuatan proyek ini juga diarahkan oleh Indra Baskara ([@indrabaskara10][baskara-instragram]), juga selaku guru kami, dan teman-teman kami yang mendukung kami dalam pembuatan proyek ini.
 
+### Daftar Isi
+
+- [🚧 Penggunaan Pengembangan](#development-usage)
+  - [🔑 Perintah `npm`](#npm-commands)
+  - [🧩 Instal Dependensi yang Diperlukan](#install-necessary-dependencies)
+  - [🪄 Bangun Proyek](#build-the-project)
+  - [⚡ Jalankan Server](#run-the-server)
+    - [🪛 Menyiapkan Server](#setting-up-the-server)
+  - [🧪 Tes](#test)
+- [Lisensi](#license)
+
 ## <a name="development-usage"/> 🚧 Penggunaan Pengembangan
 
 > [!IMPORTANT]
