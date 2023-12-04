@@ -44,7 +44,7 @@ Pembuatan proyek ini juga diarahkan oleh Indra Baskara ([@indrabaskara10][baskar
 
 | Nama | Deskripsi | Perintah yang Dibutuhkan |
 | ---- | ----------- | -------- |
-| `start` | Memulai server. Sebelum memulai server, ia akan mencari file CSS utama di direktori 'build' dan kemudian menyalinnya ke sisi klien. Jika tidak ada argumen yang diberikan, server akan berjalan di `localhost`. Lihat '[Menyiapkan Server](#--menyiapkan-server)'. | _None_ |
+| `start` | Memulai server. Sebelum memulai server, ia akan mencari file CSS utama di direktori 'build' dan kemudian menyalinnya ke sisi klien. Jika tidak ada argumen yang diberikan, server akan berjalan di `localhost`. Lihat '[Menyiapkan Server](#setting-up-the-server)'. | _None_ |
 | `start:dry` | Only searches and copies the main CSS file, and does not runs the server. Useful for debugging. | _None_ |
 | `build` | Transpiles all TypeScript files, and then compiles all SCSS files. All output files are stored in 'build' directory. | `build:js`, `build:css` |
 | `build:js` | Transpiles all TypeScript files and stores all outputs in 'build' directory. | _None_ |
@@ -82,7 +82,7 @@ Pembuatan proyek ini juga diarahkan oleh Indra Baskara ([@indrabaskara10][baskar
 Setelah melakukan cara-cara diatas secara benar, server akan berjalan di alamat URL yang telah ditentukan (alamat URL ini akan muncul pada layar terminal setelah menjalankan server).
 Buka browser dan buka alamat yang diberikan untuk melihat halaman web nya.
 
-#### <a name="setting-up-the-server"/> 🪛 Mengkonfigurasi Server
+#### <a name="setting-up-the-server"/> 🪛 Menyiapkan Server
 
 Kamu juga dapat mengubah alamat host dan port sesuai kebutuhan.
 
