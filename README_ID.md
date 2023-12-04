@@ -1,4 +1,4 @@
-# Ski Article
+# <a name="top"/> Ski Article
 
 <!-- Badges -->
 [![Node.js Version](https://img.shields.io/badge/Node.js-16.20.2-brightgreen?logo=node.js)](https://nodejs.org/blog/release/v16.20.2)
@@ -127,7 +127,7 @@ npm test
 
 Berlisensi di bawah [MIT License][mit-license]. Untuk rincian lebih lanjut tentang lisensi, lihat file [LICENSE](./LICENSE).
 
-[↑ Menuju ke atas](#)
+[↑ Pergi ke atas](#top)
 
 <!-- Links -->
 [mitsuki31]: https://github.com/mitsuki31
