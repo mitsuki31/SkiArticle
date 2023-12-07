@@ -49,6 +49,22 @@ img {
     @include dr2e--re-image;
 }
 
+.bg-image#background-page {
+    position: fixed;
+    z-index: -1;  // As back layer
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    
+    // Background
+    background-image: url(../images/logo_ski.png);  // Relative to its compiled destination
+    background-position: center center;             // Align center the background
+    background-size: 95%;                           // Fix the size to prevent overflowed from screen
+    background-repeat: no-repeat;
+    opacity: 15%;
+}
+
 // ==>  Overlay
 .overlay {
     // @include dr2e--overlay-layout;
