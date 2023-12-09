@@ -656,22 +656,28 @@
     margin: 0 30px 30px 30px;
     border-radius: 10px;
     
-    .toc-list li {
-        color: #eee;  // Font color
-        margin: 0 22px;
-        
-        font-size: 13px;  // Size for each list
-        margin: 7px 0;
-        
-        // Fix margin on sub-sections
-        ul,
-        ol {
-            margin: 0 15px;
+    .toc-list {
+        // Styles for each list, recursive to sub-list
+        li {
+            color: navbar-base.$navcolor;  // Font color
+            margin: 7px 17px 7px 0/* keep this zero */;
+            padding-left: 2px;
+            font-size: 0.8em;  // Size for each list
+            cursor: pointer;
+            
+            &:hover,
+            &:focus {
+                color: global.$clr-hover;
+                
+                font-weight: bold;
+                text-shadow: 0 1.7px 7.5px global.$clr-hover;
+                text-decoration: underline;
+            }
         }
         
-        &:hover,
-        &:focus {
-            color: #b42a2a;
+        ol {
+            margin-left: -6%;  // Adjust the left margin
+            list-style-type: lower-roman;
         }
     }
     
