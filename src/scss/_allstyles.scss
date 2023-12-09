@@ -1,4 +1,4 @@
-// Import Base
+// Imports Base
 //
 // Copyright (c) 2023 CV. DR2E.
 // Licensed under the MIT License.
@@ -13,3 +13,4 @@
 @forward 'components/navbar-base' as dr2e--navbase-*;
 @forward 'layouts/header' as dr2e--*;
 @forward 'layouts/main' as dr2e--*;
+@forward 'layouts/footer' as dr2e--*;
