@@ -1,0 +1,26 @@
+// Contains all variables definition for styling the main element.
+//
+// Written by Ryuu Mitsuki.
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under the MIT License.
+//
+
+@use '../base/global';
+
+// ==|==  CONTAINER  ==|== //
+
+$container-clr: rgba(245, 245, 245, 0.795);
+$container-clr-dark: rgba(40, 50, 245, 0.795);
+
+$container-text-clr: rgba(20, 20, 20, 1);          // Not too black
+$container-text-clr-dark: rgba(235, 235, 235, 1);  // Not too white
+$container-font-size: global.$ft-medium-size - 0.12rem;
+
+$container-border-clr: rgba(34, 38, 87, 0.9);
+$container-border: 2.235px solid $container-border-clr;
+$container-border-rad: 8.75px;
+
+// Use serif family to reduce confusion and increase readability
+$article-font-family: 'Times New Roman', serif;
+
