@@ -381,7 +381,7 @@
         font-size: global.$ft-medium-size - 0.3rem;
         
         @include mixin.mtransform(translateX(-300px));
-        @include mixin.mtransition-all(navbar-base.$navtrans-items);
+        @include mixin.mtransition-all(transform 0.3s 0s ease-in);
     }
     
     &.active {
@@ -394,6 +394,7 @@
         
         p {
             @include mixin.mtransform(translateX(0px));
+            @include mixin.mtransition-all(navbar-base.$navtrans-items);
         }
     }
 }
