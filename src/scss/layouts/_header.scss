@@ -389,7 +389,6 @@
         width: navbar-base.$navwidth;
         
         .menu-contents {
-            width: navbar-base.$navwidth;
             @include mixin.mtransform(translateX(0px));
         }
         
@@ -438,9 +437,10 @@
     
     position: fixed;
     padding: 0;
-    width: 0;  // Initial width (hidden)
+    width: navbar-base.$navwidth;  // Initial width
     display: block;
     margin-top: 1.8rem;
+    font-size: navbar-base.$navitems-size - 0.075rem;
     
     @include mixin.mtransform(translateX(-300px));
     @include mixin.mtransition-all(
@@ -469,7 +469,6 @@
             font-weight: global.$ft-bold-weight;
             color: navbar-base.$navcolor;
             cursor: pointer;
-            font-size: navbar-base.$navitems-size;
             padding: 15px 0;
             padding-right: 20px;
         }
@@ -489,19 +488,16 @@
         }
     }
     
-    // Settings for sub menu contents (Socials)
-    .submenu__socials {
+    // Settings for dropdown menus
+    .dropdown-menu {
         li {
             vertical-align: middle;
             
             i {
                 font-size: $-icon-size;
                 margin-right: $-icon-spaces;
-                
-                // Full width to its parent container
-                padding-left: 20px;
+                margin-left: 35px;
             }
-            
         }
         padding: 0;
         display: none;
