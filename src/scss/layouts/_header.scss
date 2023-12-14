@@ -372,7 +372,6 @@
         width: navbar-base.$navwidth;
         
         .menu-contents {
-            visibility: visible;
             width: navbar-base.$navwidth;
             @include mixin.mtransform(translateX(0px));
         }
@@ -423,8 +422,6 @@
     margin-top: 1.8rem;
     
     @include mixin.mtransform(translateX(-300px));
-    visibility: hidden;
-    
     @include mixin.mtransition-all(
         navbar-base.$navtrans-items
     );
