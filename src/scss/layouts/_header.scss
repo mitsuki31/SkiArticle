@@ -367,12 +367,33 @@
         );
     }
     
+    p.copyright {
+        position: fixed;
+        bottom: 0;
+        margin: 0;
+        margin-bottom: 20px;           // Keep away the text from the bottom
+        width: navbar-base.$navwidth;  // The width must equals to navbar menu width
+        overflow-x: hidden;
+        
+        // Font settings
+        color: navbar-base.$navcolor;
+        text-align: center;
+        font-size: global.$ft-medium-size - 0.3rem;
+        
+        @include mixin.mtransform(translateX(-300px));
+        @include mixin.mtransition-all(navbar-base.$navtrans-items);
+    }
+    
     &.active {
         visibility: visible;
         width: navbar-base.$navwidth;
         
         .menu-contents {
             width: navbar-base.$navwidth;
+            @include mixin.mtransform(translateX(0px));
+        }
+        
+        p {
             @include mixin.mtransform(translateX(0px));
         }
     }
