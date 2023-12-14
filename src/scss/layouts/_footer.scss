@@ -7,23 +7,62 @@
 //
 
 @use '../base/global';
+@use '../base/reset';
 
 @mixin footer-layout {
+    $footer-text-clr: #cdc8c8ff;
+    $footer-bg-clr: #1a1b1aff;
+    
     display: block;
-    padding: 20px 0;   // Footer size (note: it is block displayed)
+    padding: 10px 0;
     margin-top: 35px;  // Some spaces to separate it from last container
-    text-align: center;
-    color: #cdc8c8;
-    background-color: #1a1b1a;
-    font-size: global.$ft-medium-size - 0.35rem;  // Text size
+    background-color: $footer-bg-clr;
     
-    p {
-        margin: 0 15px;
-        padding-top: 7px;  // Add some spaces between logos and texts
-    }
-    
-    .logo-section .logo > i {
-        color: inherit;  // Inherit to its parent node
-        font-size: global.$ft-big-size;  // Override the default value
+    .outer {
+        display: flex;  /* Display as flex box */
+        margin: 0 15px;  // Add some margin on both sides
+        
+        img.icon {
+            $img-size: 60px;
+            
+            @include reset.re-image;
+            
+            display: block;
+            left: 0;
+            width: $img-size;
+            height: $img-size;
+            padding: 0;
+        }
+        
+        .inner {
+            padding: 0;
+            margin: 0 0 0 20px;
+            
+            p {
+                color: $footer-text-clr;
+                font-size: global.$ft-medium-size - 0.35rem;  // Text size
+                text-align: left;
+                
+                a:focus,
+                a:hover {
+                    text-decoration: underline;
+                }
+            }
+            
+            .logo-section {
+                text-align: center;
+                margin-bottom: -10px;
+                
+                .logo > i {
+                    color: $footer-text-clr;
+                    font-size: global.$ft-big-size;  // Override the default value
+                    
+                    &:focus,
+                    &:hover {
+                        color: global.$clr-hover;
+                    }
+                }
+            }
+        }
     }
 }
