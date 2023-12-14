@@ -12,9 +12,6 @@
 // i.e. only import the alias names of each modules, prefixed with `dr2e--`.
 @use 'allstyles' as *;
 
-// Import the Poppins font (CSS)
-@use '../../static/css/poppins';
-
 html, ::before, ::after {
     // Change the box size to `border-box`
     box-sizing: border-box;
