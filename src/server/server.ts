@@ -13,7 +13,7 @@
  * # the default address: `http://localhost:4312`. Users can also customize
  * # the server settings by defining environment variables. For example:
  *
- * $ HOST="<your-ip-address>" PORT="<port>" npm start
+ * $ HOST="<host>" PORT="<port>" npm start
  *
  * @module      server/server
  * @requires    module:utils/coreutils.clientPaths
@@ -22,12 +22,13 @@
  * @requires    module:express
  * @author      Ryuu Mitsuki
  * @since       0.1.0
- * @version     0.2
+ * @version     0.3
  * @copyright   2023 CV. DR2E
  * @license     MIT
  */
 
 import * as express from 'express';
+import * as util from 'util';
 
 import { clientPaths, isObject } from '../utils/coreutils';
 import setup from '../setup';
@@ -77,9 +78,9 @@ const defaultAddress: ServerAddress = {
  *
  * @public
  * @function
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- * @version 0.3
+ * @author   Ryuu Mitsuki
+ * @since    0.1.0
+ * @version  0.3
  */
 function run(opts?: ServerOptions): void {
     let address: ServerAddress;
@@ -122,6 +123,32 @@ function run(opts?: ServerOptions): void {
                 address.host}:${address.port}'\n`);
     });
 }
+
+/**
+ * Prints the help message to the console output then exit the program.
+ *
+ * @public
+ * @function
+ * @author   Ryuu Mitsuki
+ * @since    0.2.0
+ * @version  1.0
+ */
+function printHelp(exit: boolean = true): void {
+    console.log(`
+Usage:
+   $ npm start [-- [options]]
+   $ node path/to/server.js [options]
+
+Options:
+   -n, --dry-run\t\tRun the setup, but not the server.
+   --no-setup, --skip-setup\tSkip the setup then run the server.
+   ?, --?\t\t\tPrint this help message.
+`
+    );
+    
+    if (exit) process.exit();
+}
+
 
 // Run as main module
 if (require.main === module) {
