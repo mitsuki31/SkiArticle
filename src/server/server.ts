@@ -13,7 +13,7 @@
  * # the default address: `http://localhost:4312`. Users can also customize
  * # the server settings by defining environment variables. For example:
  *
- * $ HOST="<your-ip-address>" PORT="<port>" npm start
+ * $ HOST="<host>" PORT="<port>" npm start
  *
  * @module      server/server
  * @requires    module:utils/coreutils.clientPaths
@@ -22,12 +22,13 @@
  * @requires    module:express
  * @author      Ryuu Mitsuki
  * @since       0.1.0
- * @version     0.2
+ * @version     0.3
  * @copyright   2023 CV. DR2E
  * @license     MIT
  */
 
 import * as express from 'express';
+import * as util from 'util';
 
 import { clientPaths, isObject } from '../utils/coreutils';
 import setup from '../setup';
@@ -77,9 +78,9 @@ const defaultAddress: ServerAddress = {
  *
  * @public
  * @function
- * @author  Ryuu Mitsuki
- * @since   0.1.0
- * @version 0.3
+ * @author   Ryuu Mitsuki
+ * @since    0.1.0
+ * @version  0.3
  */
 function run(opts?: ServerOptions): void {
     let address: ServerAddress;
@@ -123,34 +124,88 @@ function run(opts?: ServerOptions): void {
     });
 }
 
+/**
+ * Prints the help message to the console output then exit the program.
+ *
+ * @public
+ * @function
+ * @author   Ryuu Mitsuki
+ * @since    0.2.0
+ * @version  1.0
+ */
+function printHelp(exit: boolean = true): void {
+    console.log(`
+Usage:
+   $ npm start [-- [options]]
+   $ node path/to/server.js [options]
+
+Options:
+   -n, --dry-run\t\tRun the setup, but not the server.
+   --no-setup, --skip-setup\tSkip the setup then run the server.
+   ?, --?\t\t\tPrint this help message.
+`
+    );
+    
+    if (exit) process.exit();
+}
+
+
 // Run as main module
 if (require.main === module) {
     let args: Array<string> = process.argv.slice(2),
-        dryRun: boolean = false;
+        dryRun: boolean = false,     // Dry run; execute setup but does not run the server
+        skipSetup: boolean = false,  // Run the server but skip the setup
+        needHelp: boolean = false;
+    
+    const dryRunArgs: Array<string> = ['-n', '--dry-run'],
+          skipSetupArgs: Array<string> = ['--no-setup', '--skip-setup'],
+          helpArgs: Array<string> = ['?', '--?'];
     
     // Filter the dry run option from arguments list
     args = args.filter(function (arg: string): boolean {
-        const dryRunArgs: Array<string> = ['-n', '--dry-run'];
+        if (helpArgs.includes(arg)) {
+            needHelp = true;
+            return false;
+        }
+        
         if (dryRunArgs.includes(arg)) {
             dryRun = true;  // Enable the dry run option
             return false;   // Exclude this argument from arguments list
         }
         
+        if (skipSetupArgs.includes(arg)) {
+            skipSetup = true;
+            return false;
+        }
+        
         return true;  // Include other arguments
     });
     
-    if (dryRun) console.info(new Date().toISOString(), '- Dry run enabled')
+    // Prioritize the help option
+    if (needHelp) printHelp(true);
+    /* no else-if here */
+    if (dryRun) util.log('Dry run enabled.');
     
-    setup()
-        .then(function (): void {
-            // Run the server if the dry run option turned off
-            if (dryRun) return;
-            run({
-                host: (args.length > 0) ? args[0] : process.env.HOST!,
-                port: parseInt((args.length > 1) ? args[1] : process.env.PORT!)
+    const serverOpt: ServerOptions = {
+        host: (args.length > 0) ? args[0] : process.env.HOST!,
+        port: parseInt((args.length > 1) ? args[1] : process.env.PORT!)
+    };
+    
+    if (skipSetup && !dryRun) {
+        util.log('Skipping the server setup...\n');
+        run(serverOpt);
+    } else if (skipSetup && dryRun) {
+        // Throw an error if both the skip setup and dry run specified
+        throw new Error('Do not use both the skip setup and dry run option');
+    } else {
+        setup()
+            .then(function (): void {
+                // Run the server if the dry run option unspecified
+                if (dryRun) return;
+                run(serverOpt);
+            })
+            .catch(function (err: Error): void {
+                console.error(err);
             });
-        })
-        .catch(function (err: Error): void {
-            throw err;
-        });
+    }
 }
