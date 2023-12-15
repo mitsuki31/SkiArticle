@@ -153,31 +153,59 @@ Options:
 // Run as main module
 if (require.main === module) {
     let args: Array<string> = process.argv.slice(2),
-        dryRun: boolean = false;
+        dryRun: boolean = false,     // Dry run; execute setup but does not run the server
+        skipSetup: boolean = false,  // Run the server but skip the setup
+        needHelp: boolean = false;
+    
+    const dryRunArgs: Array<string> = ['-n', '--dry-run'],
+          skipSetupArgs: Array<string> = ['--no-setup', '--skip-setup'],
+          helpArgs: Array<string> = ['?', '--?'];
     
     // Filter the dry run option from arguments list
     args = args.filter(function (arg: string): boolean {
-        const dryRunArgs: Array<string> = ['-n', '--dry-run'];
+        if (helpArgs.includes(arg)) {
+            needHelp = true;
+            return false;
+        }
+        
         if (dryRunArgs.includes(arg)) {
             dryRun = true;  // Enable the dry run option
             return false;   // Exclude this argument from arguments list
         }
         
+        if (skipSetupArgs.includes(arg)) {
+            skipSetup = true;
+            return false;
+        }
+        
         return true;  // Include other arguments
     });
     
-    if (dryRun) console.info(new Date().toISOString(), '- Dry run enabled')
+    // Prioritize the help option
+    if (needHelp) printHelp(true);
+    /* no else-if here */
+    if (dryRun) util.log('Dry run enabled.');
     
-    setup()
-        .then(function (): void {
-            // Run the server if the dry run option turned off
-            if (dryRun) return;
-            run({
-                host: (args.length > 0) ? args[0] : process.env.HOST!,
-                port: parseInt((args.length > 1) ? args[1] : process.env.PORT!)
+    const serverOpt: ServerOptions = {
+        host: (args.length > 0) ? args[0] : process.env.HOST!,
+        port: parseInt((args.length > 1) ? args[1] : process.env.PORT!)
+    };
+    
+    if (skipSetup && !dryRun) {
+        util.log('Skipping the server setup...\n');
+        run(serverOpt);
+    } else if (skipSetup && dryRun) {
+        // Throw an error if both the skip setup and dry run specified
+        throw new Error('Do not use both the skip setup and dry run option');
+    } else {
+        setup()
+            .then(function (): void {
+                // Run the server if the dry run option unspecified
+                if (dryRun) return;
+                run(serverOpt);
+            })
+            .catch(function (err: Error): void {
+                console.error(err);
             });
-        })
-        .catch(function (err: Error): void {
-            throw err;
-        });
+    }
 }
