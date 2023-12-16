@@ -46,6 +46,16 @@ img {
     @include dr2e--re-image;
 }
 
+// This class indicates that elements which have this class
+// should be hidden from non-desktop devices (with maximum width of 767px)
+.desktop-only {
+    @media screen and (max-width: 767px) {
+        display: none;
+        appearance: none;
+        visibility: hidden;
+    }
+}
+
 .bg-image#background-page {
     position: fixed;
     z-index: -1;  // As back layer
