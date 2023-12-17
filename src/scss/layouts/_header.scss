@@ -127,9 +127,53 @@
 @mixin navbar-layout {
     position: fixed;
     top: 0;  // Keep on the top
-    padding: 27.2px 100vw;
+    padding: 27.2px 0;
+    padding-right: 100vw;
     background-color: navbar-base.$navbgcolor;
     z-index: navbar-base.$navfixed-z;
+    
+    @media screen and (min-width: 768px) {
+        @include reset.re-margin-padding;
+        padding: 32px 0;
+        padding-right: 100vw;
+        
+        .nav-title {
+            $border-transition: width 230ms 0s linear;
+            
+            display: inline-block;
+            visibility: visible;
+            position: absolute;
+            
+            top: -3.5px;
+            left: 9.45vw;
+            
+            color: navbar-base.$navcolor;
+            font-size: global.$ft-big-size - 0.35rem;
+            font-weight: bold;
+            
+            // Border bottom
+            &::after {
+                content: '';
+                position: absolute;
+                display: block;
+                height: 2px;
+                width: 0;
+                background: linear-gradient(65deg, #ff0000 30%, #ffff22);
+                border-radius: 5px;
+                
+                // Width transition
+                @include mixin.mtransition-all($border-transition);
+            }
+            
+            &:has(a:hover)::after,
+            &:has(a:focus)::after {
+                width: 100%;
+                
+                // Width transition
+                @include mixin.mtransition-all($border-transition);
+            }
+        }
+    }
 }
 
 /// Configures the layout for the navigation bar logo.
