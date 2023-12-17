@@ -207,8 +207,10 @@
     @include mixin.mtransition-all(navbar-base.$navlogo-trans);
     
     @media screen and (min-width: 768px) {
-        width: navbar-base.$navlogo-size + 10px;
-        height: navbar-base.$navlogo-size + 10px;
+        width: navbar-base.$navlogo-size + 2px;
+        height: navbar-base.$navlogo-size + 2px;
+        top: navbar-base.$navlogo-top + 2px;
+        left: 3.5%;
     }
 }
 
