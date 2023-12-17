@@ -103,17 +103,10 @@
         @include mixin.mtransition-all(global.$trans-fontsize);
     }
     
-    // Settings for larger devices
+    // Not needed in larger devices
     @media screen and (min-width: 768px) {
-        margin-top: 53px;
-        
-        .header-title {
-            font-size: global.$ft-big-size-720;
-        }
-        
-        .header-description {
-            font-size: global.$ft-medium-size-720;
-        }
+        display: none;
+        visibility: hidden;
     }
 }
 
@@ -306,24 +299,29 @@
         // Sizes
         width: 27px;
         height: 25.5px;
-    }
-    
-    .bar {
-        display: flex;
-        border: none;
-        outline: none;
-        background-color: inherit;
-        width: 100%;
-        height: 100%;
         
-        // Button size and alignment
-        font-size: 30px;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
+        .bar {
+            display: flex;
+            border: none;
+            outline: none;
+            background-color: inherit;
+            width: 100%;
+            height: 100%;
+            
+            // Button size and alignment
+            font-size: 30px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            
+            // Color
+            color: navbar-base.$navcolor;
+        }
         
-        // Color
-        color: navbar-base.$navcolor;
+        @media screen and (min-width: 768px) {
+            display: none;
+            visibility: hidden;
+        }
     }
 }
 
