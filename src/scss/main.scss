@@ -111,19 +111,16 @@ img {
     
     // Navbar settings for larger devices
     @media screen and (min-width: 768px) {
-        // Invert the logo position (from right to the left)
-        .nav-logo {
-            left: $dr2e--navbase-navlogo-right;
-            right: 0;
-        }
-        
-        // Hide the navigation bar button
-        .nav-btn-out {
-            display: none;
-        }
-        
-        .nav-menu .menu-contents {
-            @include dr2e--navbar-menu-contents-layout-ld;
+        .nav-menu {
+            .menu-contents {
+                @include dr2e--navbar-menu-contents-layout-ld;
+            }
+            
+            // Hide the copyright text
+            p.copyright {
+                display: none;
+                visibility: hidden;
+            }
         }
     }
 }
