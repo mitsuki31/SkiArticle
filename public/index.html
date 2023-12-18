@@ -1,7 +1,7 @@
 <!--
     Copyright (c) 2023 CV. DR2E
 
-    Version: 0.7-prototype, 30 November 2023
+    Version: 0.2.0, 14 December 2023
     Authors: Ryuu Mitsuki, Nuryadani
 -->
 
@@ -11,6 +11,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="Cache-Control" content="public, max-age=86400" />
+        <meta name="theme-color" content="#0b1d2e" /><!-- On Chrome Android, only works in light mode -->
 
         <!--::::  Webpage Title  ::::-->
         <title>Artikel SMK Sukamandi</title>
@@ -22,28 +23,37 @@
         <!--::::  CSS / Styles  ::::-->
         <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
 
+        <!--:::: Fonts ::::-->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;700&display=swap" />
+
         <!--::::  BoxIcons  ::::-->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
     </head>
 
     <body>
+        <div id="background-page" class="bg-image"></div>
         <header class="header">
             <div class="navbar-section">
                 <img class="nav-logo" src="assets/images/logo_ski.png"/>
                 <div id="navbar-button" class="nav-btn-out">
                     <button class="bar bx bx-menu" type="checkbox"></button>
                 </div>
-                <nav>
+                <nav id="nav" class="nav">
                     <div id="navbar-menu" class="nav-menu">
                         <ul class="menu-contents">
-                            <li class="menu__socials"><i class="bx bxs-group"></i><span class="outer">Akun&nbsp;<span class="inner">&#9660;</span></span></li><!-- &#9650; for up arrow -->
-                            <ul class="submenu__socials">
+                            <li class="menu__socials"><i class="bx bxs-group"></i><span class="outer">Akun Sosial&nbsp;<span class="inner">&#9660;</span></span></li><!-- &#9650; for up arrow -->
+                            <ul class="submenu__socials dropdown-menu">
                                 <li class="socials__youtube"><a class="dr2e--instagram" href="#" alt="Instagram SMK Sukamandi" target="_blank"><i class="bx bxl-instagram-alt"></i>Instagram</a></li>
                                 <li class="socials__instagram"><a class="dr2e--youtube" href="#" alt="YouTube SMK Sukamandi" target="_blank"><i class="bx bxl-youtube"></i>YouTube</a></li>
                             </ul>
                             <li class="menu__repo"><a class="dr2e--github-repo" alt="GitHub Repo" target="_blank"><i class="bx bx-code-alt"></i>Kode Sumber</a></li>
                             <li class="menu__about"><a href="#"><i class="bx bx-info-circle"></i>Tentang</a></li>
                         </ul>
+                        <p class="copyright">&copy; 2023 CV. DR2E dan SMK Sukamandi.</p>
                     </div>
                 </nav>
             </div>
@@ -53,7 +63,7 @@
                 </h1>
             </div>
             <div id="toc-head" class="toc-head">
-                <h4><i class="bx bx-chevron-right"></i>Daftar Isi</h4>
+                <h4><i class="bx bx-chevron-right"></i>DAFTAR ISI</h4>
             </div>
             <div id="toc" class="toc">
                 <ul class="toc-list">
@@ -77,9 +87,8 @@
             <section id="profil_sekolah" class="container">
                 <h3 class="title">PROFIL SEKOLAH</h3>
                 <article class="article">
-                    <strong>Sekolah Menengah Kejuruan (SMK) Sukamandi</strong> adalah lembaga pendidikan yang memiliki komitmen tinggi dalam memberikan
-                    pendidikan berkualitas di bidang kejuruan.<br/><br/>Berlokasi di Jl. Ampera Gg. 01B, Sukamandi Subang, Sukamandijaya, Kec. Ciasem,
-                    Kab. Subang, Prov. Jawa Barat, sekolah ini telah berdiri sejak tahun 1972 dan telah menjadi pusat pendidikan unggulan di daerah tersebut.
+                    <p><strong>Sekolah Menengah Kejuruan (SMK) Sukamandi</strong> adalah lembaga pendidikan yang memiliki komitmen tinggi dalam memberikan pendidikan berkualitas di bidang kejuruan.</p>
+                    <p>Berlokasi di Jl. Ampera Gg. 01B, Sukamandi Subang, Sukamandijaya, Kec. Ciasem, Kab. Subang, Prov. Jawa Barat, sekolah ini telah berdiri sejak tahun 1972 dan telah menjadi pusat pendidikan unggulan di daerah tersebut.</p>
                 </article>
             </section>
             <section id="sejarah_singkat" class="container">
@@ -93,8 +102,8 @@
             <section id="visi_misi" class="container">
                 <h3 class="title">VISI &amp; MISI</h3>
                 <article class="article">
-                    Visi SMK Sukamandi adalah <em>&ldquo;Menjadi SMK unggulan yang menghasilkan lulusan berkompeten di bidang kejuruan dan memiliki budi pekerti luhur&rdquo;</em>.
-                    Adapun misi sekolah ini adalah:
+                    <p>Visi SMK Sukamandi adalah <em><q>Menjadi SMK unggulan yang menghasilkan lulusan berkompeten di bidang kejuruan dan memiliki budi pekerti luhur</q></em>.</p>
+                    <p>Adapun misi sekolah ini adalah:</p>
                     <ol>
                         <li>Menyelenggarakan pembelajaran berbasis kejuruan yang sesuai dengan perkembangan teknologi dan industri.</li>
                         <li>Mengembangkan budaya kerja, kreativitas, dan inovasi dalam rangka menghasilkan lulusan yang siap bersaing di dunia kerja.</li>
@@ -114,7 +123,6 @@
                             dan teknologi terkini dalam manufaktur. Jurusan ini membuka peluang untuk bekerja di industri manufaktur, permesinan, dan rekayasa.
                         </article>
                     </section>
-                    <hr class="linespace"/>
                     <section id="teknik_kendaraan_ringan" class="child-container">
                         <h4 class="title">Teknik Kendaraan Ringan (Otomotif)</h4>
                         <article class="article">
@@ -123,7 +131,6 @@
                             perbaikan pada berbagai jenis kendaraan, seperti mobil dan sepeda motor. Lulusan jurusan ini dapat bekerja di bengkel otomotif, perusahaan manufaktur kendaraan, dan layanan purna jual.
                         </article>
                     </section>
-                    <hr class="linespace"/>
                     <section id="teknik_komputer_jaringan" class="child-container">
                         <h4 class="title">Teknik Komputer dan Jaringan</h4>
                         <article class="article">
@@ -170,12 +177,16 @@
         </main>
         
         <footer id="footer" class="footer">
-            <div class="logo-section">
-                <img class="logo" src="assets/images/icon_ski.png" />
-                <a class="logo dr2e--instagram" alt="Instagram SMK Sukamandi" target="_blank"><i class="bx bxl-instagram"></i></a>
-                <a class="logo dr2e--youtube" alt="YouTube SMK Sukamandi" target="_blank"><i class="bx bxl-youtube"></i></a>
+            <div class="outer">
+                <img class="icon" src="assets/images/icon_ski.png" />
+                <div class="inner">
+                    <div class="logo-section">
+                        <a class="logo dr2e--instagram" alt="Instagram SMK Sukamandi" target="_blank"><i class="bx bxl-instagram"></i></a>
+                        <a class="logo dr2e--youtube" alt="YouTube SMK Sukamandi" target="_blank"><i class="bx bxl-youtube"></i></a>
+                    </div>
+                    <p>&copy; 2023 CV. DR2E dan <a class="dr2e--instagram">SMK Sukamandi</a>. Seluruh hak cipta dilindungi undang-undang.</p>
+                </div>
             </div>
-            <p>Hak cipta &copy; 2023 CV. DR2E dan <a class="dr2e--instagram">SMK Sukamandi</a>. Seluruh hak cipta dilindungi undang-undang.</p>
         </footer>
 
         <!-- Overlay -->

@@ -142,9 +142,9 @@ $navlogo-spaces: 12px;
 
 /// Width of the navigation bar (percentage of the viewport width).
 ///
-/// @type  Percentage
+/// @type  Number (with unit)
 /// @group navbar
-$navwidth: 70%;
+$navwidth: 70vw;
 
 /// Maximum width of the navigation bar.
 ///

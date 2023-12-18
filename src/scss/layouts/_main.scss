@@ -1,0 +1,58 @@
+@use '../base/global';
+@use '../base/mixin';
+@use '../components/main-base';
+
+@mixin container-layout {
+    color: main-base.$container-text-clr;
+    background-color: main-base.$container-clr;
+    font-size: main-base.$container-font-size;
+    border: main-base.$container-border;
+    border-radius: main-base.$container-border-rad;
+    
+    padding: 5px 0 25px 0;
+    margin: 8.5px 5% 10% 5%;  // Keep both sides relative to device width
+    
+    @include mixin.mbox-shadow(global.$shadow-container);
+    
+    .child-container {
+        .title, .article {
+            // Fix the line border
+            margin-right: 1.9px;
+        }
+        
+        .title {
+            border-bottom-width: 2px;
+        }
+    }
+    
+    .title {
+        margin: 15px 25px;   // Add some spaces on both sides
+        border-bottom: 3px solid main-base.$container-text-clr;
+    }
+    
+    .article {
+        margin: 0 25px;
+        
+        // Font and text configuration
+        font-family: main-base.$article-font-family;
+        text-align: justify;
+        letter-spacing: 0.3px;  // Increase gaps between each letter
+        line-height: 130%;      // 30% more higher than its parent
+    }
+    
+    ul li,
+    ol li {
+        padding: 7px 0 0 10px;
+        
+        // Remove top padding on the first child
+        &:first-child {
+            padding-top: 0;
+        }
+    }
+    
+    // Remove the bottom padding
+    &:has(ul),
+    &:has(ol) {
+        padding-bottom: 0.75em;
+    }
+}

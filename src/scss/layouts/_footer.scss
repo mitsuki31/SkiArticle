@@ -1,0 +1,68 @@
+// This module contains all layouts for the footer page.
+//
+// Written by Ryuu Mitsuki
+//
+// Copyright (c) 2023 CV. DR2E.
+// Licensed under the MIT License.
+//
+
+@use '../base/global';
+@use '../base/reset';
+
+@mixin footer-layout {
+    $footer-text-clr: #cdc8c8ff;
+    $footer-bg-clr: #1a1b1aff;
+    
+    display: block;
+    padding: 10px 0;
+    margin-top: 35px;  // Some spaces to separate it from last container
+    background-color: $footer-bg-clr;
+    
+    .outer {
+        display: flex;  /* Display as flex box */
+        margin: 0 15px;  // Add some margin on both sides
+        
+        img.icon {
+            $img-size: 60px;
+            
+            @include reset.re-image;
+            
+            display: block;
+            left: 0;
+            width: $img-size;
+            height: $img-size;
+            padding: 0;
+        }
+        
+        .inner {
+            padding: 0;
+            margin: 0 0 0 20px;
+            
+            p {
+                color: $footer-text-clr;
+                font-size: global.$ft-medium-size - 0.35rem;  // Text size
+                text-align: left;
+                
+                a:focus,
+                a:hover {
+                    text-decoration: underline;
+                }
+            }
+            
+            .logo-section {
+                text-align: center;
+                margin-bottom: -10px;
+                
+                .logo > i {
+                    color: $footer-text-clr;
+                    font-size: global.$ft-big-size;  // Override the default value
+                    
+                    &:focus,
+                    &:hover {
+                        color: global.$clr-hover;
+                    }
+                }
+            }
+        }
+    }
+}
