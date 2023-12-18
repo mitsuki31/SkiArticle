@@ -15,6 +15,10 @@
 html, ::before, ::after {
     // Change the box size to `border-box`
     box-sizing: border-box;
+    scroll-behavior: smooth;   // Smooth scrolling
+    // Make the title of section uncovered by the fixed position navbar
+    // when the users navigate to specific section using link references
+    scroll-padding-top: 80px/*<< DO NOT CHANGE THIS FIXED SIZE!! */;
 }
 
 // Configure the body element
