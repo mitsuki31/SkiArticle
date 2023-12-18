@@ -77,22 +77,22 @@
 /// @since   0.1.0
 ///
 @mixin header-layout {
+    @include reset.re-margin-padding;
+    
     z-index: 0;
     justify-content: space-between;
     background-color: global.$clr-container;
     margin-bottom: 10px;
     margin-top: 53px;  // Prevent conflicting with navigation bar
-    padding: 0.1px;
+    padding: 0.1px 0;
     
-    // Setting the box shadow using predefined helper mixin
-    @include mixin.mbox-shadow(global.$shadow-container);
+    @include mixin.mbox-shadow(0 3px 0.7rem rgba(22, 8, 43, 0.64));
     
     // Settings for the header title element
     .header-title {
         color: global.$clr-title;
-        font-size: global.$ft-big-size + 0.7rem;
+        font-size: global.$ft-big-size + 0.5rem;
         text-align: center;
-        padding: 0 25px;
         
         @include mixin.mtransition-all(global.$trans-fontsize);
     }
