@@ -656,6 +656,11 @@
         margin-bottom: 0;
         padding-bottom: 27px;
         background-color: navbar-base.$navbgcolor-hover;
+        
+        h4 {
+            -webkit-text-decoration: underline dashed;  /* For Safari */
+            text-decoration: underline dashed;
+        }
     }
 }
 
