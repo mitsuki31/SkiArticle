@@ -22,6 +22,8 @@
         
         .title {
             border-bottom-width: 2px;
+            font-family: global.$default-font;
+            text-align: left;
         }
     }
     
@@ -54,5 +56,53 @@
     &:has(ul),
     &:has(ol) {
         padding-bottom: 0.75em;
+    }
+}
+
+@mixin container-layout-ld {
+    margin-left: 35px;   // Do not too be close with aside nav
+    margin-right: 35px;
+    color: main-base.$container-text-clr;
+    font-size: main-base.$container-font-size - 0.12rem;
+    
+    .title {
+        font-size: 2em;  // 2x bigger than its parent
+        margin-bottom: 10px;
+    }
+    
+    .article {
+        letter-spacing: 0.3px;
+        line-height: 180%;
+    }
+    
+    & > .article,
+    .child-container > .article {
+        font-family: main-base.$article-font-family;
+        text-align: justify;
+    }
+    
+    .child-container {
+        margin-left: 25px;
+        
+        .title {
+            font-family: global.$default-font;  // Override
+            font-size: 1.4em;
+            text-align: left;
+        }
+    }
+    
+    ul,
+    ol {
+        padding-left: 55px;
+    }
+    
+    ul li,
+    ol li {
+        padding: 10px 0 0 10px;
+        
+        // Remove top padding on the first child
+        &:first-child {
+            padding-top: 0;
+        }
     }
 }
