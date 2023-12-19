@@ -12,6 +12,10 @@
 // i.e. only import the alias names of each modules, prefixed with `dr2e--`.
 @use 'allstyles' as *;
 
+:root {
+    --aside-width: 28.5vw;
+}
+
 html, ::before, ::after {
     // Change the box size to `border-box`
     box-sizing: border-box;
@@ -28,10 +32,6 @@ body {
     background-color: $dr2e--glob-clr-body;
     
     @include dr2e--mix-mtransition-all($dr2e--glob-trans-fontsize);
-    
-    @media screen and (min-width: 768px) {
-        font-size: $dr2e--glob-ft-medium-size-720;
-    }
 }
 
 // Reset the text decoration on links (anchor elements)
@@ -125,8 +125,25 @@ img {
     }
 }
 
-.container {
-    @include dr2e--container-layout;
+.main#main {
+    @media screen and (min-width: 768px) {
+        // To separate the containers with the aside nav
+        margin-left: var(--aside-width);  // Same as aside width
+        padding: 60px 0;
+        background: linear-gradient(to right, rgba(220, 220, 240, 0.15) 8%, rgba(220, 220, 240, 1));
+    }
+    
+    .container {
+        // Small devices
+        @media screen and (max-width: 767px) {
+            @include dr2e--container-layout;
+        }
+        
+        // Larger devices
+        @media screen and (min-width: 768px) {
+            @include dr2e--container-layout-ld;
+        }
+    }
 }
 
 .toc-head {
