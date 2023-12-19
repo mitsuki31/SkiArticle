@@ -70,6 +70,21 @@ img {
     background-size: 95%;                           // Fix the size to prevent overflowed from screen
     background-repeat: no-repeat;
     opacity: 15%;
+    
+    @media screen and (min-width: 768px) {
+        // Create a layer to blurring the background image
+        &::after {
+            content: '';
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            width: calc(100vw - var(--aside-width));
+            height: 100%;
+            -webkit-backdrop-filter: blur(7px);  /* For Safari */
+            backdrop-filter: blur(7px);
+        }
+    }
 }
 
 // ==>  Overlay
