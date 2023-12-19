@@ -63,16 +63,17 @@
     margin-left: 35px;   // Do not too be close with aside nav
     margin-right: 35px;
     color: main-base.$container-text-clr;
-    font-size: main-base.$container-font-size - 0.12rem;
+    font-size: clamp(1rem, 4vw, main-base.$container-font-size);
     
     .title {
         font-size: 2em;  // 2x bigger than its parent
         margin-bottom: 10px;
+        border-bottom: clamp(3px, 60vw, 5px) solid main-base.$container-text-clr;
     }
     
     .article {
         letter-spacing: 0.3px;
-        line-height: 180%;
+        line-height: 1.85;
     }
     
     & > .article,
@@ -88,6 +89,7 @@
             font-family: global.$default-font;  // Override
             font-size: 1.4em;
             text-align: left;
+            border-bottom-width: clamp(2px, 60vw, 3.65px);
         }
     }
     
