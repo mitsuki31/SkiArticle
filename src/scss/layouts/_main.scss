@@ -63,15 +63,16 @@
     margin-left: 35px;   // Do not too be close with aside nav
     margin-right: 35px;
     color: main-base.$container-text-clr;
-    font-size: clamp(1rem, 4vw, main-base.$container-font-size);
+    font-size: clamp(1rem, 4vw, main-base.$container-font-size - 0.25rem);
     
     .title {
-        font-size: 2em;  // 2x bigger than its parent
+        font-size: clamp(2em, 4vw, min(4vw, 2.7em));
         margin-bottom: 10px;
         border-bottom: clamp(3px, 60vw, 5px) solid main-base.$container-text-clr;
     }
     
     .article {
+        font-size: clamp(1.35vw, max(1.35vw, 1em), max(2vw, max(2em, 2rem)));
         letter-spacing: 0.3px;
         line-height: 1.85;
     }
