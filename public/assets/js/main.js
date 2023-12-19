@@ -171,9 +171,3 @@ document.getElementById('toc-head').addEventListener('click', () => {
         tocTitle.classList.remove('bx-chevron-down');
     }
 });
-
-document.querySelector('.navbar-section .nav-menu .menu__about')
-        .addEventListener('click', (event) => {
-    event.preventDefault();
-    alert('Still in development stage ;)\n-----\nSedang dalam tahap pengembangan ;)');
-});

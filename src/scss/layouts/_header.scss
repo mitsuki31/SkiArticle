@@ -103,17 +103,10 @@
         @include mixin.mtransition-all(global.$trans-fontsize);
     }
     
-    // Settings for larger devices
+    // Not needed in larger devices
     @media screen and (min-width: 768px) {
-        margin-top: 53px;
-        
-        .header-title {
-            font-size: global.$ft-big-size-720;
-        }
-        
-        .header-description {
-            font-size: global.$ft-medium-size-720;
-        }
+        display: none;
+        visibility: hidden;
     }
     
     &::after {
@@ -143,9 +136,53 @@
 @mixin navbar-layout {
     position: fixed;
     top: 0;  // Keep on the top
-    padding: 27.2px 100vw;
+    padding: 27.2px 0;
+    padding-right: 100vw;
     background-color: navbar-base.$navbgcolor;
     z-index: navbar-base.$navfixed-z;
+    
+    @media screen and (min-width: 768px) {
+        @include reset.re-margin-padding;
+        padding: 32px 0;
+        padding-right: 100vw;
+        
+        .nav-title {
+            $border-transition: width 230ms 0s linear;
+            
+            display: inline-block;
+            visibility: visible;
+            position: absolute;
+            
+            top: -3.5px;
+            left: 9.45vw;
+            
+            color: navbar-base.$navcolor;
+            font-size: global.$ft-big-size - 0.35rem;
+            font-weight: bold;
+            
+            // Border bottom
+            &::after {
+                content: '';
+                position: absolute;
+                display: block;
+                height: 2px;
+                width: 0;
+                background: linear-gradient(65deg, #ff0000 30%, #ffff22);
+                border-radius: 5px;
+                
+                // Width transition
+                @include mixin.mtransition-all($border-transition);
+            }
+            
+            &:has(a:hover)::after,
+            &:has(a:focus)::after {
+                width: 100%;
+                
+                // Width transition
+                @include mixin.mtransition-all($border-transition);
+            }
+        }
+    }
 }
 
 /// Configures the layout for the navigation bar logo.
@@ -179,8 +216,10 @@
     @include mixin.mtransition-all(navbar-base.$navlogo-trans);
     
     @media screen and (min-width: 768px) {
-        width: navbar-base.$navlogo-size + 10px;
-        height: navbar-base.$navlogo-size + 10px;
+        width: navbar-base.$navlogo-size + 2px;
+        height: navbar-base.$navlogo-size + 2px;
+        top: navbar-base.$navlogo-top + 2px;
+        left: 3.5%;
     }
 }
 
@@ -315,24 +354,29 @@
         // Sizes
         width: 27px;
         height: 25.5px;
-    }
-    
-    .bar {
-        display: flex;
-        border: none;
-        outline: none;
-        background-color: inherit;
-        width: 100%;
-        height: 100%;
         
-        // Button size and alignment
-        font-size: 30px;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
+        .bar {
+            display: flex;
+            border: none;
+            outline: none;
+            background-color: inherit;
+            width: 100%;
+            height: 100%;
+            
+            // Button size and alignment
+            font-size: 30px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            
+            // Color
+            color: navbar-base.$navcolor;
+        }
         
-        // Color
-        color: navbar-base.$navcolor;
+        @media screen and (min-width: 768px) {
+            display: none;
+            visibility: hidden;
+        }
     }
 }
 
@@ -453,9 +497,7 @@
     font-size: navbar-base.$navitems-size - 0.075rem;
     
     @include mixin.mtransform(translateX(-300px));
-    @include mixin.mtransition-all(
-        navbar-base.$navtrans-items
-    );
+    @include mixin.mtransition-all(navbar-base.$navtrans-items);
     
     li {
         display: inherit;
@@ -521,11 +563,6 @@
 
 /// Configures the layout of navigation menu's list for larger devices only.
 ///
-/// The layout configured by this mixin are different with the layout for small devices,
-/// it is because on larger devices the layout of navigation menu contents will no
-/// longer sticks to the navigation bar appearances, instead it will be at the top right
-/// of the header element and always visible.
-///
 /// @require {variable} navitems-size
 /// @require {variable} navcolor
 /// @require {variable} navbgcolor-hover
@@ -537,52 +574,123 @@
 /// @since   0.1.0
 ///
 @mixin navbar-menu-contents-layout-ld {
-    @include reset.re-list;
+    $-icon-spaces: 5px;
+    $-icon-size: 1.35em;
+    $-item-offset: 10px;
+    $-item-padding: 12px;
+    $-text-size: navbar-base.$navitems-size + 0.13rem;
+    $-letter-space: 1.95px;
+    
     @include reset.re-margin-padding;
     
-    overflow: hidden;
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: 0;
+    width: 52.5vw;
+    margin-right: 12px;  // Not too over the right
+    margin-top: 7.85px;  // Not too over the top
+    font-size: $-text-size;
     
-    li {
-        $-icon-spaces: 3.5px;
-        $-icon-size: 1.35em;
-        $-text-size: navbar-base.$navitems-size + 0.3rem;
-        $-letter-space: 2.2px;
-        $-items-height: 65.5px;
+    & > li {
+        @include reset.re-list;
         
+        position: relative;
         display: inherit;
-        float: right;
+        width: auto;
+        height: 100%;
+        
         text-align: center;
-        width: 180px;
-        height: $-items-height;
+        letter-spacing: $-letter-space;
+        color: navbar-base.$navcolor;
         
         a {
             & > i {
                 vertical-align: middle;
-                padding-right: 8px;
                 font-size: $-icon-size;
                 margin-right: $-icon-spaces;
             }
+        }
+        
+        a:not(i),
+        &.menu__socials {
+            cursor: pointer;
+            font-weight: bold;
+            padding: $-item-padding;
+        }
+        
+        &.menu__socials {
+            vertical-align: middle;
             
-            & > i::before {
-                vertical-align: middle;
+            & > i {
+                margin-right: $-icon-spaces;
+                font-size: $-icon-size;
             }
         }
         
-        a:not(i) {
-            display: inline-block;
-            cursor: pointer;
-            height: 100%;
-            width: 100%;
-            line-height: $-items-height;
-            font-weight: global.$ft-bold-weight;
-            font-size: $-text-size;
-            color: navbar-base.$navcolor;
-            text-decoration: none;
-            letter-spacing: $-letter-space;
+        &:hover,
+        &:focus,
+        a:hover,
+        a:focus {
+            color: global.$clr-hover;
+            background-color: navbar-base.$navbgcolor-hover;
+            border-radius: 10px;
+        }
+    }
+    
+    .dropdown-menu {
+        @include reset.re-margin-padding;
+        
+        position: absolute;
+        display: none;
+        top: 56px;
+        width: 192px;
+        height: 80px;
+        
+        color: navbar-base.$navcolor;
+        letter-spacing: $-letter-space;
+        font-size: navbar-base.$navitems-size - 0.2rem;
+        text-align: left;
+        
+        li {
+            @include reset.re-list;
+            display: block;
+            
+            // Background settings
+            background-color: navbar-base.$navbgcolor;
+            opacity: 75%;
+            
+            &:last-child {
+                // Border bottom only for the last child
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+            
+            a {
+                &:not(i) {
+                    display: inherit;
+                    padding: 8px 0;
+                    font-weight: bold;
+                }
+                
+                & > i {
+                    vertical-align: middle;
+                    font-size: $-icon-size + 0.5em;
+                    margin-right: $-icon-spaces + 5px;
+                    margin-left: 18px;
+                }
+            }
+            
+            &:hover,
+            &:focus,
+            a:hover,
+            a:focus {
+                color: global.$clr-hover;
+            }
         }
         
-        &:hover, &:focus {
-            background-color: navbar-base.$navbgcolor-hover;
+        &.active {
+            display: block;
         }
     }
 }

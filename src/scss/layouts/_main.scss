@@ -22,6 +22,8 @@
         
         .title {
             border-bottom-width: 2px;
+            font-family: global.$default-font;
+            text-align: left;
         }
     }
     
@@ -54,5 +56,56 @@
     &:has(ul),
     &:has(ol) {
         padding-bottom: 0.75em;
+    }
+}
+
+@mixin container-layout-ld {
+    margin-left: 35px;   // Do not too be close with aside nav
+    margin-right: 35px;
+    color: main-base.$container-text-clr;
+    font-size: clamp(1rem, 4vw, main-base.$container-font-size - 0.25rem);
+    
+    .title {
+        font-size: clamp(2em, 4vw, min(4vw, 2.7em));
+        margin-bottom: 10px;
+        border-bottom: clamp(3px, 60vw, 5px) solid main-base.$container-text-clr;
+    }
+    
+    .article {
+        font-size: clamp(1.35vw, max(1.35vw, 1em), max(2vw, max(2em, 2rem)));
+        letter-spacing: 0.3px;
+        line-height: 1.85;
+    }
+    
+    & > .article,
+    .child-container > .article {
+        font-family: main-base.$article-font-family;
+        text-align: justify;
+    }
+    
+    .child-container {
+        margin-left: 25px;
+        
+        .title {
+            font-family: global.$default-font;  // Override
+            font-size: 1.4em;
+            text-align: left;
+            border-bottom-width: clamp(2px, 60vw, 3.65px);
+        }
+    }
+    
+    ul,
+    ol {
+        padding-left: 55px;
+    }
+    
+    ul li,
+    ol li {
+        padding: 10px 0 0 10px;
+        
+        // Remove top padding on the first child
+        &:first-child {
+            padding-top: 0;
+        }
     }
 }

@@ -12,6 +12,10 @@
 // i.e. only import the alias names of each modules, prefixed with `dr2e--`.
 @use 'allstyles' as *;
 
+:root {
+    --aside-width: 28.5vw;
+}
+
 html, ::before, ::after {
     // Change the box size to `border-box`
     box-sizing: border-box;
@@ -32,10 +36,6 @@ body {
     background-color: $dr2e--glob-clr-body;
     
     @include dr2e--mix-mtransition-all($dr2e--glob-trans-fontsize);
-    
-    @media screen and (min-width: 768px) {
-        font-size: $dr2e--glob-ft-medium-size-720;
-    }
 }
 
 // Reset the text decoration on links (anchor elements)
@@ -48,6 +48,16 @@ img {
     height: auto;
     
     @include dr2e--re-image;
+}
+
+// This class indicates that elements which have this class
+// should be hidden from non-desktop devices (with maximum width of 767px)
+.desktop-only {
+    @media screen and (max-width: 767px) {
+        display: none;
+        appearance: none;
+        visibility: hidden;
+    }
 }
 
 .bg-image#background-page {
@@ -64,6 +74,21 @@ img {
     background-size: 95%;                           // Fix the size to prevent overflowed from screen
     background-repeat: no-repeat;
     opacity: 15%;
+    
+    @media screen and (min-width: 768px) {
+        // Create a layer to blurring the background image
+        &::after {
+            content: '';
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            width: calc(100vw - var(--aside-width));
+            height: 100%;
+            -webkit-backdrop-filter: blur(7px);  /* For Safari */
+            backdrop-filter: blur(7px);
+        }
+    }
 }
 
 // ==>  Overlay
@@ -90,9 +115,9 @@ img {
         @include dr2e--navbar-logo-layout;
     }
     
+    @include dr2e--navbar-button-layout-v2;
+    
     @media screen and (max-width: 767px) {
-        @include dr2e--navbar-button-layout-v2;
-        
         .nav-menu {
             @include dr2e--navbar-menu-layout;
             
@@ -105,33 +130,128 @@ img {
     
     // Navbar settings for larger devices
     @media screen and (min-width: 768px) {
-        // Invert the logo position (from right to the left)
-        .nav-logo {
-            left: $dr2e--navbase-navlogo-right;
-            right: 0;
-        }
-        
-        // Hide the navigation bar button
-        .nav-btn-out {
-            display: none;
-        }
-        
-        .nav-menu .menu-contents {
-            @include dr2e--navbar-menu-contents-layout-ld;
+        .nav-menu {
+            .menu-contents {
+                @include dr2e--navbar-menu-contents-layout-ld;
+            }
+            
+            // Hide the copyright text
+            p.copyright {
+                display: none;
+                visibility: hidden;
+            }
         }
     }
 }
 
-.container {
-    @include dr2e--container-layout;
+.main#main {
+    @media screen and (min-width: 768px) {
+        // To separate the containers with the aside nav
+        margin-left: var(--aside-width);  // Same as aside width
+        padding: 60px 0;
+        background: linear-gradient(to right, rgba(220, 220, 240, 0.15) 8%, rgba(220, 220, 240, 1));
+    }
+    
+    .container {
+        // Small devices
+        @media screen and (max-width: 767px) {
+            @include dr2e--container-layout;
+        }
+        
+        // Larger devices
+        @media screen and (min-width: 768px) {
+            @include dr2e--container-layout-ld;
+        }
+    }
 }
 
 .toc-head {
     @include dr2e--toc-head-layout;
+    
+    @media screen and (min-width: 768px) {
+        display: none;
+        visibility: hidden;
+    }
 }
 
 .toc {
     @include dr2e--toc-layout;
+    
+    @media screen and (min-width: 768px) {
+        display: none;
+        visibility: hidden;
+    }
+}
+
+// Aside class is the TOC for desktop only, which means
+// that the another TOC will be used when on small devices
+.aside#aside-toc {
+    $-offset-top: 60px;
+    $-offset-side: 1.85%;
+    
+    position: fixed;
+    height: auto;
+    max-height: 75vh;
+    width: calc(var(--aside-width) - ($-offset-side * 2));
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding: $-offset-top $-offset-side 0 $-offset-side;
+    
+    font-size: clamp(14px, 2vmin, 17px);
+    color: rgba(30, 20, 30);
+    
+    .title {
+        margin-bottom: -5px;
+    }
+    
+    .toc-list {
+        margin-left: -1em;
+        opacity: 0.685;
+        
+        li:not(:last-child),
+        ol li:last-child {
+            padding-bottom: 8px;
+        }
+        
+        li:hover,
+        li:focus {
+            color: $dr2e--glob-clr-hover;
+            font-weight: 500;
+            text-shadow: 0 1.7px 5px $dr2e--glob-clr-hover;
+            text-decoration: underline dashed $dr2e--glob-clr-hover;
+        }
+        
+        ol {
+            margin-left: -0.85em;
+            list-style-type: lower-roman;
+        }
+    }
+    
+    &::after {
+        content: '';
+        position: fixed;
+        display: block;
+        top: $-offset-top;
+        left: var(--aside-width);
+        width: 2.85px;
+        height: 12.7cm;
+        margin-top: 25px;
+        background-color: rgba(30, 20, 30, 0.65);
+        border-radius: 12px;
+    }
+    
+    @media screen and (max-height: 580px) {
+        $-fixed-height: 55vh;
+        
+        height: $-fixed-height;
+        max-height: $-fixed-height;
+        overflow-y: scroll;
+        
+        &::after {
+            height: $-fixed-height - 2.5vh;
+        }
+    }
 }
 
 .footer {
