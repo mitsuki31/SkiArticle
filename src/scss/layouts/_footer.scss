@@ -20,6 +20,7 @@
     
     .outer {
         display: flex;  /* Display as flex box */
+        flex-wrap: nowrap;
         margin: 0 15px;  // Add some margin on both sides
         
         img.icon {
@@ -60,6 +61,38 @@
                     &:focus,
                     &:hover {
                         color: global.$clr-hover;
+                    }
+                }
+            }
+        }
+    }
+    
+    @media screen and (min-width: 768px) {
+        margin-top: 0;  // Remove the margin top
+        
+        .outer {
+            justify-content: center;  // Center all elements horizontally
+            align-items: center;
+            margin: 0 10%;
+            height: 100%;
+            
+            img.icon {
+                width: clamp(62px, 2vw, 83px);
+                height: clamp(62px, 2vw, 83px);
+                margin-right: 50px;
+            }
+            
+            .inner {
+                margin: 0;  // Reset all margins
+                
+                p {
+                    text-align: center;
+                    font-size: clamp(0.7rem, 0.25vh, 1.25rem);
+                }
+                
+                .logo-section {
+                    .logo > i {
+                        font-size: clamp(1.75rem, 85%, 2.5rem);
                     }
                 }
             }
