@@ -1,6 +1,6 @@
 {
     "name": "SkiArticle",
-    "version": "0.1.0-alpha",
+    "version": "0.2.0",
     "description": "Private module for handling server-side logic and client-side of SkiArticle.",
     "private": true,
     "scripts": {
