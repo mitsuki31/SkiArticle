@@ -73,9 +73,19 @@ const navbar = {
  * @author  Ryuu Mitsuki
  * @author  Nuryadani
  * @since   0.1.0
- * @version 0.1.4
+ * @version 0.2.0
  */
 const toggleNavBar = () => {
+    if (!navbar.isActive()) {
+        // Close the navigation menu if there is still opened
+        const submenuSocials = document.querySelector('.nav-menu .menu-contents .submenu__socials');
+        if (submenuSocials.classList.contains('active')) {
+            submenuSocials.classList.remove('active');
+            document.querySelector('.nav-menu .menu-contents .menu__socials span.inner')
+                    .innerHTML = convertHtmlEntitiesToCharacters('&#9660;');
+        }
+    }
+    
     // Toggle the 'active' class on several elements
     navbar.menu.classList.toggle("active");
     navbar.button.classList.toggle("active");
@@ -160,10 +170,4 @@ document.getElementById('toc-head').addEventListener('click', () => {
         tocTitle.classList.add('bx-chevron-right');
         tocTitle.classList.remove('bx-chevron-down');
     }
-});
-
-document.querySelector('.navbar-section .nav-menu .menu__about')
-        .addEventListener('click', (event) => {
-    event.preventDefault();
-    alert('Still in development stage ;)\n-----\nSedang dalam tahap pengembangan ;)');
 });
