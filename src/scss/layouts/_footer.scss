@@ -21,6 +21,7 @@
     .outer {
         display: flex;  /* Display as flex box */
         flex-wrap: nowrap;
+        align-items: center;
         margin: 0 15px;  // Add some margin on both sides
         
         img.icon {
