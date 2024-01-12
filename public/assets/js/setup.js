@@ -106,29 +106,47 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 /**
-* Updates copyright year elements within the DOM upon page load.
-*
-*  - Maintains current copyright year without manual modifications.
-*  - Enhances user experience with up-to-date information.
-*
-* Executes only once using `{ once: true }` configuration.
-*
-* @summary Dynamically ensures accurate copyright year display.
-*
-* @name    copyrightYearInjector
-* @author  Ryuu Mitsuki
-* @since   0.3.0
-* @version 1.0
-*/
+ * Dynamically updates the copyright year elements within the DOM upon the completion
+ * of the initial HTML document parsing. This ensures that the displayed copyright year
+ * is always accurate and up-to-date without requiring manual interventions.
+ * 
+ * This function is designed to enhance the user experience by providing a seamless
+ * mechanism for reflecting the latest copyright information.
+ *
+ * @summary Ensures accurate and dynamic display of the copyright year on
+ * specified elements.
+ *
+ * @description
+ * This script listens for the `DOMContentLoaded` event, signaling that the initial
+ * HTML document parsing is complete and the DOM is fully loaded. Upon this event,
+ * it acquires all elements with the specified class name, typically used for
+ * displaying the copyright year (`copyright-year`).
+ *
+ * Using an efficient `for...of` loop, the function traverses the retrieved
+ * elements and injects the current year into their `innerHTML` property.
+ * This process ensures that users consistently see the correct copyright year
+ * without the need for manual updates in the source code.
+ *
+ * **Additional Note:**
+ * The function is configured to execute only once, utilizing the
+ * `{ once: true }` option, optimizing performance by preventing redundant executions.
+ *
+ * @function
+ * @name     copyrightYearInjector
+ * @author   Ryuu Mitsuki
+ * @since    0.3.0
+ * @version  1.0
+ */
 document.addEventListener("DOMContentLoaded", () => {
     // Acquire all elements that bearing the targeted class name
     const copyrightYearElements =
         document.getElementsByClassName("copyright-year");
+    const currentYear = new Date().getFullYear();
 
     // Traverses the retrieved elements using
-    // the `for...of` loop for efficient iteration.
+    // the `for...of` loop for efficient iteration
     for (const element of copyrightYearElements) {
         // Inject the current year into the `innerHTML` property
-        element.innerHTML = (new Date()).getFullYear();
+        element.innerHTML = currentYear;
     }
-}, { once: true });  // Single execution
+}, { once: true });  // Single execution, prevent redundant executions
