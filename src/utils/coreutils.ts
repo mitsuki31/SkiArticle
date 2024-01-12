@@ -10,7 +10,7 @@
  * @author    Ryuu Mitsuki
  * @since     0.1.0
  * @version   0.2
- * @copyright 2023 CV. DR2E
+ * @copyright 2023-2024 CV. DR2E
  * @license   MIT
  */
 
