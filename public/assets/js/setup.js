@@ -9,8 +9,8 @@
  * @author    Ryuu Mitsuki
  * @author    Nuryadani
  * @since     0.1.0
- * @version   0.1.0
- * @copyright 2023 CV. DR2E
+ * @version   0.2.0
+ * @copyright 2023-2024 CV. DR2E
  * @license   MIT
  */
 
@@ -36,7 +36,7 @@
  * @author   Ryuu Mitsuki
  * @author   Nuryadani
  * @since    0.1.0
- * @version  0.1.3-prototype
+ * @version  0.1.3
  */
 document.addEventListener("DOMContentLoaded", async () => {
     /**
@@ -104,3 +104,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Remove the event listener after executed once
     once: true
 });
+
+/**
+* Updates copyright year elements within the DOM upon page load.
+*
+*  - Maintains current copyright year without manual modifications.
+*  - Enhances user experience with up-to-date information.
+*
+* Executes only once using `{ once: true }` configuration.
+*
+* @summary Dynamically ensures accurate copyright year display.
+*
+* @name    copyrightYearInjector
+* @author  Ryuu Mitsuki
+* @since   0.3.0
+* @version 1.0
+*/
+document.addEventListener("DOMContentLoaded", () => {
+    // Acquire all elements that bearing the targeted class name
+    const copyrightYearElements =
+        document.getElementsByClassName("copyright-year");
+
+    // Traverses the retrieved elements using
+    // the `for...of` loop for efficient iteration.
+    for (const element of copyrightYearElements) {
+        // Inject the current year into the `innerHTML` property
+        element.innerHTML = (new Date()).getFullYear();
+    }
+}, { once: true });  // Single execution
