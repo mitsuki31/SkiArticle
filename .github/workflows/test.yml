@@ -2,28 +2,38 @@ name: Test
 
 on:
   push:
-    branches: [master]
+    # branches: [master]
   pull_request:
 
 jobs:
   test:
-    name: Ubuntu / ${{ matrix.node-ver }}
-    runs-on: ubuntu-latest
+    name: ${{ matrix.os }} / ${{ matrix.node-ver }}
+    runs-on: ${{ matrix.os }}-latest
     env:
       NODE_ENV: development
     strategy:
       matrix:
+        os: [Ubuntu, Windows, macOS]
         node-ver: [16.x, 18.x, 20.x, latest]
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: Setup NodeJS / ${{ matrix.node-ver }}
+    - name: Setup NodeJS / ${{ matrix.os }} / ${{ matrix.node-ver }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-ver }}
-        cache: 'npm'
+        cache: npm
     - name: Install dependencies
       run: npm install
-    - name: Test the project
-      run: npm test -- --coverage false
+    - name: Run tests and collect the coverage
+      run: npm test
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage
+        flags: unittests,${{ matrix.os }}
+        name: codecov-unittests
+        fail_ci_if_error: true
+        verbose: true
