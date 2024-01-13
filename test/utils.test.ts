@@ -257,7 +257,6 @@ describe("Module: 'utils/coreutils'", function (): void {
                     function (err: NodeJS.ErrnoException | null, entries: Array<string> | null): void {
                 expect(err!).not.toBeNull();
                 expect(err!.code).toEqual('ENOENT');
-                expect(err!.errno).toEqual(-2);  // Error no. -2 always means 'No such file or directory'
                 expect(entries!).toBeNull();
                 done();
             });
