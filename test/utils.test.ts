@@ -5,6 +5,7 @@
  * @version 0.1
  */
 
+import * as fs from 'fs';
 import * as path from 'path';
 import { Options as SassOptions } from 'sass/types';
 import {
@@ -13,7 +14,12 @@ import {
     resolve,
     defaultConfig
 } from '../src/utils/config';
-import { lsFiles } from '../src/utils/coreutils';
+import {
+    lsFiles,
+    isObject,
+    copyFile,
+    exists
+} from '../src/utils/coreutils';
 
 describe("Module: 'utils/config'", function (): void {
     const testString: string = 'This is a string, you know';
@@ -186,6 +192,7 @@ describe("Module: 'utils/config'", function (): void {
 });
 
 describe("Module: 'utils/coreutils'", function (): void {
+    // coreutils#lsFiles function
     describe('#lsFiles', function (): void {
         const expectedFile: StringPath = path.basename(__filename),
               dirpath: StringPath = path.resolve(__dirname),
@@ -254,6 +261,82 @@ describe("Module: 'utils/coreutils'", function (): void {
                 expect(entries!).toBeNull();
                 done();
             });
+        });
+    });
+    
+    // coreutils#isObject function
+    describe('#isObject', function (): void {
+        test('functionality test', function (): void {
+            // Actual object test
+            expect(isObject({ foo: 'this is an object' })).toBeTruthy();
+            // String test
+            expect(isObject('this is a string')).toBeFalsy();
+            // Number test
+            expect(isObject(12345)).toBeFalsy();
+            // Array test
+            expect(isObject([ 'a string inside an array' ])).toBeFalsy();
+            // RegExp test
+            expect(isObject(/this is a regex/)).toBeFalsy();
+        });
+    });
+    
+    // coreutils#copyFile function
+    describe('#copyFile', function (): void {
+        test('copy file test', function (done: jest.DoneCallback): void {
+            const outfile: StringPath = path.resolve(__dirname, '..', 'tmp', 'copyFileTest.tmp');
+            const copyDest: StringPath = path.join(path.dirname(outfile), 'copyFileTest.copied.tmp');
+            
+            // Create an empty file and save with the specified name
+            fs.mkdirSync(path.dirname(outfile), { recursive: true });  // Create the directory, if not exists
+            fs.writeFile(outfile, '', function (err: NodeJS.ErrnoException | null): void {
+                if (err!) {
+                    done(err!);
+                    return;
+                }
+            });
+            
+            // Test the copyFile function
+            copyFile(outfile, copyDest)
+                .then(function (): void {
+                    // Delete the created and copied file
+                    const files: Array<string> = [outfile, copyDest];
+                    for (const file of files) {
+                        fs.unlink(file, function (err: NodeJS.ErrnoException | null): void {
+                            if (err!) {
+                                done(err!);
+                                return;
+                            }
+                        });
+                    }
+                    done();  // Success
+                })
+                .catch(function (err?: NodeJS.ErrnoException): void {
+                    if (err!) done(err!);
+                });
+        });
+    });
+    
+    // coreutils#exists function
+    describe('#exists', function (): void {
+        const rootDir: StringPath = path.resolve(__dirname, '..');
+        
+        test('check the existence of this file', function (done: jest.DoneCallback): void {
+            exists(path.resolve(__filename))
+                .then((): void => done())
+                .catch((err: NodeJS.ErrnoException): void => done(err));
+        });
+        
+        test("check the existence of 'package.json' in project's root directory",
+                function (done: jest.DoneCallback): void {
+            exists(path.join(rootDir, 'package.json'))
+                .then((): void => done())
+                .catch((err: NodeJS.ErrnoException): void => done(err));
+        });
+        
+        test.failing('throws an error if file does not exist',
+                function (done: jest.DoneCallback): void {
+            exists(path.join(rootDir, 'random string representing non-existing file'))
+                .catch((err: NodeJS.ErrnoException): void => done(err));
         });
     });
 });
