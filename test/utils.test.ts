@@ -287,12 +287,7 @@ describe("Module: 'utils/coreutils'", function (): void {
             
             // Create an empty file and save with the specified name
             fs.mkdirSync(path.dirname(outfile), { recursive: true });  // Create the directory, if not exists
-            fs.writeFile(outfile, '', function (err: NodeJS.ErrnoException | null): void {
-                if (err!) {
-                    done(err!);
-                    return;
-                }
-            });
+            fs.writeFileSync(outfile, '');
             
             // Test the copyFile function
             copyFile(outfile, copyDest)
